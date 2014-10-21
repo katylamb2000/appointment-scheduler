@@ -1,0 +1,13 @@
+- flash[:errors] ||= []
+#errors_and_notices
+  - flash[:errors].each do |error|
+    %p.error-msg
+      = error
+
+  - if flash[:notice]
+    %p.notice-msg
+      = flash[:notice]
+
+  - if flash[:alert]
+    %p.alert-msg
+      = flash[:alert]

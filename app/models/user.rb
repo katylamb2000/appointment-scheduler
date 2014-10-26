@@ -16,10 +16,14 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    last_name.blank? ? first_name : "#{first_name} #{last_name}"
+    last_name.blank? ? first_name : "#{last_name}, #{first_name}"
   end
 
   rails_admin do
+    object_label_method do
+      :full_name
+    end
+
     list do
       field :id
       field :email

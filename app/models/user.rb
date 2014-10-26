@@ -6,4 +6,12 @@ class User < ActiveRecord::Base
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
 
   validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true
+
+  def admin?
+    admin
+  end
+
+  def instructor?
+    instructor
+  end
 end

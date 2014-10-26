@@ -14,4 +14,59 @@ class User < ActiveRecord::Base
   def instructor?
     instructor
   end
+
+  def full_name
+    last_name.blank? ? first_name : "#{first_name} #{last_name}"
+  end
+
+  rails_admin do
+    list do
+      field :id
+      field :email
+      field :city
+      field :country
+      field :age
+      field :gender
+    end
+
+    show do
+      field :id
+      field :full_name
+      field :email
+      field :gender
+      field :age
+      field :skill_level
+      field :musical_genre
+      field :years_playing
+      field :city
+      field :state
+      field :zip
+      field :country
+      field :instructor
+      field :admin
+      field :sign_in_count
+      field :last_sign_in_at
+    end
+
+    edit do
+      field :first_name
+      field :last_name
+      field :email
+      field :gender, :enum do
+        enum do
+          ["male", "female"]
+        end
+      end
+      field :age
+      field :skill_level
+      field :musical_genre
+      field :years_playing
+      field :city
+      field :state
+      field :zip
+      field :country
+      field :instructor
+      field :admin
+    end
+  end
 end

@@ -5,6 +5,7 @@ gem 'pg'
 gem 'redis'
 gem 'sinatra', '>= 1.3.0', :require => nil # for sidekiq GUI
 gem 'sidekiq'
+gem 'rails_admin'
 gem 'haml-rails'
 gem 'sass-rails', '~> 4.0.3'
 gem 'uglifier', '>= 1.3.0'

@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   get 'meet' => 'static_pages#meet', as: 'meet'
   get 'faq' => 'static_pages#faq', as: 'faq'
+
+  resources :availabilities
 end

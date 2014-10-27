@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   devise_for :users, path: ''
+
+  get 'meet' => 'static_pages#meet', as: 'meet'
+  get 'faq' => 'static_pages#faq', as: 'faq'
   # Example resource route with options:
   #   resources :products do
   #     member do

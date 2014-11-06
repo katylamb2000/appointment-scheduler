@@ -62,7 +62,6 @@ GEM
       railties (>= 4.0.1)
     hike (1.2.3)
     i18n (0.6.11)
-    icalendar (2.2.0)
     jbuilder (2.2.3)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -188,7 +187,6 @@ DEPENDENCIES
   devise
   devise-async
   haml-rails
-  icalendar (~> 2.2.0)
   jbuilder (~> 2.0)
   jquery-rails
   pg

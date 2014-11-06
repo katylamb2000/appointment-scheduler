@@ -11,6 +11,10 @@ class AppointmentCategory < ActiveRecord::Base
     price_in_cents / 100
   end
 
+  def name # for rails admin
+    "#{lesson_minutes} Minute Appt"
+  end
+
   rails_admin do
     list do
       field :id

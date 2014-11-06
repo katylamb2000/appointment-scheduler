@@ -6,4 +6,8 @@ class AppointmentCategory < ActiveRecord::Base
   def total_duration
     lesson_minutes + buffer_minutes
   end
+
+  def price_in_dollars
+    price_in_cents / 100
+  end
 end

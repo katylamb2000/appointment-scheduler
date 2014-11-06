@@ -5,4 +5,20 @@ class Appointment < ActiveRecord::Base
   belongs_to :appointment_category
   belongs_to :user
   belongs_to :instructor, class_name: "User"
+
+  def lesson_duration
+    appointment_category.lesson_minutes
+  end
+
+  def buffer_duration
+    appointment_category.buffer_minutes
+  end
+
+  def total_duration
+    appointment_category.total_duration
+  end
+
+  def end_time
+    start_time + total_duration.minutes
+  end
 end

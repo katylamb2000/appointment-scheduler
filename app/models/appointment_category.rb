@@ -16,6 +16,9 @@ class AppointmentCategory < ActiveRecord::Base
   end
 
   rails_admin do
+    label do
+      "Appointment Category"
+    end
     list do
       field :id
       field :lesson_minutes

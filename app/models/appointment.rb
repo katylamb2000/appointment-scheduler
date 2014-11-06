@@ -4,4 +4,5 @@ class Appointment < ActiveRecord::Base
 
   belongs_to :appointment_category
   belongs_to :user
+  belongs_to :instructor, class_name: "User"
 end

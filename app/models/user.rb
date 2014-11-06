@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :appointments # as a student
+  has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
 
   def admin?
     admin

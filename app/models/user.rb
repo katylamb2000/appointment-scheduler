@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, unless: Proc.new { |u| u.admin? }
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
-
   validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true
 
   has_many :availabilities, foreign_key: "instructor_id"

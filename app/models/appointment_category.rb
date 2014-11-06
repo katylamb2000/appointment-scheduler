@@ -3,6 +3,8 @@ class AppointmentCategory < ActiveRecord::Base
   validates_uniqueness_of :lesson_minutes
   validates :lesson_minutes, :buffer_minutes, :price_in_cents, numericality: { greater_than: 0 }
 
+  has_many :appointments
+
   def total_duration
     lesson_minutes + buffer_minutes
   end

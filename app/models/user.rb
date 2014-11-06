@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true
 
   has_many :availabilities, foreign_key: "instructor_id"
+  has_many :appointments # as a student
 
   def admin?
     admin

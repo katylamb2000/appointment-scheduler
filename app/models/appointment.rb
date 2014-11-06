@@ -3,4 +3,5 @@ class Appointment < ActiveRecord::Base
   validates :status, inclusion: { in: ["Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
 
   belongs_to :appointment_category
+  belongs_to :user
 end

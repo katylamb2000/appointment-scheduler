@@ -10,7 +10,7 @@ class AppointmentCategory < ActiveRecord::Base
   end
 
   def price_in_dollars
-    price_in_cents / 100
+    sprintf "%.2f", (price_in_cents / 100)
   end
 
   def name # for rails admin
@@ -30,7 +30,7 @@ class AppointmentCategory < ActiveRecord::Base
           "Price"
         end
         pretty_value do
-          "$#{value}0" # TODO fix this hack
+          "$#{value}"
         end
       end
     end
@@ -42,7 +42,7 @@ class AppointmentCategory < ActiveRecord::Base
           "Price"
         end
         pretty_value do
-          "$#{value}0" # TODO fix this hack
+          "$#{value}"
         end
       end
       field :lesson_minutes

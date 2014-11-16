@@ -21,4 +21,27 @@ class Availability < ActiveRecord::Base
     end
     appointment_times
   end
+
+  rails_admin do
+    list do
+      field :id
+      field :instructor
+      field :start_time
+      field :end_time
+    end
+
+    edit do
+      field :instructor do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        associated_collection_scope do
+          Proc.new { |scope| scope = scope.where(instructor: true) }
+        end
+      end
+      field :start_time
+      field :end_time
+    end
+  end
+
 end

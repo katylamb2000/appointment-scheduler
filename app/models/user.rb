@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
   validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true
 
+  # TODO: dependent destroy? or acts as paranoid?
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :appointments # as a student
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"

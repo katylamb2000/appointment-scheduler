@@ -1,4 +1,6 @@
 RailsAdmin.config do |config|
+  
+  # config.excluded_models << "User" # TODO: consider this option
 
   config.authenticate_with do
     warden.authenticate! scope: :user

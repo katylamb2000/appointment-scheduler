@@ -12,4 +12,13 @@ class Availability < ActiveRecord::Base
     errors.add(:base, "Duration must be at least one hour.") unless (end_time >= start_time + 1.hour)
   end
 
+  def one_hour_chunks
+    start = start_time
+    appointment_times = [start]
+    until (start + 2.hours) > end_time
+      appointment_times.push(start + 1.hour)
+      start += 1.hour
+    end
+    appointment_times
+  end
 end

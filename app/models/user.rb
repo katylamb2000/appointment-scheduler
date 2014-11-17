@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
     instructor
   end
 
+  def guest?
+    guest
+  end
+
   def full_name
     last_name.blank? ? first_name : "#{last_name}, #{first_name}"
   end
@@ -78,4 +82,10 @@ class User < ActiveRecord::Base
       field :admin
     end
   end
+
+  protected
+
+    def password_required? # overrride Devise method so that Guest Users do not need passwords
+      guest? ? false : (!persisted? || !password.nil? || !password_confirmation.nil?)
+    end
 end

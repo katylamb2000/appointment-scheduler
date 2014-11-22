@@ -9,7 +9,7 @@ class AppointmentCategory < ActiveRecord::Base
     lesson_minutes + buffer_minutes
   end
 
-  def price_in_cents # TODO make the default view price in dollars, have a method to convert to cents.
+  def price_in_cents
     price * 100
   end
 

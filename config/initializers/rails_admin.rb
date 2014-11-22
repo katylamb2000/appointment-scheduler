@@ -16,13 +16,17 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['Guest', 'Student']
+      except ['Guest', 'Student', 'Rebooking']
     end
     export
     bulk_delete
     show
-    edit
-    delete
+    edit do
+      except ['Rebooking']
+    end
+    delete do
+      except ['Rebooking']
+    end
     show_in_app
 
     ## With an audit adapter, you can add:

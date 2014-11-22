@@ -45,8 +45,6 @@ class Guest < User
     end
 
     edit do
-      field :instructor
-      field :admin
       field :email
       field :first_name
       field :age, :enum do

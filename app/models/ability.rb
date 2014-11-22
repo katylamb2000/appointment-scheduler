@@ -16,6 +16,7 @@ class Ability
       can :access, :rails_admin
       can :dashboard
       can :read, User, :id => user.id
+      can :update, User, :id => user.id
       can :read, User, appointments: { instructor_id: user.id }
       can :manage, Availability, :instructor_id => user.id
       can :read, Appointment, :instructor_id => user.id

@@ -9,8 +9,8 @@ class Appointment < ActiveRecord::Base
   validate :end_time_must_be_after_start_time, :start_time_cannot_be_in_past
 
   # end_time is greater than start_time and start_time is less than end_time
-  validates :start_time, :end_time, :overlap => { scope: "instructor_id", exclude_edges: ["start_time", "end_time"]}
-  validates :start_time, :end_time, :overlap => { scope: "user_id", exclude_edges: ["start_time", "end_time"]}, unless: Proc.new { |record| record.open? }
+  validates :start_time, :end_time, :overlap => { scope: "instructor_id", exclude_edges: ["start_time", "end_time"], message_title: :base, :message_content => "Time slot overlaps with instructor's other appointments."}
+  validates :start_time, :end_time, :overlap => { scope: "user_id", exclude_edges: ["start_time", "end_time"], message_title: :base, :message_content => "Time slot overlaps with student's other appointments."}, unless: Proc.new { |record| record.open? }
 
   belongs_to :appointment_category
   belongs_to :user

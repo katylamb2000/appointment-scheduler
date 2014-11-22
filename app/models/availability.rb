@@ -12,14 +12,21 @@ class Availability < ActiveRecord::Base
     errors.add(:base, "Duration must be at least one hour.") unless (end_time >= start_time + 1.hour)
   end
 
-  def one_hour_chunks
+  def forty_five_minute_chunks
     start = start_time
     appointment_times = [start]
-    until (start + 2.hours) > end_time
-      appointment_times.push(start + 1.hour)
-      start += 1.hour
+    until (start + 75.minutes) > end_time
+      start += 45.minutes
+      appointment_times.push(start)
     end
     appointment_times
+  end
+
+  def to_forty_five_minute_appointments
+    @thirty_minute_appt = AppointmentCategory.find_by_lesson_minutes(30)
+    forty_five_minute_chunks.each do |start_time|
+      Appointment.create(appointment_category: @thirty_minute_appt, instructor: self.instructor, start_time: start_time, status: "Open")
+    end
   end
 
   rails_admin do

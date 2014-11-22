@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :musical_genre, inclusion: { in: ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"] }, allow_nil: true, allow_blank: true
   validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true, allow_blank: true
 
-  # TODO: dependent destroy? or acts as paranoid? also papertrail?
+  # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
 
   # as Student
   has_many :appointments

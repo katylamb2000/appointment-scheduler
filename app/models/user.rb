@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
       field :password
       field :password_confirmation do
         help do
-          "Retype password"
+          "Retype password."
         end
       end
       field :first_name

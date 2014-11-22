@@ -39,7 +39,7 @@ class Admin < User
       field :password
       field :password_confirmation do
         help do
-          "Retype Password"
+          "Retype Password."
         end
       end
     end
@@ -69,11 +69,11 @@ class Admin < User
         end
 
         label do
-          "Confirm Password"
+          "Confirm Password."
         end
 
         help do
-          "Retype new password"
+          "Retype new password."
         end
       end
     end

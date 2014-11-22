@@ -112,6 +112,9 @@ class User < ActiveRecord::Base
         enum do
           (18...85).to_a
         end
+        help do
+          "Required unless Admin or Instructor. Length up to 255."
+        end
       end
 
       field :skill_level, :enum do
@@ -132,10 +135,18 @@ class User < ActiveRecord::Base
         end
       end
       
-      field :city
+      field :city do
+        help do
+          "Required unless Admin or Instructor. Length up to 255."
+        end
+      end
       field :state
       field :zip
-      field :country
+      field :country do
+        help do
+          "Required unless Admin or Instructor. Length up to 255."
+        end
+      end
     end
 
     edit do
@@ -174,6 +185,9 @@ class User < ActiveRecord::Base
         enum do
           (18...85).to_a
         end
+        help do
+          "Required unless Admin or Instructor."
+        end
       end
 
       field :skill_level, :enum do
@@ -194,10 +208,18 @@ class User < ActiveRecord::Base
         end
       end
       
-      field :city
+      field :city do
+        help do
+          "Required unless Admin or Instructor. Length up to 255."
+        end
+      end
       field :state
       field :zip
-      field :country
+      field :country do
+        help do
+          "Required unless Admin or Instructor. Length up to 255."
+        end
+      end
     end
   end
 

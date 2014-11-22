@@ -2,7 +2,8 @@ class Availability < ActiveRecord::Base
   belongs_to :instructor, class_name: "User"
 
   validates_presence_of :instructor, :start_time, :end_time
-  validate :end_time_must_be_after_start_time, :start_time_cannot_be_in_past, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
+  validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
+  validate :start_time_cannot_be_in_past, on: :create
 
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time

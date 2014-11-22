@@ -33,6 +33,24 @@ class Instructor < User
       field :state
       field :zip
       field :country
+      field :availabilities do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
+      field :lessons do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        label do
+          "Appointments"
+        end
+      end
+      field :students do # TODO make unique
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
       field :sign_in_count
       field :last_sign_in_at
       field :created_at do

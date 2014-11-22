@@ -36,4 +36,33 @@ class Appointment < ActiveRecord::Base
   def open?
     status == "Open"
   end
+
+  rails_admin do
+    list do
+      field :id
+      field :instructor
+      field :user do
+        label do
+          "Student"
+        end
+      end
+      field :appointment_category
+      field :start_time
+      field :status
+    end
+
+    show do
+      field :id
+      field :instructor
+      field :user do
+        label do
+          "Student"
+        end
+      end
+      field :appointment_category
+      field :start_time
+      field :end_time
+      field :status
+    end
+  end
 end

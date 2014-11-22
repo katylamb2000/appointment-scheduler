@@ -1,7 +1,7 @@
 class Appointment < ActiveRecord::Base
   before_validation :set_end_time
 
-  validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
+  validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status, :re_bookable
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
 
   # TODO auto-maintaining the status of appointments

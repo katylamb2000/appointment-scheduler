@@ -77,6 +77,16 @@ class User < ActiveRecord::Base
       field :country
       field :sign_in_count
       field :last_sign_in_at
+      field :created_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
+      field :updated_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
     end
 
     edit do

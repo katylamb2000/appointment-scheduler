@@ -6,7 +6,6 @@ class Appointment < ActiveRecord::Base
 
   # TODO auto-maintaining the status of appointments
 
-  # TODO when an appointment is cancelled or rescheduled, another one needs to be made that is identical to it that is Open. TIME OVERLAPS. "bookable" scope?
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"] }
   validates :re_bookable, inclusion: { in: [true, false] }
 
@@ -41,6 +40,8 @@ class Appointment < ActiveRecord::Base
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"
   has_one :original_appointment, through: :reverse_rebooking, source: :dead_appointment
 
+  after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
+
   scope :active, -> { where(re_bookable: false) }
   scope :today, -> { where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day) } # TODO edgecase: overnight appt. assumes UTC time
 
@@ -50,6 +51,11 @@ class Appointment < ActiveRecord::Base
 
   def start_time_cannot_be_in_past
     errors.add(:start_time, "cannot be in the past") unless start_time >= (DateTime.now - 5.minutes)
+  end
+
+  def create_rebooking_and_new_appointment
+    new_appt = Appointment.create(instructor: self.instructor, appointment_category: self.appointment_category, start_time: self.start_time, availability: self.availability, status: "Open")
+    Rebooking.create(dead_appointment: self, new_appointment: new_appt)
   end
 
   def name

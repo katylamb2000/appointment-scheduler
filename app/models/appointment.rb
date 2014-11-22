@@ -11,7 +11,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :user
   belongs_to :instructor, class_name: "User"
 
-  def self.today # edgecase: overnight appt. assumes UTC time
+  def self.today # TODO edgecase: overnight appt. assumes UTC time
     where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day)
   end
 

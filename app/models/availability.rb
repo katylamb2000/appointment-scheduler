@@ -18,6 +18,10 @@ class Availability < ActiveRecord::Base
     errors.add(:base, "Duration must be at least one hour.") unless (end_time >= start_time + 1.hour)
   end
 
+  def name
+    "##{id}"
+  end
+
   def forty_five_minute_chunks
     start = start_time
     appointment_times = [start]

@@ -106,7 +106,7 @@ class TodaysAppointment < Appointment
           !(bindings[:view].current_user.admin?) && !(bindings[:object].editable_status_by_instructor?)
         end
         enum do
-          ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"]
+          ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
         end
       end
     end

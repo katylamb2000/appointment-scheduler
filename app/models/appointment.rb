@@ -6,7 +6,8 @@ class Appointment < ActiveRecord::Base
 
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
 
-  validate :end_time_must_be_after_start_time, :start_time_cannot_be_in_past
+  validate :end_time_must_be_after_start_time
+  validate :start_time_cannot_be_in_past, on: :create
 
   # end_time is greater than start_time and start_time is less than end_time
   validates :start_time, :end_time, :overlap => { scope: "instructor_id", exclude_edges: ["start_time", "end_time"], message_title: :base, :message_content => "Time slot overlaps with instructor's other appointments."}

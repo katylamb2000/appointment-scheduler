@@ -28,6 +28,10 @@ class Appointment < ActiveRecord::Base
     where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day)
   end
 
+  def name
+    "##{id}"
+  end
+
   def set_end_time
     self.end_time = (self.start_time + self.appointment_category.total_duration.minutes)
   end

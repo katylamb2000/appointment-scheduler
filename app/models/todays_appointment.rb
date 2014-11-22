@@ -66,11 +66,11 @@ class TodaysAppointment < Appointment
         end
 
         read_only do
-          bindings[:view].current_user.instructor?
+          !(bindings[:view].current_user.admin?)
         end
 
         help do
-          bindings[:view].current_user.instructor? ? "" : "#{help}"
+          !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
 
         associated_collection_scope do
@@ -83,25 +83,28 @@ class TodaysAppointment < Appointment
         inline_edit false
 
         read_only do
-          bindings[:view].current_user.instructor?
+          !(bindings[:view].current_user.admin?)
         end
 
         help do
-          bindings[:view].current_user.instructor? ? "" : "#{help}"
+          !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
       end
 
       field :start_time do
         read_only do
-          bindings[:view].current_user.instructor?
+          !(bindings[:view].current_user.admin?)
         end
 
         help do
-          bindings[:view].current_user.instructor? ? "" : "#{help}"
+          !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
       end
       
       field :status, :enum do
+        read_only do
+          # !
+        end
         enum do
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"]
         end

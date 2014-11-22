@@ -57,6 +57,14 @@ class Appointment < ActiveRecord::Base
     status == "Open" || user_id.nil?
   end
 
+  def future?
+    status == "Future"
+  end
+
+  def editable_status_by_instructor?
+    open? || future?
+  end
+
   rails_admin do
 
     list do
@@ -155,6 +163,10 @@ class Appointment < ActiveRecord::Base
       end
       
       field :status, :enum do
+        read_only do
+          !(bindings[:view].current_user.admin?) && !(bindings[:object].editable_status_by_instructor?)
+        end
+        
         enum do
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"]
         end

@@ -14,8 +14,8 @@ class TodaysAppointment < Appointment
           "Student"
         end
       end
-      field :appointment_category
       field :start_time
+      field :appointment_category
       field :status
     end
 

@@ -1,7 +1,7 @@
 class Appointment < ActiveRecord::Base
   before_validation :set_end_time
 
-  validates_presence_of :instructor_id, :appointment_category_id, :start_time, :end_time, :status
+  validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
 
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
@@ -14,6 +14,7 @@ class Appointment < ActiveRecord::Base
   validates :start_time, :end_time, :overlap => { scope: "user_id", exclude_edges: ["start_time", "end_time"], message_title: :base, :message_content => "Time slot overlaps with student's other appointments."}, unless: Proc.new { |record| record.open? }
 
   belongs_to :appointment_category
+  belongs_to :availability
   belongs_to :user
   belongs_to :instructor, class_name: "User"
 

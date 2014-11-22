@@ -25,6 +25,23 @@ class Admin < User
       field :instructor
       field :email
       field :full_name
+      field :gender
+      field :age
+      field :skill_level
+      field :musical_genre
+      field :years_playing
+      field :city
+      field :state
+      field :zip
+      field :country
+      field :availabilities
+      field :lessons do
+        label do
+          "Appointments"
+        end
+      end
+      field :students # TODO make unique
+      field :sign_in_count
       field :last_sign_in_at
       field :created_at
       field :updated_at
@@ -37,9 +54,58 @@ class Admin < User
       field :first_name
       field :last_name
       field :password
+
       field :password_confirmation do
         help do
           "Retype Password."
+        end
+      end
+
+      field :gender, :enum do
+        enum do
+          ["male", "female"]
+        end
+      end
+
+      field :age, :enum do
+        enum do
+          (18...85).to_a
+        end
+        help do
+          "Optional."
+        end
+      end
+
+      field :skill_level, :enum do
+        enum do
+          ["Beginner", "Intermediate", "Advanced", "Master"] 
+        end
+      end
+
+      field :musical_genre, :enum do
+        enum do
+          ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+        end
+      end
+
+      field :years_playing, :enum do
+        enum do
+          ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+        end
+      end
+      
+      field :city do
+        help do
+          "Optional. Length up to 255."
+        end
+      end
+
+      field :state
+      field :zip
+
+      field :country do
+        help do
+          "Optional. Length up to 255."
         end
       end
     end
@@ -50,7 +116,6 @@ class Admin < User
       field :email
       field :first_name
       field :last_name
-
       field :password do
 
         visible do
@@ -63,7 +128,6 @@ class Admin < User
       end
 
       field :password_confirmation do
-
         visible do
           bindings[:object].id == bindings[:controller].current_user.id
         end
@@ -74,6 +138,54 @@ class Admin < User
 
         help do
           "Retype new password."
+        end
+      end
+
+      field :gender, :enum do
+        enum do
+          ["male", "female"]
+        end
+      end
+
+      field :age, :enum do
+        enum do
+          (18...85).to_a
+        end
+        help do
+          "Optional."
+        end
+      end
+
+      field :skill_level, :enum do
+        enum do
+          ["Beginner", "Intermediate", "Advanced", "Master"] 
+        end
+      end
+
+      field :musical_genre, :enum do
+        enum do
+          ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+        end
+      end
+
+      field :years_playing, :enum do
+        enum do
+          ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+        end
+      end
+      
+      field :city do
+        help do
+          "Optional. Length up to 255."
+        end
+      end
+
+      field :state
+      field :zip
+      
+      field :country do
+        help do
+          "Optional. Length up to 255."
         end
       end
     end

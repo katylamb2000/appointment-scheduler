@@ -85,31 +85,37 @@ class User < ActiveRecord::Base
       field :first_name
       field :last_name
       field :email
+
       field :gender, :enum do
         enum do
           ["male", "female"]
         end
       end
+
       field :age, :enum do
         enum do
           (18...85).to_a
         end
       end
+
       field :skill_level, :enum do
         enum do
           ["Beginner", "Intermediate", "Advanced", "Master"] 
         end
       end
+
       field :musical_genre, :enum do
         enum do
           ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
         end
       end
+
       field :years_playing, :enum do
         enum do
           ["1 - 2", "3 - 5", "5 - 10", "10 +"]
         end
       end
+      
       field :city
       field :state
       field :zip

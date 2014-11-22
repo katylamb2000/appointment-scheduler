@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true, allow_blank: true
 
   # TODO: dependent destroy? or acts as paranoid? also papertrail?
-  
+
   # as Student
   has_many :appointments
   has_many :instructors, through: :appointments, source: :instructor
@@ -71,6 +71,37 @@ class User < ActiveRecord::Base
       field :student, :boolean
       field :email
       field :full_name
+
+      field :availabilities do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
+
+      field :lessons do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
+
+      field :students do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
+
+      field :appointments do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
+
+      field :instructors do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
+      
       field :gender
       field :age
       field :skill_level

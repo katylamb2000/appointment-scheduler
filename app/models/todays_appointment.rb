@@ -109,7 +109,21 @@ class TodaysAppointment < Appointment
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
         end
         help do
-          "Required. An appoinment marked 'Unavailable' will not be reserve-able by any Students."
+          "Required. An Appoinment marked 'Unavailable' will not be available to any Students, as long as it is not marked as 'Re-bookable' (see next field)."
+        end
+      end
+
+      field :re_bookable do
+        read_only do
+          !(bindings[:view].current_user.admin?) && bindings[:object].dead?
+        end
+
+        label do
+          "Re-bookable?"
+        end
+
+        help do
+          "IMPORTANT: Marking an Appointment 'Re-bookable' will open it up to be booked by other Students. An Appointment is usually 'Re-bookable' when a previous Student cancelled his/her appointment, with enough time to allow another Student to take the slot."
         end
       end
     end

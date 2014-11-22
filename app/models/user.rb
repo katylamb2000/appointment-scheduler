@@ -11,8 +11,13 @@ class User < ActiveRecord::Base
   validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true, allow_blank: true
 
   # TODO: dependent destroy? or acts as paranoid? also papertrail?
+  
+  # as Student
+  has_many :appointments
+  has_many :instructors, through: :appointments, source: :instructor
+
+  # as Instructor
   has_many :availabilities, foreign_key: "instructor_id"
-  has_many :appointments # as a student
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
 

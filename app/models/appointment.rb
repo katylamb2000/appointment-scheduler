@@ -3,8 +3,9 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :instructor_id, :appointment_category_id, :start_time, :end_time, :status
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
-  validates_presence_of :user_id, unless: Proc.new{ |record| record.open? }
-  validate :does_not_overlap_other_appointments
+  validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
+  validates :start_time, :end_time, :overlap => { scope: "instructor_id", exclude_edges: ["start_time", "end_time"]} # end_time is greater than start_time and start_time is less than end_time
+  validates :start_time, :end_time, :overlap => { scope: "user_id", exclude_edges: ["start_time", "end_time"]}, unless: Proc.new { |record| record.open? }
 
   belongs_to :appointment_category
   belongs_to :user
@@ -12,9 +13,6 @@ class Appointment < ActiveRecord::Base
 
   def set_end_time
     self.end_time = (self.start_time + self.appointment_category.total_duration.minutes)
-  end
-
-  def does_not_overlap_other_appointments
   end
 
   def lesson_duration

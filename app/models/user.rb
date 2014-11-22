@@ -29,10 +29,6 @@ class User < ActiveRecord::Base
   end
 
   rails_admin do
-    visible do
-      bindings[:controller].current_user.admin?
-    end
-    
     object_label_method do
       :full_name
     end

@@ -39,6 +39,8 @@ class Availability < ActiveRecord::Base
 
     edit do
       field :instructor do
+        inline_add false
+        inline_edit false
         visible do
           bindings[:view].current_user.admin?
         end

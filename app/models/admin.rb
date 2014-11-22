@@ -2,6 +2,10 @@ class Admin < User
   default_scope { where(admin: true) }
 
   rails_admin do
+    visible do
+      bindings[:controller].current_user.admin?
+    end
+    
     list do
       field :email
       field :last_sign_in_at

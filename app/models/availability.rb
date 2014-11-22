@@ -6,6 +6,8 @@ class Availability < ActiveRecord::Base
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
 
+  after_create :to_forty_five_minute_appointments
+
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time
   end
@@ -35,7 +37,7 @@ class Availability < ActiveRecord::Base
   def to_forty_five_minute_appointments
     @thirty_minute_appt = AppointmentCategory.find_by_lesson_minutes(30)
     forty_five_minute_chunks.each do |start_time|
-      Appointment.create(appointment_category: @thirty_minute_appt, instructor: self.instructor, start_time: start_time, status: "Open")
+      Appointment.create(appointment_category: @thirty_minute_appt, instructor: self.instructor, availability: self, start_time: start_time, status: "Open")
     end
   end
 

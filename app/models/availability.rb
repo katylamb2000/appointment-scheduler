@@ -37,6 +37,23 @@ class Availability < ActiveRecord::Base
       field :end_time
     end
 
+    show do
+      field :id
+      field :instructor
+      field :start_time
+      field :end_time
+      field :created_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
+      field :updated_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
+    end
+
     edit do
       field :instructor do
         inline_add false

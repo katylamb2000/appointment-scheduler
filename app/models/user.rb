@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
-  validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true
-  validates :age, numericality: { greater_than_or_equal_to: 18 }, allow_nil: true
-  validates :skill_level, inclusion: { in: ["Beginner", "Intermediate", "Advanced", "Master"] }, allow_nil: true
-  validates :musical_genre, inclusion: { in: ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"] }, allow_nil: true
-  validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true
+  validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true, allow_blank: true
+  validates :age, numericality: { greater_than_or_equal_to: 18 }, allow_nil: true, allow_blank: true
+  validates :skill_level, inclusion: { in: ["Beginner", "Intermediate", "Advanced", "Master"] }, allow_nil: true, allow_blank: true
+  validates :musical_genre, inclusion: { in: ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"] }, allow_nil: true, allow_blank: true
+  validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true, allow_blank: true
 
   # TODO: dependent destroy? or acts as paranoid?
   has_many :availabilities, foreign_key: "instructor_id"
@@ -64,8 +64,8 @@ class User < ActiveRecord::Base
       field :admin
       field :guest
       field :student, :boolean
-      field :full_name
       field :email
+      field :full_name
       field :gender
       field :age
       field :skill_level
@@ -89,12 +89,80 @@ class User < ActiveRecord::Base
       end
     end
 
+    create do
+      field :instructor
+      field :admin
+      field :email
+      field :password
+      field :password_confirmation do
+        help do
+          "Retype password"
+        end
+      end
+      field :first_name
+      field :last_name
+
+      field :gender, :enum do
+        enum do
+          ["male", "female"]
+        end
+      end
+
+      field :age, :enum do
+        enum do
+          (18...85).to_a
+        end
+      end
+
+      field :skill_level, :enum do
+        enum do
+          ["Beginner", "Intermediate", "Advanced", "Master"] 
+        end
+      end
+
+      field :musical_genre, :enum do
+        enum do
+          ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+        end
+      end
+
+      field :years_playing, :enum do
+        enum do
+          ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+        end
+      end
+      
+      field :city
+      field :state
+      field :zip
+      field :country
+    end
+
     edit do
       field :instructor
       field :admin
+      field :email
+
+      field :password do
+        visible do
+          bindings[:object].id == bindings[:controller].current_user.id
+        end
+        help do
+          "Leave blank if you don't want to change."
+        end
+      end
+
+      field :password_confirmation do
+        visible do
+          bindings[:object].id == bindings[:controller].current_user.id
+        end
+        help do
+          "Retype new password."
+        end
+      end
+
       field :first_name
       field :last_name
-      field :email
 
       field :gender, :enum do
         enum do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141122164130) do
+ActiveRecord::Schema.define(version: 20141122192253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20141122164130) do
     t.datetime "updated_at"
     t.datetime "end_time"
     t.integer  "availability_id"
+    t.boolean  "re_bookable",             default: false
   end
 
   create_table "availabilities", force: true do |t|

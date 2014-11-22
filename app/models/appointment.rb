@@ -32,7 +32,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def open?
-    status == "Open"
+    status == "Open" || user_id.nil?
   end
 
   rails_admin do

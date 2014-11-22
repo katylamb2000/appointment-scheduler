@@ -1,6 +1,8 @@
 class Appointment < ActiveRecord::Base
-  validates_presence_of :user_id, :instructor_id, :appointment_category_id, :start_time, :status
-  validates :status, inclusion: { in: ["Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
+  validates_presence_of :instructor_id, :appointment_category_id, :start_time, :status
+  validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
+
+  validates_presence_of :user_id, unless: Proc.new{ |record| record.open? }
 
   belongs_to :appointment_category
   belongs_to :user
@@ -20,5 +22,9 @@ class Appointment < ActiveRecord::Base
 
   def end_time
     start_time + total_duration.minutes
+  end
+
+  def open?
+    status == "Open"
   end
 end

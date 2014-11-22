@@ -62,8 +62,16 @@ class Appointment < ActiveRecord::Base
       field :start_time
       field :end_time
       field :status
-      field :created_at
-      field :updated_at
+      field :created_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
+      field :updated_at do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+      end
     end
 
     edit do

@@ -108,6 +108,9 @@ class TodaysAppointment < Appointment
         enum do
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
         end
+        help do
+          "Required. An appoinment marked 'Unavailable' will not be reserve-able by any Students."
+        end
       end
     end
   end

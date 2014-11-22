@@ -5,7 +5,7 @@ class Appointment < ActiveRecord::Base
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
 
   # TODO auto-maintaining the status of appointments
-  
+
   # TODO when an appointment is cancelled or rescheduled, another one needs to be made that is identical to it that is Open. TIME OVERLAPS. "bookable" scope?
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"] }
 
@@ -178,6 +178,10 @@ class Appointment < ActiveRecord::Base
         
         enum do
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
+        end
+
+        help do
+          "Required. An appoinment marked 'Unavailable' will not be reserve-able by any Students."
         end
       end
     end

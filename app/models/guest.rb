@@ -36,6 +36,8 @@ class Guest < User
       field :state
       field :zip
       field :country
+      field :appointments
+      field :instructors # TODO make unique
       field :sign_in_count
       field :last_sign_in_at
       field :created_at

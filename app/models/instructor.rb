@@ -128,7 +128,11 @@ class Instructor < User
 
     edit do
       field :instructor
-      field :admin
+      field :admin do
+        visible do
+          bindings[:controller].current_user.admin?
+        end
+      end
       field :email
 
       field :password do

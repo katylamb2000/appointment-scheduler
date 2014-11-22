@@ -93,6 +93,7 @@ class Appointment < ActiveRecord::Base
       field :start_time
       field :end_time
       field :status
+      field :availability
       field :created_at do
         visible do
           bindings[:view].current_user.admin?

@@ -54,6 +54,7 @@ class Availability < ActiveRecord::Base
       field :instructor
       field :start_time
       field :end_time
+      field :appointments
       field :created_at do
         visible do
           bindings[:view].current_user.admin?

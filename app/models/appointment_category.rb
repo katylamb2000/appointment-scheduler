@@ -1,7 +1,7 @@
 class AppointmentCategory < ActiveRecord::Base
-  validates_presence_of :lesson_minutes, :buffer_minutes, :price_in_cents
+  validates_presence_of :lesson_minutes, :buffer_minutes, :price
   validates_uniqueness_of :lesson_minutes
-  validates :lesson_minutes, :buffer_minutes, :price_in_cents, numericality: { greater_than: 0 }
+  validates :lesson_minutes, :buffer_minutes, :price, numericality: { greater_than: 0 }
 
   has_many :appointments
 
@@ -9,8 +9,12 @@ class AppointmentCategory < ActiveRecord::Base
     lesson_minutes + buffer_minutes
   end
 
-  def price_in_dollars # TODO make the default view price in dollars, have a method to convert to cents.
-    sprintf "%.2f", (price_in_cents / 100)
+  def price_in_cents # TODO make the default view price in dollars, have a method to convert to cents.
+    price * 100
+  end
+
+  def display_price
+    sprintf "$%.2f", price
   end
 
   def name # for rails admin
@@ -25,40 +29,33 @@ class AppointmentCategory < ActiveRecord::Base
       field :id
       field :lesson_minutes
       field :buffer_minutes
-      field :price_in_dollars do
-        label do
-          "Price"
-        end
+      field :price do
         pretty_value do
-          "$#{value}"
+          sprintf "$%.2f", value
         end
       end
     end
 
     show do
       field :id
-      field :price_in_dollars do
-        label do
-          "Price"
-        end
+      field :price do
         pretty_value do
-          "$#{value}"
+          sprintf "$%.2f", value
         end
       end
       field :lesson_minutes
       field :buffer_minutes
       field :total_duration
+      field :created_at
+      field :updated_at
     end
 
     edit do
       field :lesson_minutes
       field :buffer_minutes
-      field :price_in_cents do
-        label do
-          "Price"
-        end
+      field :price do
         help do
-          "Required. MUST BE IN CENTS"
+          "Required. Price in USD."
         end
       end
     end

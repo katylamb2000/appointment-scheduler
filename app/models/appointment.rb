@@ -36,6 +36,7 @@ class Appointment < ActiveRecord::Base
   end
 
   rails_admin do
+
     list do
       field :id
       field :instructor
@@ -63,25 +64,64 @@ class Appointment < ActiveRecord::Base
       field :status
     end
 
-    edit do # an instructor should only be able to change the status and view/edit appointments that they are the instructors of
+    edit do
       field :instructor do
+        inline_add false
+        inline_edit false
+
         visible do
           bindings[:view].current_user.admin?
         end
+
         associated_collection_scope do
           Proc.new { |scope| scope = scope.where(instructor: true) }
         end
       end
+
       field :user do
+        inline_add false
+        inline_edit false
+
         label do
           "Student"
         end
+
+        read_only do
+          bindings[:view].current_user.instructor?
+        end
+
+        help do
+          bindings[:view].current_user.instructor? ? "" : "#{help}"
+        end
+
         associated_collection_scope do
           Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
         end
       end
-      field :appointment_category
-      field :start_time
+
+      field :appointment_category do
+        inline_add false
+        inline_edit false
+
+        read_only do
+          bindings[:view].current_user.instructor?
+        end
+
+        help do
+          bindings[:view].current_user.instructor? ? "" : "#{help}"
+        end
+      end
+
+      field :start_time do
+        read_only do
+          bindings[:view].current_user.instructor?
+        end
+
+        help do
+          bindings[:view].current_user.instructor? ? "" : "#{help}"
+        end
+      end
+      
       field :status, :enum do
         enum do
           ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"]

@@ -24,8 +24,20 @@ class User < ActiveRecord::Base
     guest
   end
 
+  def student?
+    student
+  end
+
+  def student
+    !admin? && !instructor?
+  end
+
   def full_name
     last_name.blank? ? first_name : "#{last_name}, #{first_name}"
+  end
+
+  def location
+    (city && country) ? "#{city}, #{country}" : ""
   end
 
   rails_admin do
@@ -36,14 +48,18 @@ class User < ActiveRecord::Base
     list do
       field :id
       field :email
-      field :city
-      field :country
+      field :first_name
+      field :location
       field :age
       field :gender
     end
 
     show do
       field :id
+      field :instructor
+      field :admin
+      field :guest
+      field :student, :boolean
       field :full_name
       field :email
       field :gender
@@ -55,13 +71,13 @@ class User < ActiveRecord::Base
       field :state
       field :zip
       field :country
-      field :instructor
-      field :admin
       field :sign_in_count
       field :last_sign_in_at
     end
 
     edit do
+      field :instructor
+      field :admin
       field :first_name
       field :last_name
       field :email
@@ -78,8 +94,6 @@ class User < ActiveRecord::Base
       field :state
       field :zip
       field :country
-      field :instructor
-      field :admin
     end
   end
 

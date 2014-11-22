@@ -3,8 +3,10 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :instructor_id, :appointment_category_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
-  
+
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show"] }
+
+  validate :end_time_must_be_after_start_time, :start_time_cannot_be_in_past
 
   # end_time is greater than start_time and start_time is less than end_time
   validates :start_time, :end_time, :overlap => { scope: "instructor_id", exclude_edges: ["start_time", "end_time"]}
@@ -13,6 +15,14 @@ class Appointment < ActiveRecord::Base
   belongs_to :appointment_category
   belongs_to :user
   belongs_to :instructor, class_name: "User"
+
+  def end_time_must_be_after_start_time
+    errors.add(:end_time, "must be after start time.") unless end_time > start_time
+  end
+
+  def start_time_cannot_be_in_past
+    errors.add(:start_time, "cannot be in the past") unless start_time >= (DateTime.now - 5.minutes)
+  end
 
   def self.today # TODO edgecase: overnight appt. assumes UTC time
     where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day)

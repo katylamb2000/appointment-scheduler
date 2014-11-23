@@ -9,8 +9,16 @@ class TodaysAvailability < Availability
     list do
       field :id
       field :instructor
-      field :start_time
-      field :end_time
+      field :start_time do
+        formatted_value do
+          value.strftime("%l:%M %p")
+        end
+      end
+      field :end_time do
+        formatted_value do
+          value.strftime("%l:%M %p")
+        end
+      end
     end
 
     show do

@@ -14,7 +14,11 @@ class TodaysAppointment < Appointment
           "Student"
         end
       end
-      field :start_time
+      field :start_time do
+        formatted_value do
+          value.strftime("%l:%M %p")
+        end
+      end
       field :appointment_category
       field :status
     end

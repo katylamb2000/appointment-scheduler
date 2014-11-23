@@ -34,19 +34,23 @@ class Appointment < ActiveRecord::Base
   belongs_to :user
   belongs_to :instructor, class_name: "User"
 
-  has_one :rebooking, foreign_key: "dead_appointment_id"
+  has_one :rebooking, foreign_key: "old_appointment_id"
   has_one :rebooked_appointment, through: :rebooking, source: :new_appointment
 
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"
-  has_one :original_appointment, through: :reverse_rebooking, source: :dead_appointment
+  has_one :original_appointment, through: :reverse_rebooking, source: :old_appointment
 
   after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
 
-  scope :active, -> { where(re_bookable: false) }
+  scope :active, -> { where(re_bookable: false) } # TODO necessary?
+
+  scope :dead, -> { where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
+
   scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be user_id: nil ?
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
   scope :available_today, -> { today.available }
+  scope :available_on_day, -> (date_object) { on_day(date_object).available}
 
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time
@@ -58,7 +62,7 @@ class Appointment < ActiveRecord::Base
 
   def create_rebooking_and_new_appointment
     new_appt = Appointment.create(instructor: self.instructor, appointment_category: self.appointment_category, start_time: self.start_time, availability: self.availability, status: "Open")
-    Rebooking.create(dead_appointment: self, new_appointment: new_appt)
+    Rebooking.create(old_appointment: self, new_appointment: new_appt)
   end
 
   def name
@@ -115,7 +119,11 @@ class Appointment < ActiveRecord::Base
           "Student"
         end
       end
-      field :start_time
+      field :start_time do
+        formatted_value do
+          value.strftime("%a %m/%e, %l:%M %p")
+        end
+      end
       field :appointment_category
       field :status
     end

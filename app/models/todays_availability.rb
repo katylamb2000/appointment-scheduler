@@ -3,7 +3,7 @@ class TodaysAvailability < Availability
 
   rails_admin do
     parent ""
-    navigation_label "Today"
+    navigation_label "Schedule Today"
     weight 1
     label do
       "Availability"

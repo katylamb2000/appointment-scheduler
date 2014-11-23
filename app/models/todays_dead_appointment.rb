@@ -3,7 +3,7 @@ class TodaysDeadAppointment < Appointment
 
   rails_admin do
     parent ""
-    navigation_label "Today"
+    navigation_label "Schedule Today"
     weight 0
     label do
       "Cancelled/Rescheduled Appointment"

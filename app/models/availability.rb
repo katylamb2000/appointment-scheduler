@@ -6,6 +6,13 @@ class Availability < ActiveRecord::Base
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
 
+  validates :start_time, :end_time, :overlap => {
+    scope: "instructor_id",
+    exclude_edges: ["start_time", "end_time"],
+    message_title: :base,
+    :message_content => "Time slot overlaps with instructor's other availabilities."
+  }
+  
   after_create :to_forty_five_minute_appointments
 
   def end_time_must_be_after_start_time

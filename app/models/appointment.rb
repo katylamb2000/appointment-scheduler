@@ -115,9 +115,7 @@ class Appointment < ActiveRecord::Base
         end
       end
       field :start_time do
-        formatted_value do
-          value.strftime("%a %m/%e, %l:%M %p")
-        end
+        strftime_format "%a %m/%e, %l:%M %p"
       end
       field :appointment_category
       field :status
@@ -132,16 +130,22 @@ class Appointment < ActiveRecord::Base
         end
       end
       field :appointment_category
-      field :start_time
-      field :end_time
+      field :start_time do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
+      end
+      field :end_time do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
+      end
       field :status
       field :availability
       field :created_at do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end
       end
       field :updated_at do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end

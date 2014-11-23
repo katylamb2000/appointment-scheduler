@@ -12,11 +12,11 @@ class User < ActiveRecord::Base
 
   # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
 
-  # as Student
+  # as Student TODO: extract into Student model?
   has_many :appointments
   has_many :instructors, through: :appointments, source: :instructor
 
-  # as Instructor
+  # as Instructor TODO: extract into Instructor model?
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user

@@ -78,10 +78,6 @@ class Appointment < ActiveRecord::Base
     appointment_category.total_duration
   end
 
-  def end_time
-    start_time + total_duration.minutes
-  end
-
   def open?
     status == "Open" || user_id.nil?
   end

@@ -15,7 +15,7 @@ class Appointment < ActiveRecord::Base
   # LOGIC MAGIC: (end_time is greater than start_time) && (start_time is less than end_time)
   validates :start_time, :end_time, :overlap => {
     scope: "instructor_id",
-    :query_options => { :active => nil }, # for Rebookings, dead appointments
+    :query_options => { :valid => nil }, # for Rebookings, dead appointments
     exclude_edges: ["start_time", "end_time"],
     message_title: :base,
     :message_content => "Time slot overlaps with instructor's other appointments."
@@ -23,7 +23,7 @@ class Appointment < ActiveRecord::Base
 
   validates :start_time, :end_time, :overlap => {
     scope: "user_id",
-    :query_options => { :active => nil }, # for Rebookings, dead appointments
+    :query_options => { :valid => nil }, # for Rebookings, dead appointments
     exclude_edges: ["start_time", "end_time"],
     message_title: :base,
     :message_content => "Time slot overlaps with student's other appointments."
@@ -42,7 +42,7 @@ class Appointment < ActiveRecord::Base
 
   after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
 
-  scope :active, -> { where(re_bookable: false) } # necessary for time_overlaps validation
+  scope :valid, -> { where(re_bookable: false) } # necessary for time_overlaps validation
 
   scope :dead, -> { where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
 

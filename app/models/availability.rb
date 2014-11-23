@@ -59,7 +59,9 @@ class Availability < ActiveRecord::Base
         strftime_format "%a %m/%e, %l:%M %p"
       end
       
-      field :end_time
+      field :end_time do
+        strftime_format "%a %m/%e, %l:%M %p"
+      end
     end
 
     show do

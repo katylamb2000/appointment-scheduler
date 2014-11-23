@@ -2,8 +2,11 @@ class TodaysAvailability < Availability
   default_scope { where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day) }
 
   rails_admin do
+    parent ""
+    navigation_label "Today"
+    weight 1
     label do
-      "Today's Availability"
+      "Availability"
     end
 
     list do

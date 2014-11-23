@@ -102,8 +102,11 @@ class Appointment < ActiveRecord::Base
   end
 
   rails_admin do
+    label_plural do
+      "All Appointments"
+    end
     label do
-      "All Appointment"
+      "Appointment"
     end
 
     list do

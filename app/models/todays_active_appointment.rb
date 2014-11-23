@@ -3,10 +3,13 @@ class TodaysActiveAppointment < Appointment
 
   rails_admin do
     parent ""
-    navigation_label "Schedule Today"
+    navigation_label "Today's Schedule"
     weight -1
     label do
-      "Active Appointment"
+      "Today's Appointment"
+    end
+    label_plural do
+      "Active Appointments"
     end
 
     list do

@@ -42,8 +42,12 @@ class Availability < ActiveRecord::Base
   end
 
   rails_admin do
+    label_plural do
+      "All Availabilities"
+    end
+
     label do
-      "All Availability"
+      "Availability"
     end
 
     list do

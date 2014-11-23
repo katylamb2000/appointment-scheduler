@@ -42,6 +42,7 @@ class Availability < ActiveRecord::Base
   end
 
   rails_admin do
+
     label_plural do
       "All Availabilities"
     end
@@ -53,28 +54,35 @@ class Availability < ActiveRecord::Base
     list do
       field :id
       field :instructor
+
       field :start_time do
         strftime_format "%a %m/%e, %l:%M %p"
       end
+      
       field :end_time
     end
 
     show do
       field :id
       field :instructor
+
       field :start_time do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
       end
+
       field :end_time do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
       end
+
       field :appointments
+
       field :created_at do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :updated_at do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
@@ -84,6 +92,7 @@ class Availability < ActiveRecord::Base
     end
 
     edit do
+
       field :instructor do
         inline_add false
         inline_edit false
@@ -94,6 +103,7 @@ class Availability < ActiveRecord::Base
           Proc.new { |scope| scope = scope.where(instructor: true) }
         end
       end
+
       field :start_time
       field :end_time
     end

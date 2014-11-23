@@ -34,6 +34,7 @@ class Student < User
   end
 
   rails_admin do
+
     object_label_method do
       :full_name
     end
@@ -62,23 +63,28 @@ class Student < User
       field :state
       field :zip
       field :country
+
       field :appointments do
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :instructors do # TODO make unique
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :sign_in_count
       field :last_sign_in_at
+
       field :created_at do
         visible do
           bindings[:view].current_user.admin?
         end
       end
+      
       field :updated_at do
         visible do
           bindings[:view].current_user.admin?

@@ -2,7 +2,7 @@ class Admin < User
   default_scope { where(admin: true) }
 
   rails_admin do
-
+    
     visible do
       bindings[:controller].current_user.admin?
     end
@@ -116,12 +116,11 @@ class Admin < User
       field :email
       field :first_name
       field :last_name
-      field :password do
 
+      field :password do
         visible do
           bindings[:object].id == bindings[:controller].current_user.id
         end
-
         help do
           "Leave blank if you don't want to change."
         end
@@ -131,11 +130,9 @@ class Admin < User
         visible do
           bindings[:object].id == bindings[:controller].current_user.id
         end
-
         label do
           "Confirm Password."
         end
-
         help do
           "Retype new password."
         end

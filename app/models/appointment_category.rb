@@ -22,13 +22,16 @@ class AppointmentCategory < ActiveRecord::Base
   end
 
   rails_admin do
+
     label do
       "Appointment Category"
     end
+
     list do
       field :id
       field :lesson_minutes
       field :buffer_minutes
+
       field :price do
         pretty_value do
           sprintf "$%.2f", value
@@ -38,11 +41,13 @@ class AppointmentCategory < ActiveRecord::Base
 
     show do
       field :id
+
       field :price do
         pretty_value do
           sprintf "$%.2f", value
         end
       end
+
       field :lesson_minutes
       field :buffer_minutes
       field :total_duration
@@ -53,6 +58,7 @@ class AppointmentCategory < ActiveRecord::Base
     edit do
       field :lesson_minutes
       field :buffer_minutes
+
       field :price do
         help do
           "Required. Price in USD."

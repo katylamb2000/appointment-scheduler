@@ -34,6 +34,7 @@ class Instructor < User
   end
 
   rails_admin do
+
     object_label_method do
       :full_name
     end
@@ -43,6 +44,7 @@ class Instructor < User
       field :email
       field :first_name
       field :last_sign_in_at
+
       field :admin do
         label do
           "Admin?"
@@ -65,11 +67,13 @@ class Instructor < User
       field :state
       field :zip
       field :country
+
       field :availabilities do
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :lessons do
         visible do
           bindings[:view].current_user.admin?
@@ -78,18 +82,22 @@ class Instructor < User
           "Appointments"
         end
       end
+
       field :students do # TODO make unique
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :sign_in_count
       field :last_sign_in_at
+
       field :created_at do
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :updated_at do
         visible do
           bindings[:view].current_user.admin?
@@ -102,11 +110,13 @@ class Instructor < User
       field :admin
       field :email
       field :password
+
       field :password_confirmation do
         help do
           "Retype password."
         end
       end
+
       field :first_name
       field :last_name
 
@@ -151,6 +161,7 @@ class Instructor < User
 
       field :state
       field :zip
+
       field :country do
         help do
           "Optional. Length up to 255."
@@ -160,11 +171,13 @@ class Instructor < User
 
     edit do
       field :instructor
+
       field :admin do
         visible do
           bindings[:controller].current_user.admin?
         end
       end
+
       field :email
 
       field :password do
@@ -226,8 +239,10 @@ class Instructor < User
           "Optional. Length up to 255."
         end
       end
+
       field :state
       field :zip
+      
       field :country do
         help do
           "Optional. Length up to 255."

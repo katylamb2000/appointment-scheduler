@@ -2,12 +2,15 @@ class TodaysDeadAppointment < Appointment
   default_scope { today.where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
 
   rails_admin do
+
     parent ""
     navigation_label "Today's Schedule"
     weight 0
+
     label_plural do
       "Cancelled/Rescheduled Appointments"
     end
+
     label do
       "Today's Cancelled/Rescheduled"
     end
@@ -15,14 +18,17 @@ class TodaysDeadAppointment < Appointment
     list do
       field :id
       field :instructor
+
       field :user do
         label do
           "Student"
         end
       end
+
       field :start_time do
         strftime_format "%l:%M %p"
       end
+
       field :appointment_category
       field :status
     end
@@ -30,25 +36,32 @@ class TodaysDeadAppointment < Appointment
     show do
       field :id
       field :instructor
+
       field :user do
         label do
           "Student"
         end
       end
+
       field :appointment_category
+
       field :start_time do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
       end
+
       field :end_time do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
       end
+
       field :status
+
       field :created_at do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end
       end
+
       field :updated_at do
         strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
@@ -61,11 +74,9 @@ class TodaysDeadAppointment < Appointment
       field :instructor do
         inline_add false
         inline_edit false
-
         visible do
           bindings[:view].current_user.admin?
         end
-
         associated_collection_scope do
           Proc.new { |scope| scope = scope.where(instructor: true) }
         end
@@ -74,19 +85,15 @@ class TodaysDeadAppointment < Appointment
       field :user do
         inline_add false
         inline_edit false
-
         label do
           "Student"
         end
-
         read_only do
           !(bindings[:view].current_user.admin?)
         end
-
         help do
           !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
-
         associated_collection_scope do
           Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
         end
@@ -95,11 +102,9 @@ class TodaysDeadAppointment < Appointment
       field :appointment_category do
         inline_add false
         inline_edit false
-
         read_only do
           !(bindings[:view].current_user.admin?)
         end
-
         help do
           !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
@@ -109,7 +114,6 @@ class TodaysDeadAppointment < Appointment
         read_only do
           !(bindings[:view].current_user.admin?)
         end
-
         help do
           !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
@@ -131,11 +135,9 @@ class TodaysDeadAppointment < Appointment
         read_only do
           !(bindings[:view].current_user.admin?) && bindings[:object].dead?
         end
-
         label do
           "Re-bookable?"
         end
-
         help do
           "IMPORTANT: Marking an Appointment 'Re-bookable' will open it up to be booked by other Students. An Appointment is usually 'Re-bookable' when a previous Student cancelled his/her appointment, with enough time to allow another Student to take the slot."
         end

@@ -2,6 +2,7 @@ class Guest < User
   default_scope { where(guest: true) }
 
   rails_admin do
+
     visible do
       bindings[:controller].current_user.admin?
     end
@@ -47,11 +48,13 @@ class Guest < User
     edit do
       field :email
       field :first_name
+
       field :age, :enum do
         enum do
           (18...85).to_a
         end
       end
+      
       field :city
       field :country
     end

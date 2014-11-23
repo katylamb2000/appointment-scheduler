@@ -3,12 +3,9 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
-
   # TODO auto-maintaining the status of appointments
-
   validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"] }
   validates :re_bookable, inclusion: { in: [true, false] }
-
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
 
@@ -29,23 +26,18 @@ class Appointment < ActiveRecord::Base
     :message_content => "Time slot overlaps with student's other appointments."
   }, unless: Proc.new { |record| record.open? }
 
+  after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
+
   belongs_to :appointment_category
   belongs_to :availability
   belongs_to :user
   belongs_to :instructor, class_name: "User"
-
   has_one :rebooking, foreign_key: "old_appointment_id"
   has_one :rebooked_appointment, through: :rebooking, source: :new_appointment
-
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"
   has_one :original_appointment, through: :reverse_rebooking, source: :old_appointment
 
-  after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
-
   scope :valid, -> { where(re_bookable: false) } # necessary for time_overlaps validation
-
-  scope :dead, -> { where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
-
   scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be user_id: nil ?
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time

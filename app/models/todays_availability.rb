@@ -13,28 +13,30 @@ class TodaysAvailability < Availability
       field :id
       field :instructor
       field :start_time do
-        formatted_value do
-          value.strftime("%l:%M %p")
-        end
+        strftime_format "%l:%M %p"
       end
       field :end_time do
-        formatted_value do
-          value.strftime("%l:%M %p")
-        end
+        strftime_format "%l:%M %p"
       end
     end
 
     show do
       field :id
       field :instructor
-      field :start_time
-      field :end_time
+      field :start_time do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
+      end
+      field :end_time do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
+      end
       field :created_at do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end
       end
       field :updated_at do
+        strftime_format "%A, %B %e, %Y - %l:%M %p"
         visible do
           bindings[:view].current_user.admin?
         end

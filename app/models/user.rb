@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :appointments
   has_many :instructors, through: :appointments, source: :instructor
 
-  # as Instructor TODO: extract into Instructor model?
+  # as Instructor TODO: extract into Instructor model? so that we can call Instructor.appointments
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user

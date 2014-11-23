@@ -1,9 +1,12 @@
-class TodaysAppointment < Appointment
-  default_scope { where('start_time > ?', Date.today.beginning_of_day).where('end_time < ?', Date.today.end_of_day) }
+class TodaysActiveAppointment < Appointment
+  default_scope { today.where(status: ["Open", "Future", "Past - Occurred", "No Show", "Unavailable"]) }
 
   rails_admin do
+    parent ""
+    navigation_label "Today"
+    weight -1
     label do
-      "Today's Appointment"
+      "Active Appointment"
     end
 
     list do

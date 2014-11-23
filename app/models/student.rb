@@ -1,5 +1,37 @@
 class Student < User
   default_scope { where(instructor: false).where(admin: false) }
+  
+  def self_cancelled_appointments
+    appointments.where(status: "Cancelled by Student")
+  end
+
+  def self_cancelled_count
+    self_cancelled_appointments
+  end
+
+  def self_rescheduled_appointments
+    appointments.where(status: "Rescheduled by Student")
+  end
+
+  def self_rescheduled_count
+    self_rescheduled_appointments.count
+  end
+
+  def instructor_cancelled_appointments
+    appointments.where(status: "Cancelled by Instructor")
+  end
+
+  def instructor_cancellation_count
+    instructor_cancelled_appointments.count
+  end
+
+  def instructor_rescheduled_appointments
+    appointments.where(status: "Rescheduled by Instructor")
+  end
+
+  def instructor_rescheduled_count
+    instructor_rescheduled_appointments.count
+  end
 
   rails_admin do
     object_label_method do

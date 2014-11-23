@@ -110,6 +110,9 @@ class Appointment < ActiveRecord::Base
   end
 
   rails_admin do
+    label do
+      "All Appointment"
+    end
 
     list do
       field :id

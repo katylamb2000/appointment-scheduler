@@ -42,6 +42,10 @@ class Availability < ActiveRecord::Base
   end
 
   rails_admin do
+    label do
+      "All Availability"
+    end
+
     list do
       field :id
       field :instructor

@@ -81,6 +81,10 @@ class Appointment < ActiveRecord::Base
     appointment_category.total_duration
   end
 
+  def taken?
+    !(open?)
+  end
+
   def open?
     status == "Open" || user_id.nil?
   end

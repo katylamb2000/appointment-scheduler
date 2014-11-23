@@ -42,7 +42,7 @@ class Appointment < ActiveRecord::Base
 
   after_save :create_rebooking_and_new_appointment, if: Proc.new { |record| record.re_bookable_changed? && record.dead? }
 
-  scope :active, -> { where(re_bookable: false) } # TODO necessary?
+  scope :active, -> { where(re_bookable: false) } # necessary for time_overlaps validation
 
   scope :dead, -> { where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
 

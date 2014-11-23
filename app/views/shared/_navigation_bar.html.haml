@@ -3,6 +3,8 @@
 = link_to "FAQ", faq_path
 - if current_user
   / # = link_to "Dashboard", accounts_path
+  = link_to "Instructor Dashboard", rails_admin_path if current_user.instructor?
+  = link_to "Admin Dashboard", rails_admin_path if current_user.admin?
   = link_to "Log Out", destroy_user_session_path, method: :delete
 - else
   = link_to "Sign Up", new_user_registration_path

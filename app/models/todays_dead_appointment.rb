@@ -6,7 +6,7 @@ class TodaysDeadAppointment < Appointment
     navigation_label "Today's Schedule"
     weight 0
     label_plural do
-      "Cancelled/Rescheduled Appointment"
+      "Cancelled/Rescheduled Appointments"
     end
     label do
       "Today's Cancelled/Rescheduled"

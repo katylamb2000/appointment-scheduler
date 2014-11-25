@@ -4,7 +4,7 @@ class Appointment < ActiveRecord::Base
   validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
   # TODO auto-maintaining the status of appointments
-  validates :status, inclusion: { in: ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"] }
+  validates :status, inclusion: { in: :status_options }
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
@@ -55,6 +55,10 @@ class Appointment < ActiveRecord::Base
   def create_rebooking_and_new_appointment
     new_appt = Appointment.create(instructor: self.instructor, appointment_category: self.appointment_category, start_time: self.start_time, availability: self.availability, status: "Open")
     Rebooking.create(old_appointment: self, new_appointment: new_appt)
+  end
+
+  def status_options
+    ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
   end
 
   def name
@@ -221,7 +225,7 @@ class Appointment < ActiveRecord::Base
           !(bindings[:view].current_user.admin?) && !(bindings[:object].editable_status_by_instructor?)
         end
         enum do
-          ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
+          bindings[:object].status_options
         end
         help do
           "Required. An Appoinment marked 'Unavailable' will not be available to any Students, as long as it is not marked as 'Re-bookable' (see next field)."

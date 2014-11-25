@@ -1,7 +1,4 @@
 class Availability < ActiveRecord::Base
-  belongs_to :instructor, class_name: "User"
-  has_many :appointments
-
   validates_presence_of :instructor, :start_time, :end_time
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
@@ -14,7 +11,10 @@ class Availability < ActiveRecord::Base
   }
   
   after_create :to_forty_five_minute_appointments
-  
+
+  belongs_to :instructor, class_name: "User"
+  has_many :appointments
+
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
 

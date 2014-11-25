@@ -14,6 +14,9 @@ class Availability < ActiveRecord::Base
   }
   
   after_create :to_forty_five_minute_appointments
+  
+  scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
+  scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
 
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time

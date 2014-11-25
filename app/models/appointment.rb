@@ -58,7 +58,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def status_options
-    ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show", "Unavailable"]
+    ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show - Student", "No Show - Instructor", "Unavailable"]
   end
 
   def name

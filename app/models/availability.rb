@@ -9,6 +9,8 @@ class Availability < ActiveRecord::Base
     message_title: :base,
     :message_content => "Time slot overlaps with instructor's other availabilities."
   }
+
+  validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
   
   after_create :to_forty_five_minute_appointments
 
@@ -32,6 +34,18 @@ class Availability < ActiveRecord::Base
 
   def name
     "##{id}"
+  end
+
+  def can_be_edited?
+    errors.add(:base, "This availability has upcoming appointments. Please cancel or reschedule them in order to edit this availability.") unless !(has_pending_appointments?)
+  end
+
+  def time_changed?
+    start_time_changed? || end_time_changed?
+  end
+
+  def has_pending_appointments?
+    !(appointments.where(status: "Future").empty?)
   end
 
   def forty_five_minute_chunks

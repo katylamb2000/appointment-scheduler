@@ -3,7 +3,7 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
-  # TODO auto-maintaining the status of appointments
+  # TODO auto-maintaining the status of appointments. also "Unfilled" appointments
   validates :status, inclusion: { in: :status_options }
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time

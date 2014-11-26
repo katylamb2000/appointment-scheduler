@@ -12,6 +12,7 @@ RailsAdmin.config do |config|
   ## == PaperTrail ==
   # config.audit_with :paper_trail, 'User', 'PaperTrail::Version' # PaperTrail >= 3.0.0
 
+  # TODO custom actions: bulk status update
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory

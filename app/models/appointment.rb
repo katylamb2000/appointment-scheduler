@@ -107,6 +107,14 @@ class Appointment < ActiveRecord::Base
     re_bookable == true
   end
 
+  def display_local_start_time
+    start_time.localtime.strftime("%a %m/%e, %l:%M %p")
+  end
+
+  def display_local_end_time
+    end_time.localtime.strftime("%a %m/%e, %l:%M %p")
+  end
+
   rails_admin do
 
     label_plural do

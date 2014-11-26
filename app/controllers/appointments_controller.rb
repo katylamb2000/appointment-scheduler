@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
 
   def index
-    @appointments = Appointment.upcoming.open_or_booked
+    @appointments = Appointment.upcoming.open_or_booked.order(:start_time)
     # TODO group by dates
   end
 

@@ -4,4 +4,15 @@ class AppointmentsController < ApplicationController
     @appointments = Appointment.upcoming.open_or_booked
     # TODO group by dates
   end
+
+  def update
+    appointment = Appointment.find(params[:id])
+    if current_user
+      puts "YOU'RE LOGGED IN YEAH"
+    else
+      puts "NO ONE IS HOME"
+    end
+    puts appointment.id
+    redirect_to appointments_path, notice: "Huzzah!"
+  end
 end

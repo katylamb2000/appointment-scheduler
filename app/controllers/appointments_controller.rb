@@ -8,11 +8,15 @@ class AppointmentsController < ApplicationController
   def update
     appointment = Appointment.find(params[:id])
     if current_user
-      puts "YOU'RE LOGGED IN YEAH"
+      appointment.user = current_user
+      appointment.status = "Future"
+      if appointment.save
+        redirect_to appointments_path, notice: "Huzzah!"
+      else
+        redirect_to appointments_path, alert: "Rat Shardz!"
+      end
     else
-      puts "NO ONE IS HOME"
+      redirect_to appointments_path, alert: "No one is home!"
     end
-    puts appointment.id
-    redirect_to appointments_path, notice: "Huzzah!"
   end
 end

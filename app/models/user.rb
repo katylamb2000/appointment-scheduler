@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  # TODO verify compatibility across languages, specifically non-Arabic alphabets
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :async
 

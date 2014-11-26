@@ -2,4 +2,5 @@
   %p
     = "Appointment ##{index}:"
     = "#{appt.start_time} TO #{appt.end_time}"
-    = "#{appt.status}"
+    = "Reserved" if appt.future?
+    = "Available" if appt.open?

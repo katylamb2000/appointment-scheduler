@@ -3,7 +3,7 @@ class Appointment < ActiveRecord::Base
 
   validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
   validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
-  # TODO auto-maintaining the status of appointments
+  # TODO auto-maintaining the status of appointments. also "Unfilled" appointments
   validates :status, inclusion: { in: :status_options }
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
@@ -42,7 +42,9 @@ class Appointment < ActiveRecord::Base
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
   scope :available_today, -> { today.available }
-  scope :available_on_day, -> (date_object) { on_day(date_object).available}
+  scope :available_on_day, -> (date_object) { on_day(date_object).available }
+  scope :open_or_booked, -> { where(status: ["Future", "Open"]) }
+  scope :upcoming, -> { where('start_time > ?', DateTime.now) }
 
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time
@@ -103,6 +105,14 @@ class Appointment < ActiveRecord::Base
 
   def dead?
     re_bookable == true
+  end
+
+  def display_local_start_time
+    start_time.localtime.strftime("%a %m/%e, %l:%M %p")
+  end
+
+  def display_local_end_time
+    end_time.localtime.strftime("%a %m/%e, %l:%M %p")
   end
 
   rails_admin do

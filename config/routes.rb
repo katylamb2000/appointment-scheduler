@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   get 'faq' => 'static_pages#faq', as: 'faq'
 
   resources :availabilities # TODO remove? currently implemented via rails_admin
+  resources :appointments
 end

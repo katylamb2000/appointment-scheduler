@@ -19,7 +19,7 @@ staging:
 production:
   <<: *default
   database: guitarlessons_production
-  username: guitarlessons
+  # username: guitarlessons TODO put back? this was removed for heroku
   password: <%= ENV['GUITARLESSONS_DATABASE_PASSWORD'] %>
   
 # As with config/secrets.yml, you never want to store sensitive information,

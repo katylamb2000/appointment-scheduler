@@ -44,6 +44,7 @@ class Appointment < ActiveRecord::Base
   scope :available_today, -> { today.available }
   scope :available_on_day, -> (date_object) { on_day(date_object).available }
   scope :open_or_booked, -> { where(status: ["Future", "Open"]) }
+  scope :upcoming, -> { where('start_time > ?', DateTime.now) }
 
   def end_time_must_be_after_start_time
     errors.add(:end_time, "must be after start time.") unless end_time > start_time

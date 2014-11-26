@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
 
   def index
-    # TODO only show taken ("Future") and open appointments - don't show cancelled/rescheduled/unavailable
-    @appointments = Appointment.order(:start_time)
+    @appointments = Appointment.open_or_booked
+    # TODO group by dates
   end
 end

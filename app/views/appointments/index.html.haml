@@ -1,0 +1,5 @@
+- @appointments.each_with_index do |appt, index|
+  %p
+    = "Appointment ##{index}:"
+    = "#{appt.start_time} TO #{appt.end_time}"
+    = "#{appt.status}"

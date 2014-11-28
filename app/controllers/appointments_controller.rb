@@ -16,7 +16,7 @@ class AppointmentsController < ApplicationController
         redirect_to appointments_path, alert: "Rat Shardz!"
       end
     else
-      redirect_to appointments_path, alert: "No one is home!"
+      render :authenticate
     end
   end
 end

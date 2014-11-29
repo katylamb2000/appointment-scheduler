@@ -6,7 +6,7 @@ class AppointmentsController < ApplicationController
   end
 
   def update
-    appointment = Appointment.find(params[:id])
+    appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
     if current_user
       appointment.user = current_user
       appointment.status = "Future"

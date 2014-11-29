@@ -8,11 +8,16 @@
           %span{ class: "sr-only" }
             Close
         %h4{ class: "modal-title" }
-          Sign up / Log in
+          Log In
       %div{ class: "modal-body" }
-        %p One fine body&hellip;
+        = form_for(:user, as: :user, url: session_path(:user)) do |f|
+          = f.label :email
+          = f.email_field :email, autofocus: true
+          = f.label :password
+          = f.password_field :password, autocomplete: "off"
+          = f.submit "Log in"
+        / # = render "devise/shared/links"
       %div{ class: "modal-footer" }
-        %button{ type: "button", class: "btn btn-default", "data-dismiss" => "modal"}
-          Close
+        %p Or create an account
         %button{ type: "button", class: "btn btn-primary"}
           Save changes

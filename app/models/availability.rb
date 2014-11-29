@@ -79,7 +79,7 @@ class Availability < ActiveRecord::Base
       field :id
       field :instructor
 
-      field :start_time do
+      field :start_time do # TODO creating an Availability in RailAdmin always assumes you are putting in central time values.
         strftime_format "%a %m/%e, %l:%M %p"
       end
       

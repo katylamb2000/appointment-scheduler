@@ -1,4 +1,5 @@
 %div#modal-window.modal.fade
+  = render "shared/errors_and_notices"
   %div{ class: "modal-dialog" }
     %div{ class: "modal-content" }
       %div{ class: "modal-header" }
@@ -10,14 +11,15 @@
         %h4{ class: "modal-title" }
           Log In
       %div{ class: "modal-body" }
-        = form_for(:user, as: :user, url: session_path(:user)) do |f|
+        = form_for(:user, remote: true, as: :user, url: session_path(:user)) do |f|
+          = hidden_field(:user, :appointment_id, value: @appointment_id)
           = f.label :email
           = f.email_field :email, autofocus: true
           = f.label :password
           = f.password_field :password, autocomplete: "off"
           = f.submit "Log in"
-        / # = render "devise/shared/links"
+          / = render "users/shared/links"
       %div{ class: "modal-footer" }
-        %p Or create an account
+        %p OR
         %button{ type: "button", class: "btn btn-primary"}
-          Save changes
+          Create an account

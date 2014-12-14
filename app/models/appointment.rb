@@ -67,6 +67,10 @@ class Appointment < ActiveRecord::Base
     "##{id}"
   end
 
+  def description
+    "#{appointment_category.name} beginning #{display_local_start_time} with #{instructor.full_name}"
+  end
+
   def set_end_time
     self.end_time = (self.start_time + self.appointment_category.total_duration.minutes)
   end

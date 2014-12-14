@@ -1,6 +1,6 @@
 - @appointments.each_with_index do |appt, index|
   - if appt.open?
-    = form_for appt, remote: true do |f|
+    = form_for appt do |f|
       = "ID #{appt.id}:"
       = "#{appt.display_local_start_time} TO #{appt.display_local_end_time}"
       = f.submit "Reserve!"

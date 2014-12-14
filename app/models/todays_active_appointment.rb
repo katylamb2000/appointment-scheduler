@@ -1,5 +1,5 @@
 class TodaysActiveAppointment < Appointment
-  default_scope { today.where(status: ["Open", "Future", "Past - Occurred", "No Show - Student", "No Show - Instructor", "Unavailable"]) }
+  default_scope { today.where(status: ["Open", "Booked - Future", "Past - Occurred", "No Show - Student", "No Show - Instructor", "Unavailable"]) }
 
   rails_admin do
 

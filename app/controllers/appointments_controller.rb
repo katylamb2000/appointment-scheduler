@@ -1,4 +1,5 @@
 class AppointmentsController < ApplicationController
+  prepend_before_filter :allow_params_authentication!, only: :update
 
   def index
     @appointments = Appointment.upcoming.open_or_booked.order(:start_time)
@@ -7,6 +8,15 @@ class AppointmentsController < ApplicationController
 
   def update
     @appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
+    if new_user?
+      @new_user = User.new(user_params)
+      if @new_user.save
+        sign_in(@new_user)
+      else
+        render "users/auth" and return
+      end
+    end
+
     if current_user
       @appointment.user = current_user
       @appointment.status = "Booked - Future"
@@ -27,4 +37,14 @@ class AppointmentsController < ApplicationController
       # render "users/authenticate" # haml view (HTML)
     end
   end
+
+  private
+
+    def new_user?
+      params.has_key?("new_user")
+    end
+
+    def user_params
+      params.require(:new_user).permit(:email, :password, :password_confirmation, :first_name, :city, :country, :age)
+    end
 end

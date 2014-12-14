@@ -23,7 +23,8 @@ class AppointmentsController < ApplicationController
         # if not, set appointment to Open
         # but how do we locate that session for that user to kick them out of the booking process?
         # can we implement a countdown timer?
-      render 'users/authenticate'
+      render "users/auth" # modal (JS)
+      # render "users/authenticate" # haml view (HTML)
     end
   end
 end

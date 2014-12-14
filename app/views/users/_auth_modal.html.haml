@@ -1,16 +1,17 @@
-%div#modal-window.modal.fade
+#modal-window.modal.fade
   = render "shared/errors_and_notices"
-  %div{ class: "modal-dialog" }
-    %div{ class: "modal-content" }
-      %div{ class: "modal-header" }
+  .modal-dialog
+    .modal-content
+      .modal-header
         %button{ :type => "button", class: "close", "data-dismiss" => "modal" }
           %span{ "aria-hidden" => true }
             &times;
           %span{ class: "sr-only" }
             Close
         %h4{ class: "modal-title" }
-          Log In
-      %div{ class: "modal-body" }
+          = "#{@appointment.description}"
+      .modal-body
+        Log In
         = form_for(:user, remote: true, as: :user, url: session_path(:user)) do |f|
           = hidden_field(:user, :appointment_id, value: @appointment_id)
           = f.label :email
@@ -19,7 +20,7 @@
           = f.password_field :password, autocomplete: "off"
           = f.submit "Log in"
           / = render "users/shared/links"
-      %div{ class: "modal-footer" }
+      .modal-footer
         %p OR
         %button{ type: "button", class: "btn btn-primary"}
           Create an account

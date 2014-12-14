@@ -6,11 +6,11 @@ class AppointmentsController < ApplicationController
   end
 
   def update
-    appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
+    @appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
     if current_user
-      appointment.user = current_user
-      appointment.status = "Future"
-      if appointment.save
+      @appointment.user = current_user
+      @appointment.status = "Booked - Future"
+      if @appointment.save
         redirect_to appointments_path, notice: "Huzzah!"
       else
         redirect_to appointments_path, alert: "Rat Shardz!"

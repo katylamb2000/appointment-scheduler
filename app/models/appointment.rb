@@ -68,7 +68,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def description
-    "#{appointment_category.name} beginning #{display_local_start_time} with #{instructor.full_name}"
+    "#{appointment_category.name}: #{display_local_start_time} with #{instructor.full_name}"
   end
 
   def set_end_time

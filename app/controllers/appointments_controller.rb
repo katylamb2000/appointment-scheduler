@@ -16,7 +16,7 @@ class AppointmentsController < ApplicationController
         redirect_to appointments_path, alert: "Rat Shardz!"
       end
     else
-      render 'users/auth'
+      render 'users/authenticate'
     end
   end
 end

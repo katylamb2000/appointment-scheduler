@@ -50,6 +50,35 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
+  def has_stripe_id?
+    !(stripe_id.blank?)
+  end
+
+  def stripe_customer
+    has_stripe_id? ? retrieve_stripe_customer! : create_stripe_customer!
+  end
+
+  def retrieve_stripe_customer!
+    Stripe::Customer.retrieve(stripe_id)
+  end
+
+  def create_stripe_customer!
+    stripe_cust = Stripe::Customer.create(
+      email: email,
+      metadata: {
+        rails_id: id,
+        first_name: first_name
+      }
+    )
+    persist_stripe_information!(stripe_cust["id"])
+    return stripe_cust
+  end
+
+  def persist_stripe_information!(stripe_customer_id)
+    stripe_id = stripe_customer_id
+    save(validate: false) # TODO check if this is okay
+  end
+
   rails_admin do
     object_label_method do
       :full_name

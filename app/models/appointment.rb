@@ -87,6 +87,14 @@ class Appointment < ActiveRecord::Base
     appointment_category.total_duration
   end
 
+  def price_in_cents
+    appointment_category.price_in_cents
+  end
+
+  def display_price
+    appointment_category.display_price
+  end
+
   def taken?
     !(open?)
   end

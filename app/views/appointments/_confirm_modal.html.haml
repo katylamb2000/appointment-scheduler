@@ -18,5 +18,7 @@
               %li= "Start Time: #{@appointment.display_local_start_time}"
               %li= "Instructor: #{@appointment.instructor.full_name}"
               %li= "#{@appointment.display_price}"
+          = hidden_field :appointment, :price, value: @appointment.price_in_cents
+          = hidden_field :appointment, :id, value: @appointment.id
         .modal-footer
           %script{ class: "stripe-button", :src => "https://checkout.stripe.com/checkout.js", "data-key" => "#{Rails.configuration.stripe[:publishable_key]}", "data-description" => "#{@appointment.appointment_category.name}", "data-amount" => "#{@appointment.price_in_cents}"}

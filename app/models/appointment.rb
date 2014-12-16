@@ -120,11 +120,13 @@ class Appointment < ActiveRecord::Base
   end
 
   def display_local_start_time
-    start_time.localtime.strftime("%a %m/%e, %l:%M %p")
+    # start_time.localtime.strftime("%a %m/%e, %l:%M %p")
+    start_time.strftime("%a %m/%e, %l:%M %p")
   end
 
   def display_local_end_time
-    end_time.localtime.strftime("%a %m/%e, %l:%M %p")
+    # end_time.localtime.strftime("%a %m/%e, %l:%M %p")
+    end_time.strftime("%a %m/%e, %l:%M %p")
   end
 
   rails_admin do

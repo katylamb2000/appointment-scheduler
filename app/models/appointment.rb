@@ -43,7 +43,7 @@ class Appointment < ActiveRecord::Base
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
   scope :available_today, -> { today.available }
   scope :available_on_day, -> (date_object) { on_day(date_object).available }
-  scope :open_or_booked, -> { where(status: ["Future", "Open"]) }
+  scope :open_or_booked, -> { where(status: ["Booked - Future", "Open"]) }
   scope :upcoming, -> { where('start_time > ?', DateTime.now) }
 
   def end_time_must_be_after_start_time
@@ -60,11 +60,15 @@ class Appointment < ActiveRecord::Base
   end
 
   def status_options
-    ["Open", "Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show - Student", "No Show - Instructor", "Unavailable"]
+    ["Open", "Booked - Future", "Past - Occurred", "Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor", "No Show - Student", "No Show - Instructor", "Unavailable"]
   end
 
   def name
     "##{id}"
+  end
+
+  def description
+    "#{appointment_category.name}: #{display_local_start_time} with #{instructor.full_name}"
   end
 
   def set_end_time
@@ -83,6 +87,14 @@ class Appointment < ActiveRecord::Base
     appointment_category.total_duration
   end
 
+  def price_in_cents
+    appointment_category.price_in_cents
+  end
+
+  def display_price
+    appointment_category.display_price
+  end
+
   def taken?
     !(open?)
   end
@@ -92,7 +104,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def future?
-    status == "Future"
+    status == "Booked - Future"
   end
 
   def unavailable?

@@ -1,21 +1,21 @@
 - flash[:errors] ||= []
 #errors_and_notices
   - flash[:errors].each do |error|
-    %div.alert.alert-danger.alert-dismissible
+    .alert.alert-danger.alert-dismissible
       %button{:type => "button", :class=> "close", "data-dismiss" => "alert"}
         %span{"aria-hidden" => true}
           &times;
       %p= error
 
   - if flash[:notice]
-    %div.alert.alert-success.alert-dismissible
+    .alert.alert-success.alert-dismissible
       %button{:type => "button", :class=> "close", "data-dismiss" => "alert"}
         %span{"aria-hidden" => true}
           &times;
       %p= flash[:notice]
 
   - if flash[:alert]
-    %div.alert.alert-danger.alert-dismissible
+    .alert.alert-danger.alert-dismissible
       %button{:type => "button", :class=> "close", "data-dismiss" => "alert"}
         %span{"aria-hidden" => true}
           &times;

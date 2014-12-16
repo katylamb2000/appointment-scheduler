@@ -16,4 +16,5 @@ Rails.application.routes.draw do
 
   resources :availabilities # TODO remove? currently implemented via rails_admin
   resources :appointments
+  post 'charges' => "charges#create"
 end

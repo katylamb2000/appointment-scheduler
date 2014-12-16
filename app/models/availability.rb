@@ -45,7 +45,7 @@ class Availability < ActiveRecord::Base
   end
 
   def has_pending_appointments?
-    !(appointments.where(status: "Future").empty?)
+    !(appointments.where(status: "Booked - Future").empty?)
   end
 
   def forty_five_minute_chunks

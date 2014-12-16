@@ -1,0 +1,24 @@
+#modal-window.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag charges_path do
+        .modal-header
+          %button{ :type => "button", class: "close", "data-dismiss" => "modal" }
+            %span{ "aria-hidden" => true }
+              &times;
+            %span{ class: "sr-only" }
+              Close
+          %h4{ class: "modal-title" }
+            = "Book Now"
+        .modal-body
+          %h6
+            Appointment Details
+            %ul
+              %li= "Duration: #{@appointment.lesson_duration} minutes"
+              %li= "Start Time: #{@appointment.display_local_start_time}"
+              %li= "Instructor: #{@appointment.instructor.full_name}"
+              %li= "#{@appointment.display_price}"
+          = hidden_field :appointment, :price, value: @appointment.price_in_cents
+          = hidden_field :appointment, :id, value: @appointment.id
+        .modal-footer
+          %script{ class: "stripe-button", :src => "https://checkout.stripe.com/checkout.js", "data-key" => "#{Rails.configuration.stripe[:publishable_key]}", "data-description" => "#{@appointment.appointment_category.name}", "data-amount" => "#{@appointment.price_in_cents}"}

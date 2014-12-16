@@ -1,39 +1,36 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.5'
-gem 'pg'
-gem 'redis'
-gem 'sinatra', '>= 1.3.0', :require => nil # for sidekiq GUI
-gem 'sidekiq'
-gem 'rails_admin'
-gem 'haml-rails'
 gem 'autoprefixer-rails'
+# gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass'
-gem 'sass-rails', '~> 4.0.3'
-gem 'uglifier', '>= 1.3.0'
+gem 'cancancan', '~> 1.9'
 gem 'coffee-rails', '~> 4.0.0'
-gem 'validates_overlap'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
-gem 'rails_12factor', group: :production # TODO for heroku only. remove
 gem 'devise'
 gem 'devise-async'
-gem 'cancancan', '~> 1.9'
-gem 'jquery-rails'
-gem 'turbolinks'
+gem 'haml-rails'
 gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0',          group: :doc
+gem 'jquery-rails'
+gem 'pg'
+gem 'rails', '4.1.5'
+gem 'rails_12factor', group: :production # TODO for heroku only. remove
+gem 'rails_admin'
+gem 'redis'
+gem 'sass-rails', '~> 4.0.3'
+gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', :require => nil # for sidekiq GUI
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+# gem 'therubyracer',  platforms: :ruby
+gem 'turbolinks'
+gem 'uglifier', '>= 1.3.0'
+gem 'validates_overlap'
 
-gem 'spring',        group: :development
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
+group :development do
+  gem 'byebug'
 # gem 'capistrano-rails', group: :development
+  gem 'spring'
+end
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
+group :doc do
+  gem 'sdoc', '~> 0.4.0'
+end

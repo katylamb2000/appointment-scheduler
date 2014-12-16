@@ -1,0 +1,8 @@
+%p= "#{@appointment.description}"
+%p To book this appointment, please
+= link_to "Create an Account", new_user_registration_path
+%p -OR-
+= link_to "Log In", new_user_session_path
+%p -OR-
+= link_to "Check out as guest", "#"
+/ TODO

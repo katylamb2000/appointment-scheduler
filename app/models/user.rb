@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
 
   def can_book?(appointment_id)
     appointment = Appointment.find(appointment_id)
+    return false if appointment.user
     appointment.user = self
     appointment.status = "Booked - Future"
     appointment.valid?

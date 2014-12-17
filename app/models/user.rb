@@ -50,6 +50,13 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
+  def can_book?(appointment_id)
+    appointment = Appointment.find(appointment_id)
+    appointment.user = self
+    appointment.status = "Booked - Future"
+    appointment.valid?
+  end
+
   def has_stripe_id?
     !(stripe_id.blank?)
   end

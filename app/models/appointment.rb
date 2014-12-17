@@ -99,6 +99,9 @@ class Appointment < ActiveRecord::Base
     !(open?)
   end
 
+  def book!(user_id) # TODO
+  end
+
   def open?
     status == "Open" || user_id.nil?
   end

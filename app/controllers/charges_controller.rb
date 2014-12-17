@@ -2,6 +2,7 @@ class ChargesController < ApplicationController
 
   def create
     @amount = params[:appointment][:price].to_i
+    @appointment = Appointment.find(params[:appointment][:id])
     customer = current_user.stripe_customer
 
     charge = Stripe::Charge.create(
@@ -14,8 +15,12 @@ class ChargesController < ApplicationController
         rails_customer_id: current_user.id
       }
     )
-
-    redirect_to
+    
+    @appointment.user = current_user
+    @appointment.save
+    # if successful:
+      # set 
+    redirect_to @appointment
 
     rescue Stripe::CardError => e
       flash[:error] = e.message

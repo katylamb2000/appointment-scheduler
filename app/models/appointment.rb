@@ -130,6 +130,10 @@ class Appointment < ActiveRecord::Base
     re_bookable == true
   end
 
+  def display_paid_date
+    paid_at.strftime("%a %m/%e")
+  end
+
   def display_local_start_time
     # start_time.localtime.strftime("%a %m/%e, %l:%M %p")
     start_time.strftime("%a %m/%e, %l:%M %p")

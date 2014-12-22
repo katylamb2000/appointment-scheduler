@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
-  validates :gender, inclusion: { in: ["male", "female"] }, allow_nil: true, allow_blank: true
+  validates :gender, inclusion: { in: :gender_options }, allow_nil: true, allow_blank: true
   validates :age, numericality: { greater_than_or_equal_to: 18 }, allow_nil: true, allow_blank: true
-  validates :skill_level, inclusion: { in: ["Beginner", "Intermediate", "Advanced", "Master"] }, allow_nil: true, allow_blank: true
-  validates :musical_genre, inclusion: { in: ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"] }, allow_nil: true, allow_blank: true
-  validates :years_playing, inclusion: { in: ["1 - 2", "3 - 5", "5 - 10", "10 +"] }, allow_nil: true, allow_blank: true
+  validates :skill_level, inclusion: { in: :skill_level_options }, allow_nil: true, allow_blank: true
+  validates :musical_genre, inclusion: { in: :musical_genre_options }, allow_nil: true, allow_blank: true
+  validates :years_playing, inclusion: { in: :years_playing_options }, allow_nil: true, allow_blank: true
 
   # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
 
@@ -21,6 +21,22 @@ class User < ActiveRecord::Base
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
+
+  def gender_options
+    ["male", "female"]
+  end
+
+  def skill_level_options
+    ["Beginner", "Intermediate", "Advanced", "Master"]
+  end
+
+  def musical_genre_options
+    ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+  end
+
+  def years_playing_options
+    ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+  end
 
   def admin?
     admin

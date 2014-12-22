@@ -1,7 +1,7 @@
 #modal-window.modal.fade
   .modal-dialog
     .modal-content
-      = form_tag charges_path do
+      = form_tag charges_path, class: "check-out-form" do
         .modal-header
           %button{ :type => "button", class: "close", "data-dismiss" => "modal" }
             %span{ "aria-hidden" => true }
@@ -21,4 +21,5 @@
           = hidden_field :appointment, :price, value: @appointment.price_in_cents
           = hidden_field :appointment, :id, value: @appointment.id
         .modal-footer
-          %script{ class: "stripe-button", :src => "https://checkout.stripe.com/checkout.js", "data-key" => "#{Rails.configuration.stripe[:publishable_key]}", "data-description" => "#{@appointment.appointment_category.name}", "data-amount" => "#{@appointment.price_in_cents}"}
+          = link_to "Check Out", "#", class: "btn check-out-button", data: { key: Rails.configuration.stripe[:publishable_key], amount: @appointment.price_in_cents, email: current_user.email, description: @appointment.appointment_category.name }
+          %script{src: "https://checkout.stripe.com/checkout.js"}

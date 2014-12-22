@@ -19,9 +19,7 @@ class ChargesController < ApplicationController
       }
     )
     
-    appointment.update_attributes(user: current_user, stripe_charge_id: charge.id, status: "Booked - Future")
-    # if successful:
-      # set 
+    appointment.book!({ user_id: current_user.id, stripe_charge_id: charge.id })
     redirect_to appointment
 
     rescue Stripe::CardError => e

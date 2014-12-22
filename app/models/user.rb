@@ -83,8 +83,7 @@ class User < ActiveRecord::Base
   end
 
   def persist_stripe_information!(stripe_customer_id)
-    stripe_id = stripe_customer_id
-    save(validate: false) # TODO check if this is okay
+    update_attribute(:stripe_id, stripe_customer_id)
   end
 
   rails_admin do

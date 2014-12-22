@@ -10,6 +10,7 @@
         %h4{ class: "modal-title" }
           = "#{@appointment.description}"
       .modal-body
-        .alert.alert-danger
-          = @error
+        - @errors.each do |error|
+          .alert.alert-danger
+            = error
       .modal-footer

@@ -6,6 +6,10 @@ class AppointmentsController < ApplicationController
     # TODO group by dates
   end
 
+  def show
+    @appointment = Appointment.find(params[:id])
+  end
+
   def update
     @appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
     if new_user?
@@ -17,10 +21,10 @@ class AppointmentsController < ApplicationController
       end
     end
 
-    if current_user
+    render "users/auth" and return unless current_user
+    bookable = current_user.can_book?(@appointment.id)
+    if bookable[:can_book]
       render action: "confirm_modal"
-    else
-      render "users/auth" # modal (JS)
       # render "users/authenticate" # haml view (HTML)
       # TODO reserve for 15 minutes?
         # change status to Reserved (On Hold), Trying to be Booked, etc
@@ -29,6 +33,9 @@ class AppointmentsController < ApplicationController
         # if not, set appointment to Open
         # but how do we locate that session for that user to kick them out of the booking process?
         # can we implement a countdown timer?
+    else
+      @errors = bookable[:errors] # TODO error messages that are meaningful to both customers and admins
+      render action: "unbookable"
     end
   end
 

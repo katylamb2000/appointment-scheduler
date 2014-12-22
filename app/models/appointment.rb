@@ -8,6 +8,8 @@ class Appointment < ActiveRecord::Base
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
+  
+  validate :is_available, if: Proc.new { |record| user_id_changed? }
 
   # LOGIC MAGIC: (end_time is greater than start_time) && (start_time is less than end_time)
   validates :start_time, :end_time, :overlap => {
@@ -54,6 +56,10 @@ class Appointment < ActiveRecord::Base
     errors.add(:start_time, "cannot be in the past") unless start_time >= (DateTime.now - 5.minutes)
   end
 
+  def is_available
+    errors.add(:base, "This appointment has already been booked!") unless user_id_was.nil?
+  end
+
   def create_rebooking_and_new_appointment
     new_appt = Appointment.create(instructor: self.instructor, appointment_category: self.appointment_category, start_time: self.start_time, availability: self.availability, status: "Open")
     Rebooking.create(old_appointment: self, new_appointment: new_appt)
@@ -97,6 +103,9 @@ class Appointment < ActiveRecord::Base
 
   def taken?
     !(open?)
+  end
+
+  def book!(user_id) # TODO
   end
 
   def open?
@@ -159,6 +168,15 @@ class Appointment < ActiveRecord::Base
 
     show do
       field :id
+      field :stripe_charge_id do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        label do
+          "Stripe Charge Id"
+        end
+      end
+
       field :instructor
 
       field :user do
@@ -196,6 +214,18 @@ class Appointment < ActiveRecord::Base
     end
 
     edit do
+      field :stripe_charge_id do
+        read_only true
+        help do
+          ""
+        end
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        label do
+          "Stripe Charge Id"
+        end
+      end
       field :instructor do
         inline_add false
         inline_edit false

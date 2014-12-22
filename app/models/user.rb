@@ -50,6 +50,17 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
+  def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean
+    appointment = Appointment.find(appointment_id)
+    appointment.user = self
+    appointment.status = "Booked - Future"
+    if appointment.valid?
+      return { can_book: true }
+    else
+      return { can_book: false, errors: appointment.errors.full_messages }
+    end
+  end
+
   def has_stripe_id?
     !(stripe_id.blank?)
   end
@@ -75,8 +86,7 @@ class User < ActiveRecord::Base
   end
 
   def persist_stripe_information!(stripe_customer_id)
-    stripe_id = stripe_customer_id
-    save(validate: false) # TODO check if this is okay
+    update_attribute(:stripe_id, stripe_customer_id)
   end
 
   rails_admin do

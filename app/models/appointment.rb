@@ -8,6 +8,8 @@ class Appointment < ActiveRecord::Base
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
+  
+  validate :is_available, if: Proc.new { |record| user_id_changed? }
 
   # LOGIC MAGIC: (end_time is greater than start_time) && (start_time is less than end_time)
   validates :start_time, :end_time, :overlap => {
@@ -52,6 +54,10 @@ class Appointment < ActiveRecord::Base
 
   def start_time_cannot_be_in_past
     errors.add(:start_time, "cannot be in the past") unless start_time >= (DateTime.now - 5.minutes)
+  end
+
+  def is_available
+    errors.add(:base, "This appointment has already been booked!") unless user_id_was.nil?
   end
 
   def create_rebooking_and_new_appointment

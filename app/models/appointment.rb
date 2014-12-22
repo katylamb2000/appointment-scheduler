@@ -168,6 +168,15 @@ class Appointment < ActiveRecord::Base
 
     show do
       field :id
+      field :stripe_charge_id do
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        label do
+          "Stripe Charge Id"
+        end
+      end
+
       field :instructor
 
       field :user do
@@ -205,6 +214,18 @@ class Appointment < ActiveRecord::Base
     end
 
     edit do
+      field :stripe_charge_id do
+        read_only true
+        help do
+          ""
+        end
+        visible do
+          bindings[:view].current_user.admin?
+        end
+        label do
+          "Stripe Charge Id"
+        end
+      end
       field :instructor do
         inline_add false
         inline_edit false

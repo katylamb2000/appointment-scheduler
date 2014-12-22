@@ -6,6 +6,10 @@ class AppointmentsController < ApplicationController
     # TODO group by dates
   end
 
+  def show
+    @appointment = Appointment.find(params[:id])
+  end
+
   def update
     @appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
     if new_user?

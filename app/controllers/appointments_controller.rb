@@ -8,6 +8,7 @@ class AppointmentsController < ApplicationController
 
   def show
     @appointment = Appointment.find(params[:id])
+    authorize! :read, @appointment
   end
 
   def update

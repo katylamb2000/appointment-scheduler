@@ -50,12 +50,15 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
-  def can_book?(appointment_id)
+  def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean
     appointment = Appointment.find(appointment_id)
-    return false if appointment.user
     appointment.user = self
     appointment.status = "Booked - Future"
-    appointment.valid?
+    if appointment.valid?
+      return { can_book: true }
+    else
+      return { can_book: false, errors: appointment.errors.full_messages }
+    end
   end
 
   def has_stripe_id?

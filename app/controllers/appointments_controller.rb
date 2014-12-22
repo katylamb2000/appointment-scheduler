@@ -18,8 +18,8 @@ class AppointmentsController < ApplicationController
     end
 
     render "users/auth" and return unless current_user
-
-    if current_user.can_book?(@appointment.id)
+    bookable = current_user.can_book?(@appointment.id)
+    if bookable[:can_book]
       render action: "confirm_modal"
       # render "users/authenticate" # haml view (HTML)
       # TODO reserve for 15 minutes?
@@ -30,8 +30,8 @@ class AppointmentsController < ApplicationController
         # but how do we locate that session for that user to kick them out of the booking process?
         # can we implement a countdown timer?
     else
-      @error = "It seems you've already booked a lesson with a time slot that overlaps with this one. Please select a different time slot!" # TODO could also be that the appointment is taken. return the correct error messages
-      render action: "overlap_exists"
+      @errors = bookable[:errors] # TODO error messages that are meaningful to both customers and admins
+      render action: "unbookable"
     end
   end
 

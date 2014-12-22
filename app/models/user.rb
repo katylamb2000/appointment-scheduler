@@ -196,7 +196,7 @@ class User < ActiveRecord::Base
 
       field :gender, :enum do
         enum do
-          ["male", "female"]
+          bindings[:object].gender_options
         end
       end
 
@@ -211,19 +211,19 @@ class User < ActiveRecord::Base
 
       field :skill_level, :enum do
         enum do
-          ["Beginner", "Intermediate", "Advanced", "Master"] 
+          bindings[:object].skill_level_options
         end
       end
 
       field :musical_genre, :enum do
         enum do
-          ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+          bindings[:object].musical_genre_options
         end
       end
 
       field :years_playing, :enum do
         enum do
-          ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+          bindings[:object].years_playing_options
         end
       end
       
@@ -269,7 +269,7 @@ class User < ActiveRecord::Base
 
       field :gender, :enum do
         enum do
-          ["male", "female"]
+          bindings[:object].gender_options
         end
       end
 
@@ -284,19 +284,19 @@ class User < ActiveRecord::Base
 
       field :skill_level, :enum do
         enum do
-          ["Beginner", "Intermediate", "Advanced", "Master"] 
+          bindings[:object].skill_level_options
         end
       end
 
       field :musical_genre, :enum do
         enum do
-          ["Pop", "Jazz", "Classical", "Progressive", "Metal", "Rock", "Country", "Fusion", "Funk", "Other"]
+          bindings[:object].musical_genre_options
         end
       end
 
       field :years_playing, :enum do
         enum do
-          ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+          bindings[:object].years_playing_options
         end
       end
       

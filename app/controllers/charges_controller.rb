@@ -11,7 +11,7 @@ class ChargesController < ApplicationController
       :amount      => amount,
       :description => 'Testing123',
       :currency    => 'usd',
-      :statement_descriptor => 'sbguitar.com appt'
+      :statement_descriptor => 'sbguitar.com appt',
       :receipt_email => current_user.email,
       :metadata   => {
         rails_appt_id: params[:appointment][:id],
@@ -19,11 +19,10 @@ class ChargesController < ApplicationController
       }
     )
     
-    @appointment.user = current_user
-    @appointment.save
+    appointment.update_attributes(user: current_user, stripe_charge_id: charge.id, status: "Booked - Future")
     # if successful:
       # set 
-    redirect_to @appointment
+    redirect_to appointment
 
     rescue Stripe::CardError => e
       flash[:error] = e.message

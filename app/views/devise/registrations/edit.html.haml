@@ -56,7 +56,7 @@
   %div
     = f.label :country
     %br
-    = f.text_field :country
+    = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
 
   %div
     = f.label :skill_level

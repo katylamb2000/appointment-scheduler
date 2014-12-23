@@ -60,6 +60,11 @@ class Appointment < ActiveRecord::Base
     errors.add(:base, "This appointment has already been booked!") unless user_id_was.nil?
   end
 
+  def book!(params)
+    params.merge!({ status: "Booked - Future", paid_at: Time.now })
+    update_attributes(params)
+  end
+
   def create_rebooking_and_new_appointment
     new_appt = Appointment.create(instructor: self.instructor, appointment_category: self.appointment_category, start_time: self.start_time, availability: self.availability, status: "Open")
     Rebooking.create(old_appointment: self, new_appointment: new_appt)
@@ -105,9 +110,6 @@ class Appointment < ActiveRecord::Base
     !(open?)
   end
 
-  def book!(user_id) # TODO
-  end
-
   def open?
     status == "Open" || user_id.nil?
   end
@@ -126,6 +128,10 @@ class Appointment < ActiveRecord::Base
 
   def dead?
     re_bookable == true
+  end
+
+  def display_paid_date
+    paid_at.strftime("%a %m/%e")
   end
 
   def display_local_start_time

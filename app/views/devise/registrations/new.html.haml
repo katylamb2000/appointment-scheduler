@@ -33,12 +33,17 @@
   %div
     = f.label :country
     %br
-    = f.text_field :country
+    = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
 
   %div
     = f.label :age
     %br
     = f.number_field :age
+
+  %div
+    = f.label :accepts_age_agreement, "By checking this box, you certify that you are over the age of 18."
+    %br
+    = f.check_box :accepts_age_agreement
 
   %div
     = f.submit "Sign up"

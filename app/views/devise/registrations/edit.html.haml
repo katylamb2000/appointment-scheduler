@@ -1,4 +1,4 @@
-%h2= "Edit #{resource_name.to_s.humanize}"
+%h2= "Update Your Profile"
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   - devise_error_messages!
@@ -10,14 +10,68 @@
 
   %div
     = f.label :password
-    %i leave blank if you don't want to change it
     %br
-    = f.password_field :password, autocomplete: "off"
+    = f.password_field :password, autocomplete: "off", placeholder: "leave blank if you don't want to change"
 
   %div
-    = f.label :password_confirmation
+    = f.label :password_confirmation, "Retype Password"
     %br
     = f.password_field :password_confirmation, autocomplete: "off"
+
+  %div
+    = f.label :first_name
+    %br
+    = f.text_field :first_name
+
+  %div
+    = f.label :last_name
+    %br
+    = f.text_field :last_name
+
+  %div
+    = f.label :age
+    %br
+    = f.number_field :age
+
+  %div
+    = f.label :gender
+    %br
+    = f.select :gender, resource.gender_options, include_blank: true
+
+  %div
+    = f.label :city
+    %br
+    = f.text_field :city
+
+  %div
+    = f.label :state
+    %br
+    = f.text_field :state
+
+  %div
+    = f.label :zip
+    %br
+    = f.text_field :zip
+
+  %div
+    = f.label :country
+    %br
+    = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
+
+  %div
+    = f.label :skill_level
+    %br
+    = f.select :skill_level, resource.skill_level_options, include_blank: true
+
+  %div
+    = f.label :musical_genre
+    %br
+    = f.select :musical_genre, resource.musical_genre_options, include_blank: true
+
+  %div
+    = f.label :years_playing
+    %br
+    = f.select :years_playing, resource.years_playing_options, include_blank: true
 
   %div
     = f.label :current_password
@@ -30,7 +84,8 @@
 
 %h3 Cancel my account
 
-%p Unhappy?
+%p
+  Unhappy?
   = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
 
 = link_to "Back", :back

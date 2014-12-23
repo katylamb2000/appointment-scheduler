@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141215021407) do
+ActiveRecord::Schema.define(version: 20141223004118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20141215021407) do
     t.integer  "availability_id"
     t.boolean  "re_bookable",             default: false
     t.string   "stripe_charge_id"
+    t.datetime "paid_at"
   end
 
   create_table "availabilities", force: true do |t|
@@ -74,13 +75,14 @@ ActiveRecord::Schema.define(version: 20141215021407) do
     t.integer  "age"
     t.string   "skill_level"
     t.string   "musical_genre"
-    t.integer  "years_playing"
+    t.string   "years_playing"
     t.boolean  "admin",                  default: false
     t.boolean  "instructor",             default: false
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.boolean  "guest",                  default: false
     t.string   "stripe_id"
+    t.boolean  "accepts_age_agreement",  default: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

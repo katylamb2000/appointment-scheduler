@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   protected
 
     def configure_permitted_parameters
-      devise_parameter_sanitizer.for(:sign_up) << [:first_name, :city, :country, :age]
+      devise_parameter_sanitizer.for(:sign_up) << [:first_name, :city, :country, :age, :accepts_age_agreement]
       devise_parameter_sanitizer.for(:account_update) << [:first_name, :last_name, :age, :gender, :city, :state, :zip, :country, :skill_level, :musical_genre, :years_playing]
     end
 end

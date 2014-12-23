@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222055020) do
+ActiveRecord::Schema.define(version: 20141223002732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20141222055020) do
     t.integer  "age"
     t.string   "skill_level"
     t.string   "musical_genre"
-    t.integer  "years_playing"
+    t.string   "years_playing"
     t.boolean  "admin",                  default: false
     t.boolean  "instructor",             default: false
     t.string   "current_sign_in_ip"

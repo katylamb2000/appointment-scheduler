@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   validates :skill_level, inclusion: { in: :skill_level_options }, allow_nil: true, allow_blank: true
   validates :musical_genre, inclusion: { in: :musical_genre_options }, allow_nil: true, allow_blank: true
   validates :years_playing, inclusion: { in: :years_playing_options }, allow_nil: true, allow_blank: true
+  validate :accepted_age_agreement, unless: Proc.new { |u| u.admin? || u.instructor? }
 
   # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
 
@@ -36,6 +37,10 @@ class User < ActiveRecord::Base
 
   def years_playing_options
     ["1 - 2", "3 - 5", "5 - 10", "10 +"]
+  end
+
+  def accepted_age_agreement
+    errors.add(:base, "You must certify that you are over 18 to create an account." ) unless accepts_age_agreement
   end
 
   def admin?

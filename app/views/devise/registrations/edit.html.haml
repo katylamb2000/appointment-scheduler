@@ -37,7 +37,7 @@
   %div
     = f.label :gender
     %br
-    = f.select :gender, resource.gender_options
+    = f.select :gender, resource.gender_options, include_blank: true
 
   %div
     = f.label :city
@@ -62,17 +62,17 @@
   %div
     = f.label :skill_level
     %br
-    = f.select :skill_level, resource.skill_level_options
+    = f.select :skill_level, resource.skill_level_options, include_blank: true
 
   %div
     = f.label :musical_genre
     %br
-    = f.select :musical_genre, resource.musical_genre_options
+    = f.select :musical_genre, resource.musical_genre_options, include_blank: true
 
   %div
     = f.label :years_playing
     %br
-    = f.select :years_playing, resource.years_playing_options
+    = f.select :years_playing, resource.years_playing_options, include_blank: true
 
   %div
     = f.label :current_password

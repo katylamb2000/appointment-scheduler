@@ -6,7 +6,7 @@ class Student < User
   end
 
   def self_cancelled_count
-    self_cancelled_appointments
+    self_cancelled_appointments.count
   end
 
   def self_rescheduled_appointments

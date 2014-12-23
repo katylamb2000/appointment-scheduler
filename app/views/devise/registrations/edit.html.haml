@@ -10,12 +10,11 @@
 
   %div
     = f.label :password
-    %i leave blank if you don't want to change it
     %br
-    = f.password_field :password, autocomplete: "off"
+    = f.password_field :password, autocomplete: "off", placeholder: "leave blank if you don't want to change"
 
   %div
-    = f.label :password_confirmation
+    = f.label :password_confirmation, "Retype Password"
     %br
     = f.password_field :password_confirmation, autocomplete: "off"
 

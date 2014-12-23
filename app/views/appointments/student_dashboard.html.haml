@@ -1,1 +1,7 @@
-%p Student Dashboard
+%h3 Student Dashboard
+%h6 Past Lessons
+- @past_appts.each do |a|
+  %p= a.description
+%h6 Upcoming Lessons
+- @upcoming_appts.each do |a|
+  %p= a.description

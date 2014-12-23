@@ -71,6 +71,14 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
+  def upcoming_appointments # as a student. TODO make use-able for instructors -- can check role before returning
+    appointments.where("start_time > ?", DateTime.now)
+  end
+
+  def past_appointments # as a student. TODO make use-able for instructors -- can check role before returning
+    appointments.where("end_time < ?", DateTime.now)
+  end
+
   def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean
     appointment = Appointment.find(appointment_id)
     appointment.user = self

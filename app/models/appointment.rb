@@ -130,6 +130,18 @@ class Appointment < ActiveRecord::Base
     re_bookable == true
   end
 
+  def rescheduleable?
+    ((start_time - 24.hours) > Time.now) && taken?
+  end
+
+  def refundable_when_student_cancelled?
+    ((start_time - 7.days) > Time.now) && taken?
+  end
+
+  def cancellable?
+    ((start_time > Time.now)) && taken?
+  end
+
   def display_paid_date
     paid_at.strftime("%a %m/%e")
   end

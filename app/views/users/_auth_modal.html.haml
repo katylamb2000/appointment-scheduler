@@ -32,6 +32,9 @@
               = a.text_field :city, placeholder: "City"
               = a.text_field :country, placeholder: "Country"
               = a.number_field :age, placeholder: "Age"
+              %br
+              = a.check_box :accepts_age_agreement
+              = a.label :accepts_age_agreement, "By checking this box, you certify that you are over the age of 18."
 
           .auth.sign-in
             = "Log In"

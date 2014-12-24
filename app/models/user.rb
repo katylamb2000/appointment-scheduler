@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
 
+  mount_uploader :profile_photo, ProfilePhotoUploader
+  process_in_background :profile_photo
+
   def gender_options
     ["male", "female"]
   end
@@ -69,6 +72,14 @@ class User < ActiveRecord::Base
 
   def location
     (city && country) ? "#{city}, #{country}" : ""
+  end
+
+  def upcoming_appointments # as a student. TODO make use-able for instructors -- can check role before returning
+    appointments.where("start_time > ?", DateTime.now)
+  end
+
+  def past_appointments # as a student. TODO make use-able for instructors -- can check role before returning
+    appointments.where("end_time < ?", DateTime.now)
   end
 
   def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean
@@ -132,6 +143,7 @@ class User < ActiveRecord::Base
       field :student, :boolean
       field :email
       field :full_name
+      field :profile_photo
 
       field :availabilities do
         visible do
@@ -198,6 +210,7 @@ class User < ActiveRecord::Base
       end
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do
@@ -271,6 +284,7 @@ class User < ActiveRecord::Base
 
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do

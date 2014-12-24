@@ -143,6 +143,7 @@ class User < ActiveRecord::Base
       field :student, :boolean
       field :email
       field :full_name
+      field :profile_photo
 
       field :availabilities do
         visible do
@@ -209,6 +210,7 @@ class User < ActiveRecord::Base
       end
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do
@@ -282,6 +284,7 @@ class User < ActiveRecord::Base
 
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do

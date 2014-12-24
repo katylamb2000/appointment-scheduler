@@ -52,6 +52,6 @@ class AppointmentsController < ApplicationController
     end
 
     def user_params
-      params.require(:new_user).permit(:email, :password, :password_confirmation, :first_name, :city, :country, :age)
+      params.require(:new_user).permit(:email, :password, :password_confirmation, :first_name, :city, :country, :age, :accepts_age_agreement)
     end
 end

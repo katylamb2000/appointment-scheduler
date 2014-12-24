@@ -25,6 +25,7 @@ class Admin < User
       field :instructor
       field :email
       field :full_name
+      field :profile_photo
       field :gender
       field :age
       field :skill_level
@@ -53,6 +54,7 @@ class Admin < User
       field :email
       field :first_name
       field :last_name
+      field :profile_photo
       field :password
 
       field :password_confirmation do
@@ -116,6 +118,7 @@ class Admin < User
       field :email
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :password do
         visible do

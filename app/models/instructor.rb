@@ -58,6 +58,7 @@ class Instructor < User
       field :admin
       field :email
       field :full_name
+      field :profile_photo
       field :gender
       field :age
       field :skill_level
@@ -119,6 +120,7 @@ class Instructor < User
 
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do
@@ -200,6 +202,7 @@ class Instructor < User
 
       field :first_name
       field :last_name
+      field :profile_photo
 
       field :gender, :enum do
         enum do

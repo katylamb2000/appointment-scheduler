@@ -23,6 +23,9 @@ class User < ActiveRecord::Base
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
 
+  mount_uploader :profile_photo, ProfilePhotoUploader
+  process_in_background :profile_photo
+
   def gender_options
     ["male", "female"]
   end

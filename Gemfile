@@ -35,6 +35,10 @@ group :development do
   gem 'spring'
 end
 
+group :development, :test do
+  gem 'dotenv-rails'
+end
+
 group :doc do
   gem 'sdoc', '~> 0.4.0'
 end

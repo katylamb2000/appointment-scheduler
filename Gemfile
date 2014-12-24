@@ -37,6 +37,7 @@ end
 
 group :development, :test do
   gem 'dotenv-rails'
+  gem 'dotenv-deployment'
 end
 
 group :doc do

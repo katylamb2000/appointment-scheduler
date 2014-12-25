@@ -81,12 +81,6 @@
     = f.select :years_playing, resource.years_playing_options, include_blank: true
 
   %div
-    = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br
-    = f.password_field :current_password, autocomplete: "off"
-
-  %div
     = f.submit "Update"
 
 %h3 Cancel my account

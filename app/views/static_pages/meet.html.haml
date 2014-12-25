@@ -1,2 +1,10 @@
 %p MEET the oh-so-dreamy Sherny Weiner Boy Baldissero
-/ TODO instagram
+
+- @shawns_feed.each do |ig_object|
+  - if ig_object.has_key?("videos")
+    .ig_video
+      = video_tag ig_object.videos.low_resolution.url, size: "300x300", controls: true
+  - else
+    .ig_photo
+      = image_tag ig_object.images.low_resolution.url, size: "300x300"
+  = link_to "View on IG", ig_object.link

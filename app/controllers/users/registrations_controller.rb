@@ -13,17 +13,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :profile_photo, :profile_photo_cache, :age, :gender, :city, :state, :zip, :country, :skill_level, :musical_genre, :years_playing)
-  end
+  private
 
-  def not_updating_password?
-    params[:user][:password].blank? && params[:user][:password_confirmation].blank?
-  end
+    def user_params
+      params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :profile_photo, :profile_photo_cache, :age, :gender, :city, :state, :zip, :country, :skill_level, :musical_genre, :years_playing)
+    end
 
-  def delete_password_params!
-    params[:user].delete(:password)
-    params[:user].delete(:password_confirmation)
-  end
+    def not_updating_password?
+      params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+    end
+
+    def delete_password_params!
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
+
+    def after_update_path_for(resource)
+      edit_user_registration_path
+    end
   
 end

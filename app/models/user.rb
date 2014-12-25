@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
+  has_many :lesson_materials, foreign_key: "instructor_id"
 
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo

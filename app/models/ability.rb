@@ -18,6 +18,10 @@ class Ability
       # manage Availabilities
       can :manage, Availability, :instructor_id => user.id
       can :export, Availability, :instructor_id => user.id
+      # manage own LessonMaterials
+      can :manage, LessonMaterial, :instructor_id => user.id
+      # manage giving own students own materials
+      can :manage, StudentMaterial, lesson_material: { instructor_id: user.id }
       # update own profile
       can :read, User, :id => user.id
       can :update, User, :id => user.id

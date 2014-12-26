@@ -17,11 +17,14 @@ class User < ActiveRecord::Base
   # as Student TODO: extract into Student model?
   has_many :appointments
   has_many :instructors, through: :appointments, source: :instructor
+  has_many :student_materials
+  has_many :learning_materials, through: :student_materials, source: :lesson_material
 
   # as Instructor TODO: extract into Instructor model? so that we can call Instructor.appointments
   has_many :availabilities, foreign_key: "instructor_id"
   has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
   has_many :students, through: :lessons, source: :user
+  has_many :lesson_materials, foreign_key: "instructor_id"
 
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo

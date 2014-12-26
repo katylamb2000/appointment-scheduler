@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141224215437) do
+ActiveRecord::Schema.define(version: 20141226000956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,9 +47,27 @@ ActiveRecord::Schema.define(version: 20141224215437) do
     t.datetime "updated_at"
   end
 
+  create_table "lesson_materials", force: true do |t|
+    t.integer  "instructor_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "attachment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "attachment_processing", default: false, null: false
+  end
+
   create_table "rebookings", force: true do |t|
     t.integer  "old_appointment_id"
     t.integer  "new_appointment_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "student_materials", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "lesson_material_id"
+    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

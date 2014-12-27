@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :availabilities # TODO remove? currently implemented via rails_admin
   resources :appointments, only: [:index, :show, :update]
+  resources :student_materials, only: [:update]
   get 'dashboard' => 'users#student_dashboard', as: 'student_dashboard'
   post 'charges' => 'charges#create'
 end

@@ -9,14 +9,14 @@ class StudentMaterial < ActiveRecord::Base
       field :id
       field :user
       field :lesson_material
-      field :notes
+      field :instructor_notes
     end
 
     show do
       field :id
       field :user
       field :lesson_material
-      field :notes
+      field :instructor_notes
     end
 
     create do
@@ -28,7 +28,7 @@ class StudentMaterial < ActiveRecord::Base
         inline_add false
         inline_edit false
       end
-      field :notes
+      field :instructor_notes
     end
 
     edit do
@@ -46,7 +46,7 @@ class StudentMaterial < ActiveRecord::Base
         inline_add false
         inline_edit false
       end
-      field :notes
+      field :instructor_notes
     end
   end
 end

@@ -17,6 +17,7 @@ class StudentMaterial < ActiveRecord::Base
       field :user
       field :lesson_material
       field :instructor_notes
+      field :student_notes
     end
 
     create do
@@ -47,6 +48,11 @@ class StudentMaterial < ActiveRecord::Base
         inline_edit false
       end
       field :instructor_notes
+      field :student_notes do
+        read_only do
+          !(bindings[:view].current_user.admin?)
+        end
+      end
     end
   end
 end

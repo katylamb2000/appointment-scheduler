@@ -1,6 +1,9 @@
 %h3 Lesson Materials
-- if @materials.empty?
+- if @student_materials.empty?
   You have no lesson materials.
 - else
-  - @materials.each do |mat|
-    = link_to mat.name, mat.attachment.url
+  - @student_materials.each do |sm|
+    - lesson_material = sm.lesson_material
+    %h5= lesson_material.name
+    %p= lesson_material.description
+    = link_to "Quick View", lesson_material.attachment.url, class: "btn btn-info btn-xs"

@@ -24,6 +24,9 @@ class StudentMaterial < ActiveRecord::Base
       field :user do
         inline_add false
         inline_edit false
+        associated_collection_scope do
+          Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
+        end
       end
       field :lesson_material do
         inline_add false

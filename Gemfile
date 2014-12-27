@@ -31,6 +31,7 @@ gem 'validates_overlap'
 
 
 group :development do
+  gem 'bullet'
   gem 'byebug'
 # gem 'capistrano-rails', group: :development
   gem 'spring'

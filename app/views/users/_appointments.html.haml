@@ -1,6 +1,14 @@
 %h6 Past Lessons
-- @past_appts.each do |a|
-  %p= a.description
+- if @past_appts.empty?
+  You have no past appointments.
+- else
+  - @past_appts.each do |a|
+    %p= a.description
 %h6 Upcoming Lessons
-- @upcoming_appts.each do |a|
-  %p= a.description
+- if @upcoming_appts.empty?
+  %p
+    You have no upcoming appointments!
+    = link_to "Book Now", appointments_path
+- else
+  - @upcoming_appts.each do |a|
+    %p= a.description

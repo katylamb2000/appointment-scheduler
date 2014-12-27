@@ -1,10 +1,10 @@
-%h6 Past Lessons
+%h3 Past Lessons
 - if @past_appts.empty?
   You have no past appointments.
 - else
   - @past_appts.each do |a|
     %p= a.description
-%h6 Upcoming Lessons
+%h3 Upcoming Lessons
 - if @upcoming_appts.empty?
   %p
     You have no upcoming appointments!

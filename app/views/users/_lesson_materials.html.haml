@@ -1,3 +1,6 @@
 %h6 Lesson Materials
-- @materials.each do |mat|
-  = link_to mat.name, mat.attachment.url
+- if @materials.empty?
+  You have no lesson materials.
+- else
+  - @materials.each do |mat|
+    = link_to mat.name, mat.attachment.url

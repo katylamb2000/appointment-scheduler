@@ -2,16 +2,16 @@
   %a{ class: "dropdown-toggle", "data-toggle" => "dropdown", href: "#", role: "button", "aria-expanded" => false}
     Log In / Sign Up
   %ul{ class: "dropdown-menu", role: "menu" }
-    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "login_nav_bar" }) do |f|
       %div
         = f.label :email
         %br
-        = f.email_field :email, autofocus: true
+        = f.email_field :email, autofocus: true, id: "email_login_navbar"
 
       %div
         = f.label :password
         %br
-        = f.password_field :password, autocomplete: "off"
+        = f.password_field :password, autocomplete: "off", id: "password_login_navbar"
 
       - if devise_mapping.rememberable?
         %div

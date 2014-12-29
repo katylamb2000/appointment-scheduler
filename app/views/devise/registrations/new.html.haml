@@ -25,6 +25,11 @@
     = f.text_field :first_name
 
   %div
+    = f.label :age
+    %br
+    = f.number_field :age
+
+  %div
     = f.label :city
     %br
     = f.text_field :city
@@ -33,11 +38,6 @@
     = f.label :country
     %br
     = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
-
-  %div
-    = f.label :age
-    %br
-    = f.number_field :age
 
   %div
     = f.label :accepts_age_agreement, "By checking this box, you certify that you are over the age of 18."

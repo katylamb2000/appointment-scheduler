@@ -13,5 +13,4 @@
         = nav_link "Profile", edit_user_registration_path if current_user.student?
         %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete
   - else
-    = nav_link "Sign Up", new_user_registration_path
-    = nav_link "Log In", new_user_session_path
+    = render "shared/sign_in_dropdown"

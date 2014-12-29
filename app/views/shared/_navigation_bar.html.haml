@@ -4,10 +4,14 @@
   = nav_link "Meet", meet_path
   = nav_link "FAQ", faq_path
   - if current_user
-    = nav_link "Dashboard", rails_admin_path if (current_user.instructor? || current_user.admin? )
-    = nav_link "Dashboard", student_dashboard_path if current_user.student?
-    = nav_link "Profile", edit_user_registration_path if current_user.student?
-    = nav_link "Log Out", destroy_user_session_path, method: :delete
+    %li{ class: "dropdown", role: "presentation" }
+      %a{ class: "dropdown-toggle", "data-toggle" => "dropdown", href: "#", role: "button", "aria-expanded" => false}
+        Account
+      %ul{ class: "dropdown-menu", role: "menu"}
+        = nav_link "Dashboard", rails_admin_path if (current_user.instructor? || current_user.admin? )
+        = nav_link "Dashboard", student_dashboard_path if current_user.student?
+        = nav_link "Profile", edit_user_registration_path if current_user.student?
+        %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete
   - else
     = nav_link "Sign Up", new_user_registration_path
     = nav_link "Log In", new_user_session_path

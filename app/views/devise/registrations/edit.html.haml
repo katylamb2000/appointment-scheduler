@@ -4,6 +4,13 @@
   - devise_error_messages!
 
   %div
+    = f.label :profile_photo
+    = image_tag resource.profile_photo.thumb.url
+    %br
+    = f.file_field :profile_photo
+    = f.hidden_field :profile_photo_cache
+
+  %div
     = f.label :email
     %br
     = f.email_field :email, autofocus: true
@@ -27,13 +34,6 @@
     = f.label :last_name
     %br
     = f.text_field :last_name
-
-  %div
-    = f.label :profile_photo
-    = image_tag resource.profile_photo.thumb.url
-    %br
-    = f.file_field :profile_photo
-    = f.hidden_field :profile_photo_cache
 
   %div
     = f.label :age

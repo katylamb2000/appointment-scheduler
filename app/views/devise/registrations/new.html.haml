@@ -1,57 +1,55 @@
-%h2 Sign up
-
+%h2 create an account
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   - devise_error_messages!
 
-  %div
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true
+  .input-group
+    = f.label :email, class: "sr-only"
+    %span{ class: "input-group-addon", id: "email_addon_signup"}
+      %span{ class: "glyphicon glyphicon-envelope"}
+    = f.email_field :email, autofocus: true, placeholder: "email", class: "form-control", "aria-describedby" => "email_addon_signup"
+    = f.label :password, class: "sr-only"
 
-  %div
-    = f.label :password
-    - if @validatable
-      %i= "(#{@minimum_password_length} characters minimum)"
-    %br
-    = f.password_field :password, autocomplete: "off"
+  .input-group
+    = f.label :password, class: "sr-only"
+    %span{ class: "input-group-addon", id: "password_addon_signup"}
+      %span{ class: "glyphicon glyphicon-lock"}
+    = f.password_field :password, autocomplete: "off", placeholder: "password - min. 8 characters", class: "form-control", "aria-describedby" => "password_addon_signup"
 
-  %div
-    = f.label :password_confirmation
-    %br
-    = f.password_field :password_confirmation, autocomplete: "off"
+  .input-group
+    = f.label :password_confirmation, class: "sr-only"
+    %span{ class: "input-group-addon", id: "password_confirmation_addon_signup"}
+      %span{ class: "glyphicon glyphicon-repeat"}
+    = f.password_field :password_confirmation, autocomplete: "off", placeholder: "retype password", class: "form-control", "aria-describedby" => "password_confirmation_addon_signup"
 
-  %div
-    = f.label :first_name
-    %br
-    = f.text_field :first_name
+  .input-group
+    = f.label :first_name, class: "sr-only"
+    %span{ class: "input-group-addon", id: "first_name_addon_signup"}
+      %span{ class: "glyphicon glyphicon-user"}
+    = f.text_field :first_name, placeholder: "first name", class: "form-control", "aria-describedby" => "first_name_addon_signup"
 
-  %div
-    = f.label :profile_photo
-    %br
-    = f.file_field :profile_photo
-    = f.hidden_field :profile_photo_cache
+  .input-group
+    = f.label :age, class: "sr-only"
+    %span{ class: "input-group-addon", id: "age_addon_signup"}
+      %span{ class: "glyphicon glyphicon-time"}
+    = f.number_field :age, min: 1, placeholder: "age", class: "form-control", "aria-describedby" => "age_addon_signup"
 
-  %div
-    = f.label :city
-    %br
-    = f.text_field :city
+  .input-group
+    = f.label :city, class: "sr-only"
+    %span{ class: "input-group-addon", id: "city_addon_signup"}
+      %span{ class: "glyphicon glyphicon-home"}
+    = f.text_field :city, placeholder: "city", class: "form-control", "aria-describedby" => "city_addon_signup"
 
-  %div
-    = f.label :country
-    %br
-    = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
+  .input-group
+    = f.label :country, class: "sr-only"
+    %span{ class: "input-group-addon", id: "country_addon_signup"}
+      %span{ class: "glyphicon glyphicon-flag"}
+    = country_select(:user, :country, { priority_countries: ["US"], prompt: "select country" }, { class: "form-control", "aria-describedby" => "country_addon_signup" })
 
-  %div
-    = f.label :age
-    %br
-    = f.number_field :age
-
-  %div
-    = f.label :accepts_age_agreement, "By checking this box, you certify that you are over the age of 18."
-    %br
+  .input-group
+    = f.label :accepts_age_agreement, class: "sr-only"
     = f.check_box :accepts_age_agreement
+    By checking this box, you certify that you are over the age of 18.
 
-  %div
+  .input-group
     = f.submit "Sign up"
-
 = render "devise/shared/links"

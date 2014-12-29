@@ -11,11 +11,6 @@ class AppointmentsController < ApplicationController
     authorize! :read, @appointment
   end
 
-  def student_dashboard
-    @past_appts = current_user.past_appointments
-    @upcoming_appts = current_user.upcoming_appointments
-  end
-
   def update
     @appointment = Appointment.find(params[:id]) # TODO rescue from ActiveRecord::NotFound
     if new_user?

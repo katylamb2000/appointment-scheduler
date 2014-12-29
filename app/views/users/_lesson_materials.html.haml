@@ -1,0 +1,16 @@
+%h3 Lesson Materials
+- if @student_materials.empty?
+  You have no lesson materials.
+- else
+  - @student_materials.each do |sm|
+    - lesson_material = sm.lesson_material
+    %h5= lesson_material.name
+    %p= lesson_material.description
+    = link_to "Quick Download", lesson_material.attachment.url, class: "btn btn-info"
+    %h6= "Instructor Message: #{sm.instructor_notes}"
+    = form_for sm do |f|
+      = f.label :student_notes, "add/edit your own notes"
+      %br
+      = f.text_area :student_notes
+      %br
+      = f.submit "Save", class: "btn btn-success btn-xs"

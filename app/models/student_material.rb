@@ -9,26 +9,30 @@ class StudentMaterial < ActiveRecord::Base
       field :id
       field :user
       field :lesson_material
-      field :notes
+      field :instructor_notes
     end
 
     show do
       field :id
       field :user
       field :lesson_material
-      field :notes
+      field :instructor_notes
+      field :student_notes
     end
 
     create do
       field :user do
         inline_add false
         inline_edit false
+        associated_collection_scope do
+          Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
+        end
       end
       field :lesson_material do
         inline_add false
         inline_edit false
       end
-      field :notes
+      field :instructor_notes
     end
 
     edit do
@@ -46,7 +50,12 @@ class StudentMaterial < ActiveRecord::Base
         inline_add false
         inline_edit false
       end
-      field :notes
+      field :instructor_notes
+      field :student_notes do
+        read_only do
+          !(bindings[:view].current_user.admin?)
+        end
+      end
     end
   end
 end

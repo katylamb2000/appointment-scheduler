@@ -1,14 +1,15 @@
-= link_to "Home", root_path
-= link_to "Book Now", appointments_path
-= link_to "Meet", meet_path
-= link_to "FAQ", faq_path
-- if current_user
-  / # = link_to "Dashboard", accounts_path
-  = link_to "Instructor Dashboard", rails_admin_path if current_user.instructor?
-  = link_to "Admin Dashboard", rails_admin_path if current_user.admin?
-  = link_to "Profile", edit_user_registration_path if current_user.student?
-  = link_to "Student Dashboard", student_dashboard_path if current_user.student?
-  = link_to "Log Out", destroy_user_session_path, method: :delete
-- else
-  = link_to "Sign Up", new_user_registration_path
-  = link_to "Log In", new_user_session_path
+%ul.nav.nav-tabs
+  = nav_link "Home", root_path
+  = nav_link "Book Now", appointments_path
+  = nav_link "Meet", meet_path
+  = nav_link "FAQ", faq_path
+  - if current_user
+    / # = nav_link "Dashboard", accounts_path
+    = nav_link "Instructor Dashboard", rails_admin_path if current_user.instructor?
+    = nav_link "Admin Dashboard", rails_admin_path if current_user.admin?
+    = nav_link "Profile", edit_user_registration_path if current_user.student?
+    = nav_link "Student Dashboard", student_dashboard_path if current_user.student?
+    = nav_link "Log Out", destroy_user_session_path, method: :delete
+  - else
+    = nav_link "Sign Up", new_user_registration_path
+    = nav_link "Log In", new_user_session_path

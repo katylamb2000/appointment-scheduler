@@ -1,21 +1,26 @@
-.header
-  %nav
-    %ul.nav.nav-pills.pull-right
-      = nav_link "Book Now", appointments_path
-      = nav_link "Meet", meet_path
-      = nav_link "FAQ", faq_path
-      - if current_user
-        %li{ class: "dropdown", role: "presentation" }
-          %a{ class: "dropdown-toggle", "data-toggle" => "dropdown", href: "#", role: "button", "aria-expanded" => false}
-            Account
-            %span{class: "caret"}
-          %ul{ class: "dropdown-menu dropdown-menu-right", role: "menu"}
-            = nav_link "Dashboard", rails_admin_path if (current_user.instructor? || current_user.admin? )
-            = nav_link "Dashboard", student_dashboard_path if current_user.student?
-            = nav_link "Profile", edit_user_registration_path if current_user.student?
-            %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete
-      - else
-        = render "shared/sign_in_dropdown"
-    %h3{ class: "text-muted" }
-      =link_to "guitar lessons", root_path
-  %hr
+%nav.navbar.navbar-default
+  .container-fluid
+    .navbar-header
+      %button{ type: "button", class: "navbar-toggle collapsed", "data-toggle" => "collapse", "data-target" => "#site-nav"}
+        %span{ class: "sr-only" }Toggle navigation
+        %span{ class: "icon-bar" }
+        %span{ class: "icon-bar" }
+        %span{ class: "icon-bar" }
+      = link_to "Guitar Lessons", root_path, class: "navbar-brand"
+    #site-nav.collapse.navbar-collapse
+      %ul.nav.navbar-nav.nav-pills.pull-right
+        = nav_link "Book Now", appointments_path
+        = nav_link "Meet", meet_path
+        = nav_link "FAQ", faq_path
+        - if current_user
+          %li{ class: "dropdown", role: "presentation" }
+            %a{ class: "dropdown-toggle", "data-toggle" => "dropdown", href: "#", role: "button", "aria-expanded" => false}
+              Account
+              %span{class: "caret"}
+            %ul{ class: "dropdown-menu dropdown-menu-right", role: "menu"}
+              = nav_link "Dashboard", rails_admin_path if (current_user.instructor? || current_user.admin? )
+              = nav_link "Dashboard", student_dashboard_path if current_user.student?
+              = nav_link "Profile", edit_user_registration_path if current_user.student?
+              %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete
+        - else
+          = render "shared/sign_in_dropdown"

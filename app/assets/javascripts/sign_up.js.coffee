@@ -23,7 +23,7 @@ checkSignupForm = ->
 
 $(document).on "ready page:load", ->
   
-  $("#new_user").on "submit", (event) ->
+  $(".sign-up").on "click", (event) ->
     event.preventDefault()
     checkSignupForm()
     return

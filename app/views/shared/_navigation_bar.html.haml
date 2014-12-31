@@ -8,7 +8,7 @@
         %span{ class: "icon-bar" }
       = link_to "Guitar Lessons", root_path, class: "navbar-brand"
     #site-nav.collapse.navbar-collapse
-      %ul.nav.navbar-nav.nav-pills.pull-right
+      %ul.nav.navbar-nav.nav-pills
         = nav_link "Book Now", appointments_path
         = nav_link "Meet", meet_path
         = nav_link "FAQ", faq_path
@@ -23,4 +23,5 @@
               = nav_link "Profile", edit_user_registration_path if current_user.student?
               %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete
         - else
+          = nav_link "Sign Up", new_user_registration_path
           = render "shared/sign_in_dropdown"

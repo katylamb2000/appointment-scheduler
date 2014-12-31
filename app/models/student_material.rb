@@ -25,7 +25,7 @@ class StudentMaterial < ActiveRecord::Base
         inline_add false
         inline_edit false
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
+          Proc.new { |scope| scope = scope.undeleted.where(instructor: false).where(admin: false) }
         end
       end
       field :lesson_material do
@@ -39,6 +39,9 @@ class StudentMaterial < ActiveRecord::Base
       field :user do
         read_only do
           !(bindings[:view].current_user.admin?)
+        end
+        associated_collection_scope do
+          Proc.new { |scope| scope = scope.undeleted }
         end
         inline_add false
         inline_edit false

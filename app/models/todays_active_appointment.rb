@@ -78,7 +78,7 @@ class TodaysActiveAppointment < Appointment
           bindings[:view].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.where(instructor: true) }
+          Proc.new { |scope| scope = scope.undeleted.where(instructor: true) }
         end
       end
 
@@ -95,7 +95,7 @@ class TodaysActiveAppointment < Appointment
           !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.where(instructor: false).where(admin: false) }
+          Proc.new { |scope| scope = scope.undeleted.where(instructor: false).where(admin: false) }
         end
       end
 

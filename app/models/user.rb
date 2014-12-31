@@ -131,6 +131,10 @@ class User < ActiveRecord::Base
     update_attribute(:deleted_at, Time.now)
   end
 
+  def restore!
+    update_attribute(:deleted_at, nil)
+  end
+
   def active_for_authentication? # overrwrite Devise; Users who have deleted themselves cannot sign in
     super && !deleted_at
   end

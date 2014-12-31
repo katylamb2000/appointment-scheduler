@@ -5,50 +5,50 @@
   .form-group
     .input-group
       = f.label :email, class: "sr-only"
-      %span{ class: "input-group-addon", id: "email_addon_signup"}
-        %span{ class: "glyphicon glyphicon-envelope"}
+      %span{ class: "input-group-addon", id: "email_addon_signup" }
+        %span{ class: "glyphicon glyphicon-envelope" }
       = f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_signup"
 
   .form-group
     .input-group
       = f.label :first_name, class: "sr-only"
-      %span{ class: "input-group-addon", id: "first_name_addon_signup"}
-        %span{ class: "glyphicon glyphicon-user"}
+      %span{ class: "input-group-addon", id: "first_name_addon_signup" }
+        %span{ class: "glyphicon glyphicon-user" }
       = f.text_field :first_name, placeholder: "First Name", class: "form-control input-lg", "aria-describedby" => "first_name_addon_signup"
 
   .form-group
     .input-group
       = f.label :password, class: "sr-only"
-      %span{ class: "input-group-addon", id: "password_addon_signup"}
-        %span{ class: "glyphicon glyphicon-lock"}
+      %span{ class: "input-group-addon", id: "password_addon_signup" }
+        %span{ class: "glyphicon glyphicon-lock" }
       = f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg", "aria-describedby" => "password_addon_signup"
 
   .form-group
     .input-group
       = f.label :password_confirmation, class: "sr-only"
-      %span{ class: "input-group-addon", id: "password_confirmation_addon_signup"}
-        %span{ class: "glyphicon glyphicon-repeat"}
+      %span{ class: "input-group-addon", id: "password_confirmation_addon_signup" }
+        %span{ class: "glyphicon glyphicon-repeat" }
       = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Retype Password", class: "form-control input-lg", "aria-describedby" => "password_confirmation_addon_signup"
 
   .form-group
     .input-group
       = f.label :age, class: "sr-only"
-      %span{ class: "input-group-addon", id: "age_addon_signup"}
-        %span{ class: "glyphicon glyphicon-time"}
+      %span{ class: "input-group-addon", id: "age_addon_signup" }
+        %span{ class: "glyphicon glyphicon-time" }
       = f.number_field :age, min: 1, placeholder: "Age", class: "form-control input-lg", "aria-describedby" => "age_addon_signup"
 
   .form-group
     .input-group
       = f.label :city, class: "sr-only"
-      %span{ class: "input-group-addon", id: "city_addon_signup"}
-        %span{ class: "glyphicon glyphicon-home"}
+      %span{ class: "input-group-addon", id: "city_addon_signup" }
+        %span{ class: "glyphicon glyphicon-home" }
       = f.text_field :city, placeholder: "City", class: "form-control input-lg", "aria-describedby" => "city_addon_signup"
 
   .form-group
     .input-group
       = f.label :country, class: "sr-only"
-      %span{ class: "input-group-addon", id: "country_addon_signup"}
-        %span{ class: "glyphicon glyphicon-flag"}
+      %span{ class: "input-group-addon", id: "country_addon_signup" }
+        %span{ class: "glyphicon glyphicon-flag" }
       = country_select(:user, :country, { priority_countries: ["US"], prompt: "Country" }, { class: "form-control input-lg", "aria-describedby" => "country_addon_signup" })
 
   .form-group

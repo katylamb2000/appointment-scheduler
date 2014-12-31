@@ -2,9 +2,7 @@ class User < ActiveRecord::Base
   # TODO verify compatibility across languages, specifically non-Arabic alphabets
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :async
-
-  acts_as_paranoid
-
+         
   validates_presence_of :first_name
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
   validates :gender, inclusion: { in: :gender_options }, allow_nil: true, allow_blank: true

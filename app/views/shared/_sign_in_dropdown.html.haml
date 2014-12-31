@@ -5,17 +5,19 @@
   %ul{ class: "dropdown-menu dropdown-menu-right has-form", role: "menu" }
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "login_nav_bar" }) do |f|
 
-      .input-group
-        = f.label :email, class: "sr-only"
-        %span{ class: "input-group-addon", id: "email_addon_login"}
-          %span{ class: "glyphicon glyphicon-envelope"}
-        = f.email_field :email, autofocus: true, placeholder: "email", class: "form-control", id: "email_login_navbar", "aria-describedby" => "email_addon_login"
-
-      .input-group
+      .form-group
+        = f.label :email
+        .input-group
+          %span{ class: "input-group-addon", id: "email_addon_login"}
+            %span{ class: "glyphicon glyphicon-envelope"}
+          = f.email_field :email, autofocus: true, placeholder: "email", class: "form-control", id: "email_login_navbar", "aria-describedby" => "email_addon_login"
+          
+      .form-group
         = f.label :password, class: "sr-only"
-        %span{ class: "input-group-addon", id: "password_addon_login"}
-          %span{ class: "glyphicon glyphicon-lock"}
-        = f.password_field :password, autocomplete: "off", placeholder: "password", class: "form-control", id: "password_login_navbar", "aria-describedby" => "password_addon_login"
+        .input-group
+          %span{ class: "input-group-addon", id: "password_addon_login"}
+            %span{ class: "glyphicon glyphicon-lock"}
+          = f.password_field :password, autocomplete: "off", placeholder: "password", class: "form-control", id: "password_login_navbar", "aria-describedby" => "password_addon_login"
 
       - if devise_mapping.rememberable?
         %div

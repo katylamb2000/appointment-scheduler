@@ -2,54 +2,58 @@
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   - devise_error_messages!
 
-  .form-group
-    .input-group
-      = f.label :email, class: "sr-only"
-      %span{ class: "input-group-addon", id: "email_addon_signup" }
-        %span{ class: "glyphicon glyphicon-envelope" }
-      = f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_signup"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :first_name, "First Name"
+        .input-group
+          %span{ class: "input-group-addon", id: "first_name_addon_signup" }
+            %span{ class: "glyphicon glyphicon-user" }
+          = f.text_field :first_name, placeholder: "First Name", class: "form-control input-lg", "aria-describedby" => "first_name_addon_signup"
+    .col-md-6
+      .form-group
+        = f.label :email
+        .input-group
+          %span{ class: "input-group-addon", id: "email_addon_signup" }
+            %span{ class: "glyphicon glyphicon-envelope" }
+          = f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_signup"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :password
+        .input-group
+          %span{ class: "input-group-addon", id: "password_addon_signup" }
+            %span{ class: "glyphicon glyphicon-lock" }
+          = f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg", "aria-describedby" => "password_addon_signup"
+    .col-md-6
+      .form-group
+        = f.label :password_confirmation, "Retype Password"
+        .input-group
+          %span{ class: "input-group-addon", id: "password_confirmation_addon_signup" }
+            %span{ class: "glyphicon glyphicon-repeat" }
+          = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Retype Password", class: "form-control input-lg", "aria-describedby" => "password_confirmation_addon_signup"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :age
+        .input-group
+          %span{ class: "input-group-addon", id: "age_addon_signup" }
+            %span{ class: "glyphicon glyphicon-time" }
+          = f.number_field :age, min: 1, placeholder: "Age", class: "form-control input-lg", "aria-describedby" => "age_addon_signup"
+    .col-md-6
+      .form-group
+        = f.label :city
+        .input-group
+          %span{ class: "input-group-addon", id: "city_addon_signup" }
+            %span{ class: "glyphicon glyphicon-home" }
+          = f.text_field :city, placeholder: "City", class: "form-control input-lg", "aria-describedby" => "city_addon_signup"
 
   .form-group
+    = f.label :country
     .input-group
-      = f.label :first_name, class: "sr-only"
-      %span{ class: "input-group-addon", id: "first_name_addon_signup" }
-        %span{ class: "glyphicon glyphicon-user" }
-      = f.text_field :first_name, placeholder: "First Name", class: "form-control input-lg", "aria-describedby" => "first_name_addon_signup"
-
-  .form-group
-    .input-group
-      = f.label :password, class: "sr-only"
-      %span{ class: "input-group-addon", id: "password_addon_signup" }
-        %span{ class: "glyphicon glyphicon-lock" }
-      = f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg", "aria-describedby" => "password_addon_signup"
-
-  .form-group
-    .input-group
-      = f.label :password_confirmation, class: "sr-only"
-      %span{ class: "input-group-addon", id: "password_confirmation_addon_signup" }
-        %span{ class: "glyphicon glyphicon-repeat" }
-      = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Retype Password", class: "form-control input-lg", "aria-describedby" => "password_confirmation_addon_signup"
-
-  .form-group
-    .input-group
-      = f.label :age, class: "sr-only"
-      %span{ class: "input-group-addon", id: "age_addon_signup" }
-        %span{ class: "glyphicon glyphicon-time" }
-      = f.number_field :age, min: 1, placeholder: "Age", class: "form-control input-lg", "aria-describedby" => "age_addon_signup"
-
-  .form-group
-    .input-group
-      = f.label :city, class: "sr-only"
-      %span{ class: "input-group-addon", id: "city_addon_signup" }
-        %span{ class: "glyphicon glyphicon-home" }
-      = f.text_field :city, placeholder: "City", class: "form-control input-lg", "aria-describedby" => "city_addon_signup"
-
-  .form-group
-    .input-group
-      = f.label :country, class: "sr-only"
       %span{ class: "input-group-addon", id: "country_addon_signup" }
         %span{ class: "glyphicon glyphicon-flag" }
-      = country_select(:user, :country, { priority_countries: ["US"], prompt: "Country" }, { class: "form-control input-lg", "aria-describedby" => "country_addon_signup" })
+      = country_select(:user, :country, { priority_countries: ["US"], prompt: "Select Country .." }, { class: "form-control input-lg", "aria-describedby" => "country_addon_signup" })
 
   .form-group
     .input-group

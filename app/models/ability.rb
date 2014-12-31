@@ -32,7 +32,7 @@ class Ability
     else
       can :read, Appointment, :user_id => user.id
       can :update, StudentMaterial, :user_id => user.id
-      can :manage, User, :id => user.id
+      can :manage, User, :id => user.id, :deleted_at => nil
     end
   end
 end

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # TODO verify compatibility across languages, specifically non-Arabic alphabets
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :async
-         
+
   validates_presence_of :first_name
   validates_presence_of :city, :country, :age, unless: Proc.new { |u| u.admin? || u.instructor? }
   validates :gender, inclusion: { in: :gender_options }, allow_nil: true, allow_blank: true
@@ -122,6 +122,10 @@ class User < ActiveRecord::Base
 
   def persist_stripe_information!(stripe_customer_id)
     update_attribute(:stripe_id, stripe_customer_id)
+  end
+
+  def soft_delete
+    update_attribute(:deleted_at, Time.now)
   end
 
   def active_for_authentication? # overrwrite Devise; Users who have deleted themselves cannot sign in

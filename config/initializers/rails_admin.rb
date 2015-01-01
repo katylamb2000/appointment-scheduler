@@ -28,7 +28,22 @@ RailsAdmin.config do |config|
     delete do
       except ['Rebooking']
     end
-    show_in_app
+
+    member :restore do
+      link_icon 'icon-repeat'
+      
+      visible do
+        bindings[:object].class.name == 'DeletedUser' && bindings[:controller].current_user.admin?
+      end
+      
+      controller do
+        Proc.new do
+          @object.restore!
+            flash[:success] = "This user has been restored."
+            redirect_to index_path
+        end
+      end
+    end
 
     ## With an audit adapter, you can add:
     # history_index

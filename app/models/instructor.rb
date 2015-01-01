@@ -40,7 +40,7 @@ class Instructor < User
     end
 
     list do
-      scopes [:undeleted]
+      scopes [:active]
       field :id
       field :email
       field :first_name

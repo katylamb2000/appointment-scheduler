@@ -6,8 +6,11 @@
     .col-md-4
       .form-group
         = f.label :profile_photo
-        .image-background
-          = image_tag resource.profile_photo.thumb.url
+        - if resource.profile_photo_processing
+          #profile-photo.image-background.load_thumb{ data: { "id" => resource.id} }
+            = image_tag "spinner.gif", id: "spinner-photo"
+        - else
+          = image_tag resource.profile_photo.url(:thumb)
         .input-group
           %br
           = f.file_field :profile_photo

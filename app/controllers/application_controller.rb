@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    (resource.admin? || resource.instructor?) ? rails_admin_path : root_path
+    (resource.admin? || resource.instructor?) ? rails_admin_path : student_dashboard_path
   end
 
   private

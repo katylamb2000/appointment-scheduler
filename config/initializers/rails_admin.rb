@@ -30,6 +30,23 @@ RailsAdmin.config do |config|
     end
     show_in_app
 
+    member :restore do
+      only User
+      link_icon 'icon-repeat'
+      
+      visible do
+        bindings[:object].class.name == 'DeletedUser'
+      end
+      
+      controller do
+        Proc.new do
+          @object.restore!
+            flash[:success] = "This user has been restored."
+            redirect_to index_path
+        end
+      end
+    end
+
     ## With an audit adapter, you can add:
     # history_index
     # history_show

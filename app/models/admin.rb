@@ -12,6 +12,7 @@ class Admin < User
     end
     
     list do
+      scopes [:undeleted]
       field :id
       field :email
       field :first_name

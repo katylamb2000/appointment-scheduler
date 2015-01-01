@@ -40,6 +40,9 @@ class LessonMaterial < ActiveRecord::Base
         visible do
           bindings[:controller].current_user.admin?
         end
+        associated_collection_scope do
+          Proc.new {|scope| scope = scope.undeleted }
+        end
       end
       field :name
       field :description

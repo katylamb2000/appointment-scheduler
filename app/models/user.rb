@@ -29,6 +29,9 @@ class User < ActiveRecord::Base
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo
 
+  scope :undeleted, -> { where(deleted_at: nil) }
+  scope :only_deleted, -> { where.not(deleted_at: nil) }
+
   def gender_options
     ["male", "female"]
   end
@@ -124,12 +127,25 @@ class User < ActiveRecord::Base
     update_attribute(:stripe_id, stripe_customer_id)
   end
 
+  def soft_delete
+    update_attribute(:deleted_at, Time.now)
+  end
+
+  def restore!
+    update_attribute(:deleted_at, nil)
+  end
+
+  def active_for_authentication? # overrwrite Devise; Users who have deleted themselves cannot sign in
+    super && !deleted_at
+  end
+
   rails_admin do
     object_label_method do
       :full_name
     end
 
     list do
+      scopes [:undeleted]
       field :id
       field :email
       field :first_name

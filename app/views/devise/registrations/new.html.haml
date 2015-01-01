@@ -56,9 +56,10 @@
       = country_select(:user, :country, { priority_countries: ["US"], prompt: "Select Country .." }, { class: "form-control input-lg", "aria-describedby" => "country_addon_signup" })
 
   .form-group
-    .input-group
-      = f.check_box :accepts_age_agreement
-      = f.label :accepts_age_agreement, " By checking this box, you certify that you are over the age of 18."
+    .checkbox
+      = f.label :accepts_age_agreement do
+        = f.check_box :accepts_age_agreement
+        By checking this box, you certify that you are over the age of 18.
   
   = f.submit "Sign Up", class: "btn btn-primary sign-up"
 = render "devise/shared/links"

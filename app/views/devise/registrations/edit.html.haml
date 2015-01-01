@@ -1,92 +1,101 @@
-%h2= "Update Your Profile"
-
+%h5 Update Your Profile
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   - devise_error_messages!
 
-  %div
-    = f.label :profile_photo
-    = image_tag resource.profile_photo.thumb.url
+  .general-info.row
+    .col-md-4
+      .form-group
+        = f.label :profile_photo
+        .image-background
+          = image_tag resource.profile_photo.thumb.url
+        .input-group
+          %br
+          = f.file_field :profile_photo
+
+    .col-md-8
+      .col-md-6
+        .form-group
+          = f.label :first_name, "First Name"
+          .input-group
+            = f.text_field :first_name, placeholder: "First Name", class: "form-control input-lg"
+      .col-md-6
+        .form-group
+          = f.label :last_name
+          .input-group
+            = f.text_field :last_name, placeholder: "Last Name", class: "form-control input-lg"
+      .col-md-6
+        .form-group
+          = f.label :age
+          .input-group
+            = f.number_field :age, placeholder: "Age", class: "form-control input-lg"
+      .col-md-6
+        .form-group
+          = f.label :gender
+          .input-group
+            = f.select :gender, resource.gender_options, {}, { :include_blank => true, :class => "form-control input-lg"}
+
+  .account-info.row
+    .col-md-4
+      .form-group
+        = f.label :email
+        .input-group
+          = f.email_field :email, autofocus: true, class: "form-control input-lg"
+    .col-md-4
+      .form-group
+        = f.label :password
+        .input-group
+          = f.password_field :password, autocomplete: "off", class: "form-control input-lg"
+        %small leave blank if you don't want to change
+    .col-md-4
+      .form-group
+        = f.label :password_confirmation, "Retype Password"
+        .input-group
+          = f.password_field :password_confirmation, autocomplete: "off", class: "form-control input-lg"
+
+  .location-info.row
+    .col-md-4
+      .form-group
+        = f.label :city
+        .input-group
+          = f.text_field :city, placeholder: "City", class: "form-control input-lg"
+    .col-md-4
+      .form-group
+        = f.label :state
+        .input-group
+          = f.text_field :state, placeholder: "State", class: "form-control input-lg"
+    .col-md-4
+      .form-group
+        = f.label :zip
+        .input-group
+          = f.text_field :zip, placeholder: "Zip", class: "form-control input-lg"
+
+  .country-select.row
+    .col-md-8
+      .form-group
+        = f.label :country
+        .input-group
+        = country_select(:user, :country, { priority_countries: ["US"], include_blank: true }, { class: "form-control input-lg", "aria-describedby" => "country_addon_signup" })
+
+  .musical-info.row
+    .col-md-4
+      = f.label :skill_level
+      = f.select :skill_level, resource.skill_level_options, {}, { include_blank: true, class: "form-control input-lg" }
+    .col-md-4
+      = f.label :musical_genre
+      = f.select :musical_genre, resource.musical_genre_options, {}, { include_blank: true, class: "form-control input-lg" }
+    .col-md-4
+      = f.label :years_playing
+      = f.select :years_playing, resource.years_playing_options, {}, { include_blank: true, class: "form-control input-lg" }
+
+  .row
     %br
-    = f.file_field :profile_photo
-    = f.hidden_field :profile_photo_cache
+    .col-md-4
+      .form-group
+        .input-group
+          = f.submit "Update", class: "btn btn-primary"
 
-  %div
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true
-
-  %div
-    = f.label :password
-    %br
-    = f.password_field :password, autocomplete: "off", placeholder: "leave blank if you don't want to change"
-
-  %div
-    = f.label :password_confirmation, "Retype Password"
-    %br
-    = f.password_field :password_confirmation, autocomplete: "off"
-
-  %div
-    = f.label :first_name
-    %br
-    = f.text_field :first_name
-
-  %div
-    = f.label :last_name
-    %br
-    = f.text_field :last_name
-
-  %div
-    = f.label :age
-    %br
-    = f.number_field :age
-
-  %div
-    = f.label :gender
-    %br
-    = f.select :gender, resource.gender_options, include_blank: true
-
-  %div
-    = f.label :city
-    %br
-    = f.text_field :city
-
-  %div
-    = f.label :state
-    %br
-    = f.text_field :state
-
-  %div
-    = f.label :zip
-    %br
-    = f.text_field :zip
-
-  %div
-    = f.label :country
-    %br
-    = country_select(:user, :country, { priority_countries: ["US"], include_blank: true} )
-
-  %div
-    = f.label :skill_level
-    %br
-    = f.select :skill_level, resource.skill_level_options, include_blank: true
-
-  %div
-    = f.label :musical_genre
-    %br
-    = f.select :musical_genre, resource.musical_genre_options, include_blank: true
-
-  %div
-    = f.label :years_playing
-    %br
-    = f.select :years_playing, resource.years_playing_options, include_blank: true
-
-  %div
-    = f.submit "Update"
-
-%h3 Cancel my account
-
-%p
-  Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
-
-= link_to "Back", :back
+.row
+  .col-md-4
+    .form-group
+      .input-group
+        = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger"

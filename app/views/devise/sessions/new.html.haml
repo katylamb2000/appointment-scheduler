@@ -1,22 +1,32 @@
-%h2 Log in
+%h5 Log in
 
 = form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "login_page" }) do |f|
-  %div
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true, id: "email_login_page"
-
-  %div
-    = f.label :password
-    %br
-    = f.password_field :password, autocomplete: "off", id: "password_login_page"
+  
+  .row
+    .col-md-6
+      .form-group
+        = f.label :email
+        .input-group
+          %span{ class: "input-group-addon", id: "email_addon_login_page"}
+            %span{ class: "glyphicon glyphicon-envelope"}
+          = f.email_field :email, autofocus: true, id: "email_login_page", placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_login_page"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :password
+        .input-group
+          %span{ class: "input-group-addon", id: "password_addon_login_page"}
+            %span{ class: "glyphicon glyphicon-lock"}
+          = f.password_field :password, autocomplete: "off", id: "password_login_page", placeholder: "Password", class: "form-control input-lg", "aria-describedby" => "password_addon_login_page"
 
   - if devise_mapping.rememberable?
     %div
       = f.check_box :remember_me
       = f.label :remember_me
 
-  %div
-    = f.submit "Log in"
+  .row
+    .col-md-6
+      %br
+      = f.submit "Log in", class: "btn btn-primary"
 
 = render "devise/shared/links"

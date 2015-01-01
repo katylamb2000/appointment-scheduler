@@ -41,7 +41,7 @@ class LessonMaterial < ActiveRecord::Base
           bindings[:controller].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new {|scope| scope = scope.undeleted }
+          Proc.new {|scope| scope = scope.active }
         end
       end
       field :name

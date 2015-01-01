@@ -1,3 +1,4 @@
+%h5 Book Now
 - @appointments.each_with_index do |appt, index|
   - if appt.open?
     = form_for appt, remote: true  do |f|

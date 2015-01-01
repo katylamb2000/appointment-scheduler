@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo
 
-  scope :undeleted, -> { where(deleted_at: nil) }
+  scope :active, -> { where(deleted_at: nil) }
   scope :only_deleted, -> { where.not(deleted_at: nil) }
 
   def gender_options
@@ -145,7 +145,7 @@ class User < ActiveRecord::Base
     end
 
     list do
-      scopes [:undeleted]
+      scopes [:active]
       field :id
       field :email
       field :first_name

@@ -28,14 +28,12 @@ RailsAdmin.config do |config|
     delete do
       except ['Rebooking']
     end
-    show_in_app
 
     member :restore do
-      only User
       link_icon 'icon-repeat'
       
       visible do
-        bindings[:object].class.name == 'DeletedUser'
+        bindings[:object].class.name == 'DeletedUser' && bindings[:controller].current_user.admin?
       end
       
       controller do

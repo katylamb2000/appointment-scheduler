@@ -6,4 +6,9 @@ class UsersController < ApplicationController
     @student_materials = current_user.student_materials.includes(:lesson_material)
   end
 
+  def profile_photo_processing
+    user = User.find(params[:id])
+    render json: { loading: user.profile_photo_processing, url: user.profile_photo.thumb.url }
+  end
+
 end

@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   # TODO verify compatibility across languages, specifically non-Arabic alphabets
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable, :async
 
   validates_presence_of :first_name
@@ -357,5 +357,9 @@ class User < ActiveRecord::Base
 
     def password_required? # overrride Devise method so that Guest Users do not need passwords
       guest? ? false : (!persisted? || !password.nil? || !password_confirmation.nil?)
+    end
+
+    def confirmation_required?
+      student?
     end
 end

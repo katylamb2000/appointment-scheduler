@@ -41,14 +41,12 @@ class LessonMaterial < ActiveRecord::Base
           bindings[:controller].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new {|scope| scope = scope.active }
+          Proc.new {|scope| scope = scope.active.where(instructor: true) }
         end
       end
       field :name
       field :description
       field :attachment
-    end
-    edit do
     end
   end
 end

@@ -130,6 +130,11 @@ class User < ActiveRecord::Base
     update_attribute(:stripe_id, stripe_customer_id)
   end
 
+  def received_feedbacks
+    return Feedback.where(appointment_id: appointments).where.not(user_id: id) if student?
+    return Feedback.where(appointment_id: lessons).where.not(user_id: id) if instructor?
+  end
+
   def soft_delete
     update_attribute(:deleted_at, Time.now)
   end

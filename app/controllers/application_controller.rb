@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  http_basic_authenticate_with name: "weinerboy", password: "ibanez87"
+  http_basic_authenticate_with name: ENV['HTTP_AUTH_NAME'], password: ENV['HTTP_AUTH_PASSWORD']
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_filter :set_timezone

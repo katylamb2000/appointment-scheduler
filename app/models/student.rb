@@ -1,6 +1,6 @@
 class Student < User
   default_scope { where(instructor: false).where(admin: false) }
-  
+
   def self_cancelled_appointments
     appointments.where(status: "Cancelled by Student")
   end

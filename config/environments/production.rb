@@ -19,8 +19,21 @@ Rails.application.configure do
   # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
   # config.action_dispatch.rack_cache = true
   
-  # TODO: "host" should be set to the actual host of your application.
-  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # TODO finalize
+  config.action_mailer.default_url_options = { host: 'https://immense-citadel-5534.herokuapp.com' }
+  config.action_mailer.asset_host = 'https://immense-citadel-5534.herokuapp.com'
+  config.action_controller.asset_host = 'https://immense-citadel-5534.herokuapp.com'
+
+  # TODO finalize
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => ENV['APP_EMAIL'],
+    :password             => ENV['APP_EMAIL_PASSWORD'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
   config.serve_static_assets = false

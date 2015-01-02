@@ -45,6 +45,22 @@ RailsAdmin.config do |config|
       end
     end
 
+    collection :trigger_email do # TODO remove, testing only.
+      link_icon 'icon-envelope'
+
+      visible do
+        bindings[:abstract_model].model.to_s == "Appointment" && bindings[:controller].current_user.admin?
+      end
+
+      controller do
+        Proc.new do
+          ReminderScheduleWorker.perform_async
+          flash[:notice] = "The send email process had been triggered. Please check that the appropriate emails have been sent."
+          redirect_to :back
+        end
+      end
+    end
+
     ## With an audit adapter, you can add:
     # history_index
     # history_show

@@ -3,3 +3,5 @@ en:
     actions:
       restore:
         menu: "Restore"
+      trigger_email:
+        menu: "Trigger Email Process (Test)"

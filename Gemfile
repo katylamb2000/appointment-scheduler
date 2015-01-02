@@ -23,6 +23,7 @@ gem 'rails_admin'
 gem 'redis'
 gem 'sass-rails', '~> 4.0.3'
 gem 'sidekiq'
+gem 'sidetiq'
 gem 'sinatra', '>= 1.3.0', :require => nil # for sidekiq GUI
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 # gem 'therubyracer',  platforms: :ruby

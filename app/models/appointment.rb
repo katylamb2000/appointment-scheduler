@@ -44,6 +44,8 @@ class Appointment < ActiveRecord::Base
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
   scope :available_today, -> { today.available }
+  scope :tomorrow, -> { on_day(Date.tomorrow) }
+  scope :booked_tomorrow, -> { tomorrow.where.not(user_id: nil).where(status: "Booked - Future") }
   scope :available_on_day, -> (date_object) { on_day(date_object).available }
   scope :open_or_booked, -> { where(status: ["Booked - Future", "Open"]) }
   scope :upcoming, -> { where('start_time > ?', DateTime.now) }

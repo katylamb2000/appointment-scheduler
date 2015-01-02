@@ -2,7 +2,7 @@ class ReminderScheduleWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { daily }
+  recurrence { daily } # TODO what time zone is this in? switch to cron job?
 
   def perform
     Appointment.booked_tomorrow.each do |appt|

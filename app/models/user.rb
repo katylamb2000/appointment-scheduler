@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
   has_many :students, through: :lessons, source: :user
   has_many :lesson_materials, foreign_key: "instructor_id"
 
+  # as either/or
+  has_many :given_feedbacks, class_name: "Feedback"
+
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo
 

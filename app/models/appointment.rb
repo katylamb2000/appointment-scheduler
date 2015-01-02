@@ -8,7 +8,6 @@ class Appointment < ActiveRecord::Base
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
-  
   validate :is_available, if: Proc.new { |record| user_id_changed? }
 
   # LOGIC MAGIC: (end_time is greater than start_time) && (start_time is less than end_time)
@@ -38,6 +37,7 @@ class Appointment < ActiveRecord::Base
   has_one :rebooked_appointment, through: :rebooking, source: :new_appointment
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"
   has_one :original_appointment, through: :reverse_rebooking, source: :old_appointment
+  has_many :feedbacks
 
   scope :valid, -> { where(re_bookable: false) } # necessary for time_overlaps validation
   scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be user_id: nil ?

@@ -41,15 +41,15 @@ class User < ActiveRecord::Base
   end
 
   def admin?
-    admin
+    is_a?(Admin) || admin
   end
 
   def instructor?
-    instructor
+    is_a?(Instructor)
   end
 
   def student?
-    student
+    is_a?(Student)
   end
 
   def dead?
@@ -105,11 +105,6 @@ class User < ActiveRecord::Base
 
   def persist_stripe_information!(stripe_customer_id)
     update_attribute(:stripe_id, stripe_customer_id)
-  end
-
-  def received_feedbacks
-    return Feedback.where(appointment_id: appointments).where.not(user_id: id) if student?
-    return Feedback.where(appointment_id: lessons).where.not(user_id: id) if instructor?
   end
 
   def soft_delete

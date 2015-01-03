@@ -63,7 +63,6 @@ class Instructor < User
 
     show do
       field :id
-      field :instructor
       field :admin
       field :email
       field :full_name
@@ -119,7 +118,6 @@ class Instructor < User
     end
 
     create do
-      field :instructor
       field :admin
       field :email
       field :password
@@ -184,8 +182,6 @@ class Instructor < User
     end
 
     edit do
-      field :instructor
-
       field :admin do
         visible do
           bindings[:controller].current_user.admin?

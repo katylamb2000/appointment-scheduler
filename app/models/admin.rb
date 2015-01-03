@@ -1,5 +1,4 @@
 class Admin < User
-  default_scope { where(admin: true) }
 
   rails_admin do
     navigation_label "Users"
@@ -12,7 +11,7 @@ class Admin < User
     end
     
     list do
-      scopes [:active]
+      scopes [:active, :only_deleted]
       field :id
       field :email
       field :first_name
@@ -36,13 +35,6 @@ class Admin < User
       field :state
       field :zip
       field :country
-      field :availabilities
-      field :lessons do
-        label do
-          "Appointments"
-        end
-      end
-      field :students # TODO make unique
       field :sign_in_count
       field :last_sign_in_at
       field :created_at

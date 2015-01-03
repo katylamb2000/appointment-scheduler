@@ -19,7 +19,7 @@ class ChargesController < ApplicationController
       }
     )
     
-    appointment.book!({ user_id: current_user.id, stripe_charge_id: charge.id })
+    appointment.book!({ student_id: current_user.id, stripe_charge_id: charge.id })
     redirect_to appointment
 
     rescue Stripe::CardError => e

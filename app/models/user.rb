@@ -48,10 +48,6 @@ class User < ActiveRecord::Base
     instructor
   end
 
-  def guest?
-    guest
-  end
-
   def student?
     student
   end
@@ -129,10 +125,6 @@ class User < ActiveRecord::Base
   end
 
   protected
-
-    def password_required? # overrride Devise method so that Guest Users do not need passwords
-      guest? ? false : (!persisted? || !password.nil? || !password_confirmation.nil?)
-    end
 
     def confirmation_required?
       student?

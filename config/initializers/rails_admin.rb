@@ -17,7 +17,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['Guest', 'Student', 'Rebooking']
+      except ['Student', 'Rebooking']
     end
     export
     bulk_delete

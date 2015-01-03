@@ -171,13 +171,7 @@ class Appointment < ActiveRecord::Base
     list do
       field :id
       field :instructor
-
-      field :user do
-        label do
-          "Student"
-        end
-      end
-
+      field :student
       field :start_time do
         strftime_format "%a %m/%e, %l:%M %p"
       end
@@ -198,13 +192,7 @@ class Appointment < ActiveRecord::Base
       end
 
       field :instructor
-
-      field :user do
-        label do
-          "Student"
-        end
-      end
-
+      field :student
       field :appointment_category
 
       field :start_time do
@@ -257,12 +245,9 @@ class Appointment < ActiveRecord::Base
         end
       end
 
-      field :user do
+      field :student do
         inline_add false
         inline_edit false
-        label do
-          "Student"
-        end
         read_only do
           !(bindings[:view].current_user.admin?)
         end

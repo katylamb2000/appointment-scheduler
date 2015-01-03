@@ -1,6 +1,13 @@
 class Student < User
   default_scope { where(instructor: false).where(admin: false) }
 
+  has_many :appointments
+  has_many :instructors, through: :appointments, source: :instructor
+  has_many :student_materials
+  has_many :lesson_materials, through: :student_materials
+  has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
+  has_many :received_feedbacks, ->(student) { where.not(user_id: student.id) }, through: :appointments, source: :feedbacks
+
   def self_cancelled_appointments
     appointments.where(status: "Cancelled by Student")
   end
@@ -51,6 +58,8 @@ class Student < User
     end
 
     show do
+      field :given_feedbacks
+      field :received_feedbacks
       field :id
       field :guest
       field :student, :boolean

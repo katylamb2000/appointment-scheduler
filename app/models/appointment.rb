@@ -31,8 +31,8 @@ class Appointment < ActiveRecord::Base
 
   belongs_to :appointment_category
   belongs_to :availability
-  belongs_to :user
-  belongs_to :instructor, class_name: "User"
+  belongs_to :student
+  belongs_to :instructor
   has_one :rebooking, foreign_key: "old_appointment_id"
   has_one :rebooked_appointment, through: :rebooking, source: :new_appointment
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"

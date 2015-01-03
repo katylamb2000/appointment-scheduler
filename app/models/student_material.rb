@@ -1,7 +1,7 @@
 class StudentMaterial < ActiveRecord::Base
   validates_presence_of :user_id, :lesson_material_id
 
-  belongs_to :user
+  belongs_to :student
   belongs_to :lesson_material
 
   rails_admin do

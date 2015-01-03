@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102200433) do
+ActiveRecord::Schema.define(version: 20150103183827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20150102200433) do
 
   create_table "appointments", force: true do |t|
     t.integer  "instructor_id"
-    t.integer  "user_id"
+    t.integer  "student_id"
     t.integer  "appointment_category_id"
     t.datetime "start_time"
     t.string   "status"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20150102200433) do
   end
 
   create_table "student_materials", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "student_id"
     t.integer  "lesson_material_id"
     t.text     "instructor_notes"
     t.datetime "created_at"
@@ -109,7 +109,6 @@ ActiveRecord::Schema.define(version: 20150102200433) do
     t.boolean  "instructor",               default: false
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.boolean  "guest",                    default: false
     t.string   "stripe_id"
     t.boolean  "accepts_age_agreement",    default: false
     t.string   "profile_photo"
@@ -118,6 +117,7 @@ ActiveRecord::Schema.define(version: 20150102200433) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string   "type"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

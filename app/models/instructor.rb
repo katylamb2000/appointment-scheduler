@@ -1,7 +1,9 @@
 class Instructor < User
   has_many :availabilities
   has_many :appointments
-  has_many :students, through: :appointments
+  has_many :upcoming_appointments, -> { where("start_time > ?", DateTime.now) }, class_name: "Appointment"
+  has_many :past_appointments, -> { where("end_time < ?", DateTime.now) }, class_name: "Appointment"
+  has_many :students, -> { uniq }, through: :appointments
   has_many :lesson_materials
   has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
   has_many :received_feedbacks, ->(instructor) { where.not(user_id: instructor.id) }, through: :appointments, source: :feedbacks
@@ -82,12 +84,15 @@ class Instructor < User
         end
       end
 
-      field :lessons do
+      field :upcoming_appointments do
         visible do
           bindings[:view].current_user.admin?
         end
-        label do
-          "Appointments"
+      end
+
+      field :past_appointments do
+        visible do
+          bindings[:view].current_user.admin?
         end
       end
 

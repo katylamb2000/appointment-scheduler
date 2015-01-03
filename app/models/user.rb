@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
 
   scope :active, -> { where(deleted_at: nil) }
   scope :only_deleted, -> { where.not(deleted_at: nil) }
-  scope :students, -> { where(instructor: false).where(admin: false) }
 
   def gender_options
     ["male", "female"]
@@ -67,14 +66,6 @@ class User < ActiveRecord::Base
 
   def location
     (city && country) ? "#{city}, #{country}" : ""
-  end
-
-  def upcoming_appointments # as a student. TODO make use-able for instructors -- can check role before returning
-    appointments.where("start_time > ?", DateTime.now)
-  end
-
-  def past_appointments # as a student. TODO make use-able for instructors -- can check role before returning
-    appointments.where("end_time < ?", DateTime.now)
   end
 
   def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean

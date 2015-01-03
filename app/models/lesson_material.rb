@@ -2,7 +2,7 @@ class LessonMaterial < ActiveRecord::Base
   validates_presence_of :instructor_id, :name, :attachment
   validates_uniqueness_of :name
 
-  belongs_to :instructor, class_name: "User"
+  belongs_to :instructor
   has_many :student_materials
   has_many :students, through: :student_materials, source: :user
 

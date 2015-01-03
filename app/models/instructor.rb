@@ -95,7 +95,7 @@ class Instructor < User
         end
       end
 
-      field :students do # TODO make unique
+      field :students do
         visible do
           bindings[:view].current_user.admin?
         end

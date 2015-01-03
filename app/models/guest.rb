@@ -2,7 +2,8 @@ class Guest < User
   default_scope { where(guest: true) }
 
   rails_admin do
-
+    navigation_label "Users"
+    
     visible do
       bindings[:controller].current_user.admin?
     end

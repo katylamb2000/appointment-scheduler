@@ -34,6 +34,7 @@ class Instructor < User
   end
 
   rails_admin do
+    navigation_label "Users"
 
     object_label_method do
       :full_name

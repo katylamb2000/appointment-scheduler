@@ -2,7 +2,7 @@ class Admin < User
   default_scope { where(admin: true) }
 
   rails_admin do
-    
+    navigation_label "Users"
     visible do
       bindings[:controller].current_user.admin?
     end

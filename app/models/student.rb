@@ -51,7 +51,6 @@ class Student < User
 
     show do
       field :id
-      field :guest
       field :student, :boolean
       field :email
       field :full_name
@@ -98,11 +97,7 @@ class Student < User
       field :email
       field :first_name
       field :last_name
-      field :profile_photo do
-        visible do
-          !(bindings[:object].guest?)
-        end
-      end
+      field :profile_photo
 
       field :gender, :enum do
         enum do

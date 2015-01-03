@@ -63,10 +63,6 @@ class User < ActiveRecord::Base
     instructor
   end
 
-  def guest?
-    guest
-  end
-
   def student?
     student
   end
@@ -166,7 +162,6 @@ class User < ActiveRecord::Base
       field :id
       field :instructor
       field :admin
-      field :guest
       field :student, :boolean
       field :email
       field :full_name

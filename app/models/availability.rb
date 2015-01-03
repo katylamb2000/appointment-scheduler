@@ -14,7 +14,7 @@ class Availability < ActiveRecord::Base
   
   after_create :to_forty_five_minute_appointments
 
-  belongs_to :instructor, class_name: "User"
+  belongs_to :instructor
   has_many :appointments
 
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }

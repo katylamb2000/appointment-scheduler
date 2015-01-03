@@ -2,7 +2,7 @@ class Student < User
   has_many :appointments
   has_many :upcoming_appointments, -> { where("start_time > ?", DateTime.now) }, class_name: "Appointment"
   has_many :past_appointments, -> { where("end_time < ?", DateTime.now) }, class_name: "Appointment"
-  has_many :instructors, through: :appointments, source: :instructor
+  has_many :instructors, -> { uniq }, through: :appointments
   has_many :student_materials
   has_many :lesson_materials, through: :student_materials
   has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"

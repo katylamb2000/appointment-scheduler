@@ -22,7 +22,6 @@ class Admin < User
     show do
       field :id
       field :admin
-      field :instructor
       field :email
       field :full_name
       field :profile_photo
@@ -43,7 +42,6 @@ class Admin < User
 
     create do
       field :admin
-      field :instructor
       field :email
       field :first_name
       field :last_name
@@ -107,7 +105,6 @@ class Admin < User
 
     edit do
       field :admin
-      field :instructor
       field :email
       field :first_name
       field :last_name

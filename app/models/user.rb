@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     student
   end
 
+  def dead?
+    !!(deleted_at)
+  end
+
   def student
     !admin? && !instructor?
   end

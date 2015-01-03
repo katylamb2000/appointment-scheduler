@@ -13,7 +13,7 @@ class Guest < User
     end
 
     list do
-      scopes [:active]
+      scopes [:active, :only_deleted]
       field :id
       field :email
       field :first_name

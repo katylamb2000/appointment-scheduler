@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   devise_for :users, path: '', controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
+  devise_for :students, path: '', controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
+  devise_for :admins, path: '', controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
   get '/user/:id/profile_photo_processing' => 'users#profile_photo_processing'
 
   get 'meet' => 'static_pages#meet', as: 'meet'

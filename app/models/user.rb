@@ -358,10 +358,6 @@ class User < ActiveRecord::Base
 
   protected
 
-    def password_required? # overrride Devise method so that Guest Users do not need passwords
-      guest? ? false : (!persisted? || !password.nil? || !password_confirmation.nil?)
-    end
-
     def confirmation_required?
       student?
     end

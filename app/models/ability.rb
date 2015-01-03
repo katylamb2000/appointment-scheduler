@@ -37,8 +37,8 @@ class Ability
       can :read, Student, appointments: { instructor_id: user.id }
       can :export, Student, appointments: { instructor_id: user.id }
     else
-      can :read, Appointment, :user_id => user.id
-      can :update, StudentMaterial, :user_id => user.id
+      can :read, Appointment, :student_id => user.id
+      can :update, StudentMaterial, :student_id => user.id
       can :manage, User, :id => user.id, :deleted_at => nil
     end
   end

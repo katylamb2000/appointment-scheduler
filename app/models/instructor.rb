@@ -1,9 +1,7 @@
 class Instructor < User
-  default_scope { where(instructor: true) }
-  
   has_many :availabilities
   has_many :appointments
-  has_many :students, through: :appointments, source: :user
+  has_many :students, through: :appointments
   has_many :lesson_materials
   has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
   has_many :received_feedbacks, ->(instructor) { where.not(user_id: instructor.id) }, through: :appointments, source: :feedbacks

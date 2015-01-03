@@ -5,4 +5,21 @@ class Feedback < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :appointment
+
+  rails_admin do
+    list do
+      field :id
+      field :user do
+        pretty_value do
+          user = bindings[:object].user
+          if user.instructor?
+            bindings[:view].content_tag(:a, bindings[:object].user.full_name, { :href => "/admin/instructor/#{user.id}"} )
+          else
+            bindings[:view].content_tag(:a, bindings[:object].user.full_name, { :href => "/admin/student/#{user.id}"} )
+          end
+        end
+      end
+      field :context
+    end    
+  end
 end

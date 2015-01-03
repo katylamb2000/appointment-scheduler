@@ -1,12 +1,20 @@
 class Student < User
-  default_scope { where(instructor: false).where(admin: false) }
-
   has_many :appointments
+  has_many :upcoming_appointments, -> { where("start_time > ?", DateTime.now) }, class_name: "Appointment"
+  has_many :past_appointments, -> { where("end_time < ?", DateTime.now) }, class_name: "Appointment"
   has_many :instructors, through: :appointments, source: :instructor
   has_many :student_materials
   has_many :lesson_materials, through: :student_materials
   has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
   has_many :received_feedbacks, ->(student) { where.not(user_id: student.id) }, through: :appointments, source: :feedbacks
+
+  # def upcoming_appointments
+  #   appointments.where("start_time > ?", DateTime.now)
+  # end
+
+  # def past_appointments
+  #   appointments.where("end_time < ?", DateTime.now)
+  # end
 
   def self_cancelled_appointments
     appointments.where(status: "Cancelled by Student")

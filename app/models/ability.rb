@@ -30,12 +30,12 @@ class Ability
       # manage giving own students own materials
       can :manage, StudentMaterial, lesson_material: { instructor_id: user.id }
       # update own profile
-      can :read, User, :id => user.id
-      can :update, User, :id => user.id
-      can :export, User, :id => user.id
+      can :read, Instructor, :id => user.id
+      can :update, Instructor, :id => user.id
+      can :export, Instructor, :id => user.id
       # see limited student profiles
-      can :read, User, appointments: { instructor_id: user.id }
-      can :export, User, appointments: { instructor_id: user.id }
+      can :read, Student, appointments: { instructor_id: user.id }
+      can :export, Student, appointments: { instructor_id: user.id }
     else
       can :read, Appointment, :user_id => user.id
       can :update, StudentMaterial, :user_id => user.id

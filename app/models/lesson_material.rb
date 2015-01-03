@@ -4,7 +4,7 @@ class LessonMaterial < ActiveRecord::Base
 
   belongs_to :instructor
   has_many :student_materials
-  has_many :students, through: :student_materials, source: :user
+  has_many :students, through: :student_materials
 
   mount_uploader :attachment, AttachmentUploader
   process_in_background :attachment

@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
   protected
 
     def confirmation_required?
-      !confirmed? && ( !admin? || !instructor? )
+      !confirmed? && ( !admin? && !instructor? )
     end
 
   rails_admin do

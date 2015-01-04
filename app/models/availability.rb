@@ -67,15 +67,8 @@ class Availability < ActiveRecord::Base
 
   rails_admin do
 
-    label_plural do
-      "All Availabilities"
-    end
-
-    label do
-      "Availability"
-    end
-
     list do
+      scopes [:today, nil]
       field :id
       field :instructor
 

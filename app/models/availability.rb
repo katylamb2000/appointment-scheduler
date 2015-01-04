@@ -2,7 +2,7 @@ class Availability < ActiveRecord::Base
   validates_presence_of :instructor, :start_time, :end_time
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
-
+  validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
   validates :start_time, :end_time, :overlap => {
     scope: "instructor_id",
     exclude_edges: ["start_time", "end_time"],
@@ -10,8 +10,6 @@ class Availability < ActiveRecord::Base
     :message_content => "Time slot overlaps with instructor's other availabilities."
   }
 
-  validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
-  
   after_create :to_forty_five_minute_appointments
 
   belongs_to :instructor

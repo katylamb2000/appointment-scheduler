@@ -43,6 +43,8 @@ class Appointment < ActiveRecord::Base
   scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be student_id: nil ?
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
+  scope :active_today, -> { today.where(status: ["Open", "Booked - Future", "Past - Occurred", "No Show - Student", "No Show - Instructor", "Unavailable"]) }
+  scope :dead_today, -> { today.where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
   scope :available_today, -> { today.available }
   scope :tomorrow, -> { on_day(Date.tomorrow) }
   scope :booked_tomorrow, -> { tomorrow.where.not(student_id: nil).where(status: "Booked - Future") }
@@ -160,15 +162,8 @@ class Appointment < ActiveRecord::Base
 
   rails_admin do
 
-    label_plural do
-      "All Appointments"
-    end
-
-    label do
-      "Appointment"
-    end
-
     list do
+      scopes [:active_today, :dead_today, nil]
       field :id
       field :instructor
       field :student

@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   validates :years_playing, inclusion: { in: :years_playing_options }, allow_nil: true, allow_blank: true
   validate :accepted_age_agreement, unless: Proc.new { |u| u.admin? || u.instructor? }
 
-  after_create :set_user_type, if: Proc.new { |u| u.type.nil? }
+  after_create :make_student!, if: Proc.new { |u| u.type.nil? }
 
   # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
 
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
     errors.add(:base, "You must certify that you are over 18 to create an account." ) unless accepts_age_agreement
   end
 
-  def set_user_type
+  def make_student!
     update_attribute(:type, "Student")
   end
 

@@ -126,7 +126,7 @@ class Availability < ActiveRecord::Base
           bindings[:view].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.active.where(instructor: true) }
+          Proc.new { |scope| scope = scope.active }
         end
       end
 

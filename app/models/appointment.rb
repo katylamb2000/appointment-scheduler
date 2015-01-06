@@ -65,6 +65,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def book!(params)
+    # TODO ensure params.has_key?("student_id")
     params.merge!({ status: "Booked - Future", paid_at: Time.now })
     update_attributes(params)
   end

@@ -18,7 +18,9 @@
               Account
               %span{class: "caret"}
             %ul{ class: "dropdown-menu dropdown-menu-right", role: "menu"}
-              = nav_link "Dashboard", rails_admin_path if (current_user.instructor? || current_user.admin? )
+              - if (current_user.instructor? || current_user.admin?)
+                = nav_link "Dashboard", rails_admin_path
+                = nav_link "Availabilities", availabilities_path
               = nav_link "Dashboard", student_dashboard_path if current_user.student?
               = nav_link "Profile", edit_user_registration_path if current_user.student?
               %li.presentation= link_to "Log Out", destroy_user_session_path, method: :delete

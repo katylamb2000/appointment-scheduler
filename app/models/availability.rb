@@ -1,6 +1,6 @@
 class Availability < ActiveRecord::Base
   include IceCube
-  serialize :schedule, Hash
+  serialize :schedule, IceCube::Schedule # Hash ?
 
   validates_presence_of :instructor, :start_time, :end_time
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?

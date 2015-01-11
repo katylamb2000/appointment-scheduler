@@ -36,6 +36,10 @@ class Availability < ActiveRecord::Base
     "##{id}"
   end
 
+  def description
+    start_time.strftime("%a %m/%e, %l:%M %p") + " - " + end_time.strftime("%a %m/%e, %l:%M %p")
+  end
+
   def can_be_edited?
     errors.add(:base, "This availability has upcoming appointments. Please cancel or reschedule them in order to edit this availability.") unless !(has_pending_appointments?)
   end

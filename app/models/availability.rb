@@ -1,4 +1,5 @@
 class Availability < ActiveRecord::Base
+  include IceCube
   serialize :schedule, Hash
 
   validates_presence_of :instructor, :start_time, :end_time

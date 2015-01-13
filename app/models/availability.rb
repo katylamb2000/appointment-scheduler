@@ -6,6 +6,7 @@ class Availability < ActiveRecord::Base
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
   validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
+  validate :only_number_of_occurrences_or_schedule_end_date_can_be_set
   validates :start_time, :end_time, :overlap => {
     scope: "instructor_id",
     exclude_edges: ["start_time", "end_time"],
@@ -31,6 +32,10 @@ class Availability < ActiveRecord::Base
 
   def duration_must_be_at_least_one_hour
     errors.add(:base, "Duration must be at least one hour.") unless (end_time >= start_time + 1.hour)
+  end
+
+  def only_number_of_occurrences_or_schedule_end_date_can_be_set
+    errors.add(:base, "You can only set a number of occurrences OR a scheduled end date, but not both") unless (schedule_end_date.blank? || number_of_occurrences.blank?)
   end
 
   def name

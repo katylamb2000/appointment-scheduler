@@ -1,0 +1,3 @@
+%p= @availability.description
+- @availability.schedule.occurrences(Date.today + 30.days).each do |t|
+  %p= t.start_time

@@ -26,6 +26,7 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
   end
 
   def edit
+    @availability = Availability.find(params[:id])
   end
 
   def show

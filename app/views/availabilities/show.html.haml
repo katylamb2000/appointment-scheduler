@@ -1,3 +1,4 @@
 %p= @availability.description
 - @availability.schedule.occurrences(Date.today + 30.days).each do |t|
   %p= "#{t.start_time.strftime('%A, %B %e, %Y - %l:%M %p')} to #{t.end_time.strftime('%A, %B %e, %Y - %l:%M %p')}"
+= link_to "Edit", edit_availability_path(@availability), class: "btn btn-success"

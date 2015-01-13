@@ -87,7 +87,7 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
     end
 
     def chosen_end_date
-      availability_params[:schedule_end_date]
+      availability_params[:schedule_end_date].to_datetime
     end
 
     def clear_schedule!

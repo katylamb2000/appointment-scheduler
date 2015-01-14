@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'active_model_serializers', '~> 0.8.0'
 gem 'autoprefixer-rails'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass'

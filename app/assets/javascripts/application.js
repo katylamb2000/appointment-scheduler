@@ -15,4 +15,5 @@
 //= require bootstrap-sprockets
 //= require turbolinks
 //= require recurring_select
+//= require fullcalendar
 //= require_tree .

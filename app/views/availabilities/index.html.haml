@@ -3,4 +3,4 @@
   %p= a.description
 = link_to "Create a New Availability", new_availability_path, class: "btn btn-success"
 
-#avail-calendar
+#avail-calendar{ data: { user: current_user.id } }

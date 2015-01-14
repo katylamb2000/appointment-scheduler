@@ -24,4 +24,8 @@ Rails.application.routes.draw do
   resources :student_materials, only: [:update]
   get 'dashboard' => 'users#student_dashboard', as: 'student_dashboard'
   post 'charges' => 'charges#create'
+
+  scope :api, :v1 do
+    get '/availabilities' => 'api/v1/availabilities#index'
+  end
 end

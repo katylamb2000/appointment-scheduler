@@ -4,4 +4,10 @@ class Api::V1::AvailabilitiesController < Api::V1::ApiController
     @availabilities = user.availabilities
     render json: @availabilities, status: :ok and return
   end
+
+  private
+
+    def default_serializer_options
+      { root: false }
+    end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115034216) do
+ActiveRecord::Schema.define(version: 20150115034439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20150115034216) do
     t.integer  "number_of_occurrences"
     t.datetime "schedule_end_date"
   end
+
+  add_index "availabilities", ["instructor_id"], name: "index_availabilities_on_instructor_id", using: :btree
 
   create_table "feedbacks", force: true do |t|
     t.integer  "user_id"

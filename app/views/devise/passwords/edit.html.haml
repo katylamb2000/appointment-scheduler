@@ -4,17 +4,24 @@
   - devise_error_messages!
   = f.hidden_field :reset_password_token
 
-  %div
-    = f.label :password, "New password"
-    %br
-    = f.password_field :password, autofocus: true, autocomplete: "off"
-
-  %div
-    = f.label :password_confirmation, "Confirm new password"
-    %br
-    = f.password_field :password_confirmation, autocomplete: "off"
-
-  %div
-    = f.submit "Change my password"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :password, "New Password"
+        .input-group
+          %span{ class: "input-group-addon", id: "password_addon_reset" }
+            %span{ class: "glyphicon glyphicon-lock" }
+          = f.password_field :password, autocomplete: "off", placeholder: "New Password", class: "form-control input-lg", "aria-describedby" => "password_addon_reset"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :password_confirmation, "Retype Password"
+        .input-group
+          %span{ class: "input-group-addon", id: "password_confirmation_addon_reset" }
+            %span{ class: "glyphicon glyphicon-repeat" }
+          = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Retype Password", class: "form-control input-lg", "aria-describedby" => "password_confirmation_addon_reset"
+  .row
+    .col-md-6
+      = f.submit "Change my password", class: "btn btn-primary"
 
 = render "devise/shared/links"

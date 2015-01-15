@@ -12,19 +12,9 @@ class User < ActiveRecord::Base
   validates :years_playing, inclusion: { in: :years_playing_options }, allow_nil: true, allow_blank: true
   validate :accepted_age_agreement, unless: Proc.new { |u| u.admin? || u.instructor? }
 
+  after_create :make_student!, if: Proc.new { |u| u.type.nil? }
+
   # TODO: dependent destroy ON ALL MODELS? or acts as paranoid? also papertrail?
-
-  # as Student TODO: extract into Student model?
-  has_many :appointments
-  has_many :instructors, through: :appointments, source: :instructor
-  has_many :student_materials
-  has_many :learning_materials, through: :student_materials, source: :lesson_material
-
-  # as Instructor TODO: extract into Instructor model? so that we can call Instructor.appointments
-  has_many :availabilities, foreign_key: "instructor_id"
-  has_many :lessons, class_name: "Appointment", foreign_key: "instructor_id"
-  has_many :students, through: :lessons, source: :user
-  has_many :lesson_materials, foreign_key: "instructor_id"
 
   mount_uploader :profile_photo, ProfilePhotoUploader
   process_in_background :profile_photo
@@ -52,20 +42,24 @@ class User < ActiveRecord::Base
     errors.add(:base, "You must certify that you are over 18 to create an account." ) unless accepts_age_agreement
   end
 
+  def make_student!
+    update_attribute(:type, "Student")
+  end
+
   def admin?
-    admin
+    is_a?(Admin) || admin
   end
 
   def instructor?
-    instructor
-  end
-
-  def guest?
-    guest
+    is_a?(Instructor)
   end
 
   def student?
-    student
+    is_a?(Student)
+  end
+
+  def dead?
+    !!(deleted_at)
   end
 
   def student
@@ -80,17 +74,9 @@ class User < ActiveRecord::Base
     (city && country) ? "#{city}, #{country}" : ""
   end
 
-  def upcoming_appointments # as a student. TODO make use-able for instructors -- can check role before returning
-    appointments.where("start_time > ?", DateTime.now)
-  end
-
-  def past_appointments # as a student. TODO make use-able for instructors -- can check role before returning
-    appointments.where("end_time < ?", DateTime.now)
-  end
-
   def can_book?(appointment_id) # TODO refactor this in conjunction with appointments controller. it should return a boolean
     appointment = Appointment.find(appointment_id)
-    appointment.user = self
+    appointment.student = self
     appointment.status = "Booked - Future"
     if appointment.valid?
       return { can_book: true }
@@ -139,227 +125,14 @@ class User < ActiveRecord::Base
     super && !deleted_at
   end
 
-  rails_admin do
-    object_label_method do
-      :full_name
-    end
-
-    list do
-      scopes [:active]
-      field :id
-      field :email
-      field :first_name
-      field :location
-      field :age
-      field :gender
-    end
-
-    show do
-      field :id
-      field :instructor
-      field :admin
-      field :guest
-      field :student, :boolean
-      field :email
-      field :full_name
-      field :profile_photo
-
-      field :availabilities do
-        visible do
-          bindings[:controller].current_user.admin?
-        end
-      end
-
-      field :lessons do
-        visible do
-          bindings[:controller].current_user.admin?
-        end
-      end
-
-      field :students do
-        visible do
-          bindings[:controller].current_user.admin?
-        end
-      end
-
-      field :appointments do
-        visible do
-          bindings[:controller].current_user.admin?
-        end
-      end
-
-      field :instructors do
-        visible do
-          bindings[:controller].current_user.admin?
-        end
-      end
-      
-      field :gender
-      field :age
-      field :skill_level
-      field :musical_genre
-      field :years_playing
-      field :city
-      field :state
-      field :zip
-      field :country
-      field :sign_in_count
-      field :last_sign_in_at
-      field :created_at do
-        visible do
-          bindings[:view].current_user.admin?
-        end
-      end
-      field :updated_at do
-        visible do
-          bindings[:view].current_user.admin?
-        end
-      end
-    end
-
-    create do
-      field :instructor
-      field :admin
-      field :email
-      field :password
-      field :password_confirmation do
-        help do
-          "Retype password."
-        end
-      end
-      field :first_name
-      field :last_name
-      field :profile_photo
-
-      field :gender, :enum do
-        enum do
-          bindings[:object].gender_options
-        end
-      end
-
-      field :age, :enum do
-        enum do
-          (18...85).to_a
-        end
-        help do
-          "Required unless Admin or Instructor. Length up to 255."
-        end
-      end
-
-      field :skill_level, :enum do
-        enum do
-          bindings[:object].skill_level_options
-        end
-      end
-
-      field :musical_genre, :enum do
-        enum do
-          bindings[:object].musical_genre_options
-        end
-      end
-
-      field :years_playing, :enum do
-        enum do
-          bindings[:object].years_playing_options
-        end
-      end
-      
-      field :city do
-        help do
-          "Required unless Admin or Instructor. Length up to 255."
-        end
-      end
-      field :state
-      field :zip
-      field :country do
-        help do
-          "Required unless Admin or Instructor. Length up to 255."
-        end
-      end
-    end
-
-    edit do
-      field :instructor
-      field :admin
-      field :email
-
-      field :password do
-        visible do
-          bindings[:object].id == bindings[:controller].current_user.id
-        end
-        help do
-          "Leave blank if you don't want to change."
-        end
-      end
-
-      field :password_confirmation do
-        visible do
-          bindings[:object].id == bindings[:controller].current_user.id
-        end
-        help do
-          "Retype new password."
-        end
-      end
-
-      field :first_name
-      field :last_name
-      field :profile_photo
-
-      field :gender, :enum do
-        enum do
-          bindings[:object].gender_options
-        end
-      end
-
-      field :age, :enum do
-        enum do
-          (18...85).to_a
-        end
-        help do
-          "Required unless Admin or Instructor."
-        end
-      end
-
-      field :skill_level, :enum do
-        enum do
-          bindings[:object].skill_level_options
-        end
-      end
-
-      field :musical_genre, :enum do
-        enum do
-          bindings[:object].musical_genre_options
-        end
-      end
-
-      field :years_playing, :enum do
-        enum do
-          bindings[:object].years_playing_options
-        end
-      end
-      
-      field :city do
-        help do
-          "Required unless Admin or Instructor. Length up to 255."
-        end
-      end
-      field :state
-      field :zip
-      field :country do
-        help do
-          "Required unless Admin or Instructor. Length up to 255."
-        end
-      end
-    end
-  end
-
   protected
 
-    def password_required? # overrride Devise method so that Guest Users do not need passwords
-      guest? ? false : (!persisted? || !password.nil? || !password_confirmation.nil?)
+    def confirmation_required?
+      !confirmed? && ( !admin? && !instructor? )
     end
 
-    def confirmation_required?
-      student?
-    end
+  rails_admin do
+    visible false
+  end
+
 end

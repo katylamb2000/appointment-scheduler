@@ -1,46 +1,48 @@
 class Instructor < User
-  default_scope { where(instructor: true) }
+  has_many :availabilities
 
-  def self_cancelled_appointments
-    lessons.where(status: "Cancelled by Instructor")
-  end
+  has_many :appointments
+  has_many :upcoming_appointments, -> { where("start_time > ?", DateTime.now) }, class_name: "Appointment"
+  has_many :past_appointments, -> { where("end_time < ?", DateTime.now) }, class_name: "Appointment"
+  has_many :self_cancelled_appointments, -> { where(status: "Cancelled by Instructor") }, class_name: "Appointment"
+  has_many :self_rescheduled_appointments, -> { where(status: "Rescheduled by Instructor") }, class_name: "Appointment"
+  has_many :student_cancelled_appointments, -> { where(status: "Cancelled by Student") }, class_name: "Appointment"
+  has_many :student_rescheduled_appointments, -> { where(status: "Rescheduled by Student") }, class_name: "Appointment"
+
+  has_many :students, -> { uniq }, through: :appointments
+  has_many :lesson_materials
+  has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
+  has_many :received_feedbacks, ->(instructor) { where.not(user_id: instructor.id) }, through: :appointments, source: :feedbacks
 
   def self_cancelled_count
     self_cancelled_appointments.count
-  end
-
-  def self_rescheduled_appointments
-    lessons.where(status: "Rescheduled by Instructor")
   end
 
   def self_rescheduled_count
     self_rescheduled_appointments.count
   end
 
-  def student_cancelled_appointments
-    lessons.where(status: "Cancelled by Student")
-  end
-
   def student_cancellation_count
     student_cancelled_appointments.count
-  end
-
-  def student_rescheduled_appointments
-    lessons.where(status: "Rescheduled by Student")
   end
 
   def student_rescheduled_count
     student_rescheduled_appointments.count
   end
 
+  def availabilities_between(start_date, end_date)
+    availabilities.where("start_time > ? AND end_time < ?", start_date, end_date)
+  end
+
   rails_admin do
+    navigation_label "Users"
 
     object_label_method do
       :full_name
     end
 
     list do
-      scopes [:active]
+      scopes [:active, :only_deleted]
       field :id
       field :email
       field :first_name
@@ -55,7 +57,6 @@ class Instructor < User
 
     show do
       field :id
-      field :instructor
       field :admin
       field :email
       field :full_name
@@ -76,16 +77,19 @@ class Instructor < User
         end
       end
 
-      field :lessons do
+      field :upcoming_appointments do
         visible do
           bindings[:view].current_user.admin?
         end
-        label do
-          "Appointments"
+      end
+
+      field :past_appointments do
+        visible do
+          bindings[:view].current_user.admin?
         end
       end
 
-      field :students do # TODO make unique
+      field :students do
         visible do
           bindings[:view].current_user.admin?
         end
@@ -108,7 +112,6 @@ class Instructor < User
     end
 
     create do
-      field :instructor
       field :admin
       field :email
       field :password
@@ -173,8 +176,6 @@ class Instructor < User
     end
 
     edit do
-      field :instructor
-
       field :admin do
         visible do
           bindings[:controller].current_user.admin?

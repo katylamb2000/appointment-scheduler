@@ -8,7 +8,6 @@ class Ability
       can :dashboard
       can :manage, :all
     elsif user.instructor?
-      # TODO read, update Feedback
       can :access, :rails_admin
       can :dashboard
       # read, update appointments
@@ -18,20 +17,28 @@ class Ability
       # manage Availabilities
       can :manage, Availability, :instructor_id => user.id
       can :export, Availability, :instructor_id => user.id
+      # read, update received Feedback
+      can :read, Feedback, appointment: { :instructor_id => user.id }
+      can :export, Feedback, appointment: { :instructor_id => user.id }
+      # read, update given Feedback
+      can :create, Feedback, :user_id => user.id
+      can :read, Feedback, :user_id => user.id
+      can :update, Feedback, :user_id => user.id
+      can :export, Feedback, :user_id => user.id
       # manage own LessonMaterials
       can :manage, LessonMaterial, :instructor_id => user.id
       # manage giving own students own materials
       can :manage, StudentMaterial, lesson_material: { instructor_id: user.id }
       # update own profile
-      can :read, User, :id => user.id
-      can :update, User, :id => user.id
-      can :export, User, :id => user.id
+      can :read, Instructor, :id => user.id
+      can :update, Instructor, :id => user.id
+      can :export, Instructor, :id => user.id
       # see limited student profiles
-      can :read, User, appointments: { instructor_id: user.id }
-      can :export, User, appointments: { instructor_id: user.id }
+      can :read, Student, appointments: { instructor_id: user.id }
+      can :export, Student, appointments: { instructor_id: user.id }
     else
-      can :read, Appointment, :user_id => user.id
-      can :update, StudentMaterial, :user_id => user.id
+      can :read, Appointment, :student_id => user.id
+      can :update, StudentMaterial, :student_id => user.id
       can :manage, User, :id => user.id, :deleted_at => nil
     end
   end

@@ -17,7 +17,7 @@ RailsAdmin.config do |config|
     dashboard                     # mandatory
     index                         # mandatory
     new do
-      except ['Guest', 'Student', 'Rebooking']
+      except ['Student', 'Rebooking']
     end
     export
     bulk_delete
@@ -33,7 +33,7 @@ RailsAdmin.config do |config|
       link_icon 'icon-repeat'
       
       visible do
-        bindings[:object].class.name == 'DeletedUser' && bindings[:controller].current_user.admin?
+        bindings[:object].class.base_class.name == 'User' && bindings[:object].dead? && bindings[:controller].current_user.admin?
       end
       
       controller do

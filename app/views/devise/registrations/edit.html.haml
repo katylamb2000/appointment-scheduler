@@ -35,7 +35,7 @@
         .form-group
           = f.label :gender
           .input-group
-            = f.select :gender, resource.gender_options, {}, { :include_blank => true, :class => "form-control input-lg"}
+            = f.select :gender, resource.gender_options, { include_blank: true }, { class: "form-control input-lg" }
 
   .account-info.row
     .col-md-4
@@ -82,13 +82,13 @@
   .musical-info.row
     .col-md-4
       = f.label :skill_level
-      = f.select :skill_level, resource.skill_level_options, {}, { include_blank: true, class: "form-control input-lg" }
+      = f.select :skill_level, resource.skill_level_options, { include_blank: true }, { class: "form-control input-lg" }
     .col-md-4
       = f.label :musical_genre
-      = f.select :musical_genre, resource.musical_genre_options, {}, { include_blank: true, class: "form-control input-lg" }
+      = f.select :musical_genre, resource.musical_genre_options, { include_blank: true }, { class: "form-control input-lg" }
     .col-md-4
       = f.label :years_playing
-      = f.select :years_playing, resource.years_playing_options, {}, { include_blank: true, class: "form-control input-lg" }
+      = f.select :years_playing, resource.years_playing_options, { include_blank: true }, { class: "form-control input-lg" }
 
   .row
     %br

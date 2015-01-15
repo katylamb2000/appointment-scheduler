@@ -3,12 +3,16 @@
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   - devise_error_messages!
 
-  %div
-    = f.label :email
-    %br
-    = f.email_field :email, autofocus: true
-
-  %div
-    = f.submit "Send me reset password instructions"
+  .row
+    .col-md-6
+      .form-group
+        = f.label :email
+        .input-group
+          %span{ class: "input-group-addon", id: "email_addon_forgot_password_page"}
+            %span{ class: "glyphicon glyphicon-envelope"}
+          = f.email_field :email, autofocus: true, id: "email_login_page", placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_forgot_password_page"
+  .row
+    .col-md-6
+      = f.submit "Send me reset password instructions", class: "btn btn-primary"
 
 = render "devise/shared/links"

@@ -2,14 +2,13 @@ class Appointment < ActiveRecord::Base
   before_validation :set_end_time
 
   validates_presence_of :appointment_category_id, :availability_id, :instructor_id, :start_time, :end_time, :status
-  validates_presence_of :user_id, unless: Proc.new { |record| record.open? }
+  validates_presence_of :student_id, unless: Proc.new { |record| record.open? }
   # TODO auto-maintaining the status of appointments. also "Unfilled" appointments
   validates :status, inclusion: { in: :status_options }
   validates :re_bookable, inclusion: { in: [true, false] }
   validate :end_time_must_be_after_start_time
   validate :start_time_cannot_be_in_past, on: :create
-  
-  validate :is_available, if: Proc.new { |record| user_id_changed? }
+  validate :is_available, if: Proc.new { |record| student_id_changed? }
 
   # LOGIC MAGIC: (end_time is greater than start_time) && (start_time is less than end_time)
   validates :start_time, :end_time, :overlap => {
@@ -21,7 +20,7 @@ class Appointment < ActiveRecord::Base
   }
 
   validates :start_time, :end_time, :overlap => {
-    scope: "user_id",
+    scope: "student_id",
     :query_options => { :valid => nil }, # for Rebookings, dead appointments
     exclude_edges: ["start_time", "end_time"],
     message_title: :base,
@@ -32,20 +31,23 @@ class Appointment < ActiveRecord::Base
 
   belongs_to :appointment_category
   belongs_to :availability
-  belongs_to :user
-  belongs_to :instructor, class_name: "User"
+  belongs_to :student
+  belongs_to :instructor
   has_one :rebooking, foreign_key: "old_appointment_id"
   has_one :rebooked_appointment, through: :rebooking, source: :new_appointment
   has_one :reverse_rebooking, class_name: "Rebooking", foreign_key: "new_appointment_id"
   has_one :original_appointment, through: :reverse_rebooking, source: :old_appointment
+  has_many :feedbacks
 
   scope :valid, -> { where(re_bookable: false) } # necessary for time_overlaps validation
-  scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be user_id: nil ?
+  scope :available, -> { where(status: "Open") } # TODO assumes excellent maintenance of "status". could be student_id: nil ?
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
   scope :today, -> { on_day(Date.today) } # TODO edgecase: overnight appt. assumes UTC time
+  scope :active_today, -> { today.where(status: ["Open", "Booked - Future", "Past - Occurred", "No Show - Student", "No Show - Instructor", "Unavailable"]) }
+  scope :dead_today, -> { today.where(status: ["Cancelled by Student", "Cancelled by Instructor", "Rescheduled by Student", "Rescheduled by Instructor"]) }
   scope :available_today, -> { today.available }
   scope :tomorrow, -> { on_day(Date.tomorrow) }
-  scope :booked_tomorrow, -> { tomorrow.where.not(user_id: nil).where(status: "Booked - Future") }
+  scope :booked_tomorrow, -> { tomorrow.where.not(student_id: nil).where(status: "Booked - Future") }
   scope :available_on_day, -> (date_object) { on_day(date_object).available }
   scope :open_or_booked, -> { where(status: ["Booked - Future", "Open"]) }
   scope :upcoming, -> { where('start_time > ?', DateTime.now) }
@@ -59,10 +61,11 @@ class Appointment < ActiveRecord::Base
   end
 
   def is_available
-    errors.add(:base, "This appointment has already been booked!") unless user_id_was.nil?
+    errors.add(:base, "This appointment has already been booked!") unless student_id_was.nil?
   end
 
   def book!(params)
+    # TODO ensure params.has_key?("student_id")
     params.merge!({ status: "Booked - Future", paid_at: Time.now })
     update_attributes(params)
   end
@@ -113,7 +116,7 @@ class Appointment < ActiveRecord::Base
   end
 
   def open?
-    status == "Open" || user_id.nil?
+    status == "Open" || student_id.nil?
   end
 
   def future?
@@ -160,24 +163,11 @@ class Appointment < ActiveRecord::Base
 
   rails_admin do
 
-    label_plural do
-      "All Appointments"
-    end
-
-    label do
-      "Appointment"
-    end
-
     list do
+      scopes [:active_today, :dead_today, nil]
       field :id
       field :instructor
-
-      field :user do
-        label do
-          "Student"
-        end
-      end
-
+      field :student
       field :start_time do
         strftime_format "%a %m/%e, %l:%M %p"
       end
@@ -198,13 +188,7 @@ class Appointment < ActiveRecord::Base
       end
 
       field :instructor
-
-      field :user do
-        label do
-          "Student"
-        end
-      end
-
+      field :student
       field :appointment_category
 
       field :start_time do
@@ -253,16 +237,13 @@ class Appointment < ActiveRecord::Base
           bindings[:view].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.active.where(instructor: true) }
+          Proc.new { |scope| scope = scope.active }
         end
       end
 
-      field :user do
+      field :student do
         inline_add false
         inline_edit false
-        label do
-          "Student"
-        end
         read_only do
           !(bindings[:view].current_user.admin?)
         end
@@ -270,7 +251,7 @@ class Appointment < ActiveRecord::Base
           !(bindings[:view].current_user.admin?) ? "" : "#{help}"
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.active.where(instructor: false).where(admin: false) }
+          Proc.new { |scope| scope = scope.active }
         end
       end
 

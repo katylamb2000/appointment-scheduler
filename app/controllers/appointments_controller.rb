@@ -16,7 +16,12 @@ class AppointmentsController < ApplicationController
     if new_user?
       @new_user = User.new(user_params)
       if @new_user.save
-        sign_in(@new_user)
+        if @new_user.active_for_authentication?
+          sign_in(@new_user)
+        else
+          flash[:notice] = "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+          render "users/confirm_email" and return 
+        end
       else
         render "users/auth" and return
       end

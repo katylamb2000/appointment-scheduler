@@ -1,0 +1,39 @@
+= form_for @availability do |f|
+  - if current_user.admin?
+    .row
+      .form-group
+        = f.label :instructor_id, "Instructor"
+        .input-group
+          = f.select :instructor_id, Instructor.active.collect { |i| [i.full_name, i.id] }
+  - else
+    = f.hidden_field :instructor_id, value: current_user.id
+    
+  .row
+    .form-group
+      = f.label :start_time
+      .input-group
+        = f.datetime_select :start_time, ampm: true, minute_step: 15
+  .row
+    .form-group
+      = f.label :end_time
+      .input-group
+        = f.datetime_select :end_time, ampm: true, minute_step: 15
+  .row
+    .form-group
+      = f.label :schedule, "Set recurring .."
+      .input-group
+        = f.select_recurring :schedule, nil, allow_blank: true
+  .row
+    .form-group
+      = f.label :number_of_occurrences, "End After"
+      .input-group
+        = f.number_field :number_of_occurrences
+        Occurrences
+        %br
+        %br
+        Or on this date:
+        = f.date_field :schedule_end_date, include_blank: true, start_year: Date.today.year
+
+  .row
+    .input-group
+      = f.submit "Create", class: "btn btn-primary"

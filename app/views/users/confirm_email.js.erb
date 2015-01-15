@@ -1,0 +1,11 @@
+modal = $("<%= j render('users/confirm_email_modal') %>");
+modal.authModal(<%= !params[:user].present? %>);
+
+if ($(".modal.in").length > 0)
+{
+  $(".modal.in").removeClass("fade");
+  modal.removeClass("fade");
+}
+
+$(".modal.in").modal('hide');
+modal.appendTo($("body")).modal('show');

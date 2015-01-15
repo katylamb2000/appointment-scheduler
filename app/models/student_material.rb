@@ -1,31 +1,31 @@
 class StudentMaterial < ActiveRecord::Base
-  validates_presence_of :user_id, :lesson_material_id
+  validates_presence_of :student_id, :lesson_material_id
 
-  belongs_to :user
+  belongs_to :student
   belongs_to :lesson_material
 
   rails_admin do
     list do
       field :id
-      field :user
+      field :student
       field :lesson_material
       field :instructor_notes
     end
 
     show do
       field :id
-      field :user
+      field :student
       field :lesson_material
       field :instructor_notes
       field :student_notes
     end
 
     create do
-      field :user do
+      field :student do
         inline_add false
         inline_edit false
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.active.where(instructor: false).where(admin: false) }
+          Proc.new { |scope| scope = scope.active }
         end
       end
       field :lesson_material do
@@ -36,7 +36,7 @@ class StudentMaterial < ActiveRecord::Base
     end
 
     edit do
-      field :user do
+      field :student do
         read_only do
           !(bindings[:view].current_user.admin?)
         end

@@ -1,8 +1,12 @@
 class Availability < ActiveRecord::Base
+  include IceCube
+  serialize :schedule, IceCube::Schedule # Hash ?
+
   validates_presence_of :instructor, :start_time, :end_time
   validate :end_time_must_be_after_start_time, :duration_must_be_at_least_one_hour # TODO validate hours are 00 or 30 ?
   validate :start_time_cannot_be_in_past, on: :create
-
+  validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
+  validate :only_number_of_occurrences_or_schedule_end_date_can_be_set
   validates :start_time, :end_time, :overlap => {
     scope: "instructor_id",
     exclude_edges: ["start_time", "end_time"],
@@ -10,11 +14,9 @@ class Availability < ActiveRecord::Base
     :message_content => "Time slot overlaps with instructor's other availabilities."
   }
 
-  validate :can_be_edited?, if: Proc.new { |record| record.time_changed? }
-  
   after_create :to_forty_five_minute_appointments
 
-  belongs_to :instructor, class_name: "User"
+  belongs_to :instructor
   has_many :appointments
 
   scope :on_day, -> (date_object) { where('start_time > ?', date_object.beginning_of_day).where('end_time < ?', date_object.end_of_day) }
@@ -32,12 +34,28 @@ class Availability < ActiveRecord::Base
     errors.add(:base, "Duration must be at least one hour.") unless (end_time >= start_time + 1.hour)
   end
 
-  def name
-    "##{id}"
+  def only_number_of_occurrences_or_schedule_end_date_can_be_set
+    errors.add(:base, "You can only set a number of occurrences OR a scheduled end date, but not both") unless (schedule_end_date.blank? || number_of_occurrences.blank?)
   end
 
   def can_be_edited?
     errors.add(:base, "This availability has upcoming appointments. Please cancel or reschedule them in order to edit this availability.") unless !(has_pending_appointments?)
+  end
+
+  def name
+    "##{id}"
+  end
+
+  def description
+    start_time.strftime("%a %m/%e, %l:%M %p") + " - " + end_time.strftime("%a %m/%e, %l:%M %p")
+  end
+
+  def active?
+    has_occurrences_left?
+  end
+
+  def has_occurrences_left?
+    !!(schedule.next_occurrence)
   end
 
   def time_changed?
@@ -67,15 +85,8 @@ class Availability < ActiveRecord::Base
 
   rails_admin do
 
-    label_plural do
-      "All Availabilities"
-    end
-
-    label do
-      "Availability"
-    end
-
     list do
+      scopes [:today, nil]
       field :id
       field :instructor
 
@@ -126,7 +137,7 @@ class Availability < ActiveRecord::Base
           bindings[:view].current_user.admin?
         end
         associated_collection_scope do
-          Proc.new { |scope| scope = scope.active.where(instructor: true) }
+          Proc.new { |scope| scope = scope.active }
         end
       end
 

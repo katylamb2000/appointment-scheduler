@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150101192058) do
+ActiveRecord::Schema.define(version: 20150115035157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20150101192058) do
 
   create_table "appointments", force: true do |t|
     t.integer  "instructor_id"
-    t.integer  "user_id"
+    t.integer  "student_id"
     t.integer  "appointment_category_id"
     t.datetime "start_time"
     t.string   "status"
@@ -39,13 +39,37 @@ ActiveRecord::Schema.define(version: 20150101192058) do
     t.datetime "paid_at"
   end
 
+  add_index "appointments", ["appointment_category_id"], name: "index_appointments_on_appointment_category_id", using: :btree
+  add_index "appointments", ["availability_id"], name: "index_appointments_on_availability_id", using: :btree
+  add_index "appointments", ["instructor_id"], name: "index_appointments_on_instructor_id", using: :btree
+  add_index "appointments", ["status"], name: "index_appointments_on_status", using: :btree
+  add_index "appointments", ["student_id"], name: "index_appointments_on_student_id", using: :btree
+
   create_table "availabilities", force: true do |t|
     t.integer  "instructor_id"
     t.datetime "start_time"
     t.datetime "end_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "schedule"
+    t.integer  "number_of_occurrences"
+    t.datetime "schedule_end_date"
   end
+
+  add_index "availabilities", ["instructor_id"], name: "index_availabilities_on_instructor_id", using: :btree
+
+  create_table "feedbacks", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "appointment_id"
+    t.string   "context"
+    t.text     "notes"
+    t.boolean  "anonymous",      default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "feedbacks", ["appointment_id"], name: "index_feedbacks_on_appointment_id", using: :btree
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "lesson_materials", force: true do |t|
     t.integer  "instructor_id"
@@ -57,6 +81,8 @@ ActiveRecord::Schema.define(version: 20150101192058) do
     t.boolean  "attachment_processing", default: false, null: false
   end
 
+  add_index "lesson_materials", ["instructor_id"], name: "index_lesson_materials_on_instructor_id", using: :btree
+
   create_table "rebookings", force: true do |t|
     t.integer  "old_appointment_id"
     t.integer  "new_appointment_id"
@@ -64,14 +90,20 @@ ActiveRecord::Schema.define(version: 20150101192058) do
     t.datetime "updated_at"
   end
 
+  add_index "rebookings", ["new_appointment_id"], name: "index_rebookings_on_new_appointment_id", using: :btree
+  add_index "rebookings", ["old_appointment_id"], name: "index_rebookings_on_old_appointment_id", using: :btree
+
   create_table "student_materials", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "student_id"
     t.integer  "lesson_material_id"
     t.text     "instructor_notes"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "student_notes"
   end
+
+  add_index "student_materials", ["lesson_material_id"], name: "index_student_materials_on_lesson_material_id", using: :btree
+  add_index "student_materials", ["student_id"], name: "index_student_materials_on_student_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                    default: "",    null: false
@@ -96,10 +128,8 @@ ActiveRecord::Schema.define(version: 20150101192058) do
     t.string   "musical_genre"
     t.string   "years_playing"
     t.boolean  "admin",                    default: false
-    t.boolean  "instructor",               default: false
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.boolean  "guest",                    default: false
     t.string   "stripe_id"
     t.boolean  "accepts_age_agreement",    default: false
     t.string   "profile_photo"
@@ -108,6 +138,7 @@ ActiveRecord::Schema.define(version: 20150101192058) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string   "type"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

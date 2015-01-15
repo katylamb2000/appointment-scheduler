@@ -20,10 +20,6 @@ module RailsAdmin
           :destroy
         end
 
-        register_instance_option :visible? do
-          bindings[:object].class.name != "DeletedUser"
-        end
-
         register_instance_option :controller do
           Proc.new do
             if request.get? # DELETE

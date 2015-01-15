@@ -1,0 +1,18 @@
+%h5 Resend confirmation instructions
+
+= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+  - devise_error_messages!
+
+  .row
+    .col-md-6
+      .form-group
+        = f.label :email
+        .input-group
+          %span{ class: "input-group-addon", id: "email_addon_confirmation_page"}
+            %span{ class: "glyphicon glyphicon-envelope"}
+          = f.email_field :email, autofocus: true, id: "email_confirmation_page", placeholder: "Email", class: "form-control input-lg", "aria-describedby" => "email_addon_confirmation_page"
+
+  .row
+    .col-md-6
+      = f.submit "Resend confirmation instructions", class: "btn btn-primary"
+= render "devise/shared/links"

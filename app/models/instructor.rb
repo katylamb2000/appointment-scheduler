@@ -30,6 +30,10 @@ class Instructor < User
     student_rescheduled_appointments.count
   end
 
+  def availabilities_between(start_date, end_date)
+    availabilities.where("start_time > ? AND end_time < ?", start_date, end_date)
+  end
+
   rails_admin do
     navigation_label "Users"
 

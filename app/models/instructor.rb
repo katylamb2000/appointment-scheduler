@@ -31,7 +31,8 @@ class Instructor < User
   end
 
   def availabilities_between(start_date, end_date)
-    availabilities.where("start_time > ? AND end_time < ?", start_date, end_date)
+    # availabilities.where("start_time > ? AND end_time < ?", start_date, end_date)
+    availabilities.select { |a| a.occurs_between?(start_date.to_time, end_date.to_time) }
   end
 
   rails_admin do

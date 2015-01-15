@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115034530) do
+ActiveRecord::Schema.define(version: 20150115034653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 20150115034530) do
     t.datetime "updated_at"
     t.boolean  "attachment_processing", default: false, null: false
   end
+
+  add_index "lesson_materials", ["instructor_id"], name: "index_lesson_materials_on_instructor_id", using: :btree
 
   create_table "rebookings", force: true do |t|
     t.integer  "old_appointment_id"

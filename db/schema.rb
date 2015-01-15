@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115034905) do
+ActiveRecord::Schema.define(version: 20150115035157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150115034905) do
   add_index "appointments", ["appointment_category_id"], name: "index_appointments_on_appointment_category_id", using: :btree
   add_index "appointments", ["availability_id"], name: "index_appointments_on_availability_id", using: :btree
   add_index "appointments", ["instructor_id"], name: "index_appointments_on_instructor_id", using: :btree
+  add_index "appointments", ["status"], name: "index_appointments_on_status", using: :btree
   add_index "appointments", ["student_id"], name: "index_appointments_on_student_id", using: :btree
 
   create_table "availabilities", force: true do |t|

@@ -3,7 +3,9 @@ class Api::V1::AvailabilitiesController < Api::V1::ApiController
     @user = User.find(params[:user_id])
     return user_is_not_instructor! unless @user.instructor?
 
-    @availabilities = @user.availabilities
+    start_date = params[:start]
+    end_date = params[:end]
+    @availabilities = @user.availabilities_between(start_date, end_date)
     render json: @availabilities, status: :ok and return
   end
 

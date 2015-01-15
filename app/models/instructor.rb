@@ -1,39 +1,29 @@
 class Instructor < User
   has_many :availabilities
+
   has_many :appointments
   has_many :upcoming_appointments, -> { where("start_time > ?", DateTime.now) }, class_name: "Appointment"
   has_many :past_appointments, -> { where("end_time < ?", DateTime.now) }, class_name: "Appointment"
+  has_many :self_cancelled_appointments, -> { where(status: "Cancelled by Instructor") }, class_name: "Appointment"
+  has_many :self_rescheduled_appointments, -> { where(status: "Rescheduled by Instructor") }, class_name: "Appointment"
+  has_many :student_cancelled_appointments, -> { where(status: "Cancelled by Student") }, class_name: "Appointment"
+  has_many :student_rescheduled_appointments, -> { where(status: "Rescheduled by Student") }, class_name: "Appointment"
+
   has_many :students, -> { uniq }, through: :appointments
   has_many :lesson_materials
   has_many :given_feedbacks, foreign_key: "user_id", class_name: "Feedback"
   has_many :received_feedbacks, ->(instructor) { where.not(user_id: instructor.id) }, through: :appointments, source: :feedbacks
 
-  def self_cancelled_appointments
-    lessons.where(status: "Cancelled by Instructor")
-  end
-
   def self_cancelled_count
     self_cancelled_appointments.count
-  end
-
-  def self_rescheduled_appointments
-    lessons.where(status: "Rescheduled by Instructor")
   end
 
   def self_rescheduled_count
     self_rescheduled_appointments.count
   end
 
-  def student_cancelled_appointments
-    lessons.where(status: "Cancelled by Student")
-  end
-
   def student_cancellation_count
     student_cancelled_appointments.count
-  end
-
-  def student_rescheduled_appointments
-    lessons.where(status: "Rescheduled by Student")
   end
 
   def student_rescheduled_count

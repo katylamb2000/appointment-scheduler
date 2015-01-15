@@ -58,6 +58,14 @@ class Availability < ActiveRecord::Base
     !!(schedule.next_occurrence)
   end
 
+  def occurs_between?(start_time, end_time)
+    schedule.occurs_between?(start_time, end_time)
+  end
+
+  def occurrences_between(start_time, end_time)
+    schedule.occurrences_between(start_time, end_time)
+  end
+
   def time_changed?
     start_time_changed? || end_time_changed?
   end

@@ -50,6 +50,14 @@ class Availability < ActiveRecord::Base
     start_time.strftime("%a %m/%e, %l:%M %p") + " - " + end_time.strftime("%a %m/%e, %l:%M %p")
   end
 
+  def active?
+    has_occurrences_left?
+  end
+
+  def has_occurrences_left?
+    !!(schedule.next_occurrence)
+  end
+
   def time_changed?
     start_time_changed? || end_time_changed?
   end

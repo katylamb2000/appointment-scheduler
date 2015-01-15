@@ -51,6 +51,8 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
         return invalid_rule! if invalid_rule?
         rule = set_rule!
         @availability.schedule.add_recurrence_rule(rule)
+      else
+        ensure_schedule_limits_are_not_set!
       end
     end
 
@@ -93,5 +95,10 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
     def clear_schedule!
       @availability.schedule = {}
+    end
+
+    def ensure_schedule_limits_are_not_set! # TODO should this be a model validation? if you are not setting a recurrence rule, we don't want bad data in the schedule_end_date or number_of_occurrences fields. or remove these fields all together and set as virtual.
+      @availability.number_of_occurrences = nil
+      @availability.schedule_end_date = nil
     end
 end

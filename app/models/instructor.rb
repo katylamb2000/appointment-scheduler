@@ -34,6 +34,11 @@ class Instructor < User
     availabilities.select { |a| a.occurs_between?(start_date, end_date) }
   end
 
+  def full_calendar_availabilities_between(start_date, end_date) # for fullcalendar (js) rendering
+    avails = availabilities_between(start_date, end_date)
+    avails.map { |a| a.full_calendar_events_between(start_date, end_date)}.flatten
+  end
+
   rails_admin do
     navigation_label "Users"
 

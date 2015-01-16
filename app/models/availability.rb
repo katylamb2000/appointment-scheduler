@@ -14,7 +14,7 @@ class Availability < ActiveRecord::Base
     :message_content => "Time slot overlaps with instructor's other availabilities."
   }
 
-  after_create :to_forty_five_minute_appointments
+  # after_create :to_forty_five_minute_appointments
 
   belongs_to :instructor
   has_many :appointments

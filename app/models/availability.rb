@@ -62,16 +62,16 @@ class Availability < ActiveRecord::Base
     !!(schedule.next_occurrence)
   end
 
-  def occurs_between?(start_time, end_time)
-    schedule.occurs_between?(start_time, end_time)
+  def occurs_between?(start_date, end_date)
+    schedule.occurs_between?(start_date.to_time, end_date.to_time)
   end
 
-  def occurrences_between(start_time, end_time)
-    schedule.occurrences_between(start_time, end_time)
+  def occurrences_between(start_date, end_date)
+    schedule.occurrences_between(start_date.to_time, end_date.to_time)
   end
 
-  def full_calendar_events_between(start_time, end_time) # for fullcalendar (js) rendering
-    occurrence_array = occurrences_between(start_time, end_time)
+  def full_calendar_events_between(start_date, end_date) # for fullcalendar (js) rendering
+    occurrence_array = occurrences_between(start_date, end_date)
     occurrence_array.map do |o|
       {
         :id => id,

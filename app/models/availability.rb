@@ -54,6 +54,10 @@ class Availability < ActiveRecord::Base
     has_occurrences_left?
   end
 
+  def terminating?
+    schedule.terminating?
+  end
+
   def has_occurrences_left?
     !!(schedule.next_occurrence)
   end

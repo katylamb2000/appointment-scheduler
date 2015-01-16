@@ -70,6 +70,18 @@ class Availability < ActiveRecord::Base
     schedule.occurrences_between(start_time, end_time)
   end
 
+  def full_calendar_events_between(start_time, end_time) # for fullcalendar (js) rendering
+    occurrence_array = occurrences_between(start_time, end_time)
+    occurrence_array.map do |o|
+      {
+        :id => id,
+        :title => " - #{end_time.strftime('%l:%M %p')}",
+        :start => o.start_time,
+        :end => o.end_time
+      }
+    end
+  end
+
   def time_changed?
     start_time_changed? || end_time_changed?
   end

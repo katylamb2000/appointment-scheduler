@@ -7,6 +7,11 @@ $(document).on('page:update', function(){
         data: {
           user_id: $('#avail-calendar').attr('data-user'),
         }
+      },
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
       }
     })
 

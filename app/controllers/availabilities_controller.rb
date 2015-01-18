@@ -10,6 +10,11 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
   def new
     @availability = Availability.new
+    set_start_and_end_times!
+    @persisted = false
+    respond_to do |format|
+      format.js { render :new and return }
+    end
   end
 
   def create
@@ -43,6 +48,11 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
     def availability_params
       params.require(:availability).permit(:instructor_id, :start_time, :end_time, :schedule, :number_of_occurrences, :schedule_end_date)
+    end
+
+    def set_start_and_end_times!
+      @availability.start_time = params[:start_date]
+      @availability.end_time = params[:start_date]
     end
 
     def set_schedule!

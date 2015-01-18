@@ -15,7 +15,7 @@ $(document).on('page:update', function(){
       },
       dayClick: function(date, jsEvent, view) {
         $.ajax({
-          url: '/api/v1/availabilities/new.js',
+          url: '/availabilities/new.js',
           type: 'GET',
           data: { start_date: date.format() }
         });

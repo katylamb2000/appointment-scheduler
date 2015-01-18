@@ -27,6 +27,5 @@ Rails.application.routes.draw do
 
   scope :api, :v1 do
     get '/availabilities' => 'api/v1/availabilities#index'
-    get '/availabilities/new' => 'api/v1/availabilities#new'
   end
 end

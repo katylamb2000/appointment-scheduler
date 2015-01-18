@@ -12,6 +12,13 @@ $(document).on('page:update', function(){
         left: 'prev,next today',
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
+      },
+      dayClick: function(date, jsEvent, view) {
+        $.ajax({
+          url: '/api/v1/availabilities/new.js',
+          type: 'GET',
+          data: { start_date: date.format() }
+        });
       }
     })
 

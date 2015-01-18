@@ -11,13 +11,6 @@ class Api::V1::AvailabilitiesController < Api::V1::ApiController
     end
   end
 
-  def new
-    @availability = Availability.new
-    respond_to do |format|
-      format.js { render :new and return }
-    end
-  end
-
   private
 
     def default_serializer_options

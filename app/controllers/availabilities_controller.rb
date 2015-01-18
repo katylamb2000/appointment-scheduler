@@ -22,7 +22,10 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
     set_schedule!
 
     if @availability.save
-      redirect_to availability_path(@availability)
+      flash[:notice] = "Availability successfully created!"
+      respond_to do |format|
+        format.js { render :js => "window.location.href = '#{availabilities_path}'" }
+      end
     else
       flash[:errors] = @availability.errors.full_messages
       clear_schedule!

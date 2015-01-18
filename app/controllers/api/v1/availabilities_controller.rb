@@ -6,7 +6,9 @@ class Api::V1::AvailabilitiesController < Api::V1::ApiController
     start_date = params[:start]
     end_date = params[:end]
     @events = @user.full_calendar_availabilities_between(start_date, end_date)
-    render json: @events, status: :ok and return
+    respond_to do |format|
+      format.json { render json: @events, status: :ok and return }
+    end
   end
 
   private

@@ -12,6 +12,7 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
     @availability = Availability.new
     set_start_and_end_times!
     @persisted = false
+    flash.clear
     respond_to do |format|
       format.js { render :new and return }
     end

@@ -10,6 +10,12 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
   def new
     @availability = Availability.new
+    set_start_and_end_times!
+    @persisted = false
+    flash.clear
+    respond_to do |format|
+      format.js { render :new and return }
+    end
   end
 
   def create
@@ -17,11 +23,16 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
     set_schedule!
 
     if @availability.save
-      redirect_to availability_path(@availability)
+      flash[:notice] = "Availability successfully created!"
+      respond_to do |format|
+        format.js { render :js => "window.location.href = '#{availabilities_path}'" }
+      end
     else
       flash[:errors] = @availability.errors.full_messages
       clear_schedule!
-      render :edit
+      respond_to do |format|
+        format.js { render :new and return }
+      end
     end
   end
 
@@ -43,6 +54,11 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
     def availability_params
       params.require(:availability).permit(:instructor_id, :start_time, :end_time, :schedule, :number_of_occurrences, :schedule_end_date)
+    end
+
+    def set_start_and_end_times!
+      @availability.start_time = params[:start_date]
+      @availability.end_time = params[:start_date]
     end
 
     def set_schedule!

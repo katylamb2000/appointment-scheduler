@@ -14,7 +14,7 @@ class Availability < ActiveRecord::Base
     :message_content => "Time slot overlaps with instructor's other availabilities."
   }
 
-  after_create :to_forty_five_minute_appointments
+  # after_create :to_forty_five_minute_appointments
 
   belongs_to :instructor
   has_many :appointments
@@ -54,8 +54,32 @@ class Availability < ActiveRecord::Base
     has_occurrences_left?
   end
 
+  def terminating?
+    schedule.terminating?
+  end
+
   def has_occurrences_left?
     !!(schedule.next_occurrence)
+  end
+
+  def occurs_between?(start_date, end_date)
+    schedule.occurs_between?(start_date.to_time, end_date.to_time)
+  end
+
+  def occurrences_between(start_date, end_date)
+    schedule.occurrences_between(start_date.to_time, end_date.to_time)
+  end
+
+  def full_calendar_events_between(start_date, end_date) # for fullcalendar (js) rendering
+    occurrence_array = occurrences_between(start_date, end_date)
+    occurrence_array.map do |o|
+      {
+        :id => id,
+        :title => " - #{end_time.strftime('%l:%M %p')}",
+        :start => o.start_time,
+        :end => o.end_time
+      }
+    end
   end
 
   def time_changed?

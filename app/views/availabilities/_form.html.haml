@@ -1,39 +1,48 @@
-= form_for @availability do |f|
-  - if current_user.admin?
-    .row
-      .form-group
-        = f.label :instructor_id, "Instructor"
-        .input-group
-          = f.select :instructor_id, Instructor.active.collect { |i| [i.full_name, i.id] }
-  - else
-    = f.hidden_field :instructor_id, value: current_user.id
-    
-  .row
-    .form-group
-      = f.label :start_time
-      .input-group
-        = f.datetime_select :start_time, ampm: true, minute_step: 15
-  .row
-    .form-group
-      = f.label :end_time
-      .input-group
-        = f.datetime_select :end_time, ampm: true, minute_step: 15
-  .row
-    .form-group
-      = f.label :schedule, "Set recurring .."
-      .input-group
-        = f.select_recurring :schedule, nil, allow_blank: true
-  .row
-    .form-group
-      = f.label :number_of_occurrences, "End After"
-      .input-group
-        = f.number_field :number_of_occurrences
-        Occurrences
-        %br
-        %br
-        Or on this date:
-        = f.date_field :schedule_end_date, include_blank: true, start_year: Date.today.year
+#modal-window.modal.fade.avail-form
+  .modal-dialog
+    .modal-content
+      = form_for @availability, remote: true do |f|
+        .modal-header
+          %button{ :type => "button", class: "close", "data-dismiss" => "modal" }
+            %span{ "aria-hidden" => true }
+              &times;
+            %span{ class: "sr-only" }
+              Close
+          %h4{ class: "modal-title" }
+            = @persisted ? "Edit Availability" : "New Availability"
+        .modal-body
+          = render "shared/errors_and_notices"
+          - if current_user.admin?
+            .form-group
+              = f.label :instructor_id, "Instructor"
+              .input-group
+                = f.select :instructor_id, Instructor.active.collect { |i| [i.full_name, i.id] }
+          - else
+            = f.hidden_field :instructor_id, value: current_user.id
 
-  .row
-    .input-group
-      = f.submit "Create", class: "btn btn-primary"
+          .form-group
+            = f.label :start_time
+            .input-group
+              = f.datetime_select :start_time, ampm: true, minute_step: 1
+          .form-group
+            = f.label :end_time
+            .input-group
+              = f.datetime_select :end_time, ampm: true, minute_step: 1
+          .form-group
+            = f.label :schedule, "Set recurring .."
+            .input-group
+              = f.select_recurring :schedule, nil, allow_blank: true
+          .form-group
+            = f.label :number_of_occurrences, "End After:"
+            %br
+            %i leave these fields blank to repeat indefinitely.
+            .input-group
+              Occurrences
+              = f.number_field :number_of_occurrences
+          .form-group
+            = f.label :schedule_end_date, class: "sr-only"
+            .input-group
+              Or on date:
+              = f.date_field :schedule_end_date, include_blank: true, start_year: Date.today.year
+          .input-group
+            = f.submit "Create", class: "btn btn-primary"

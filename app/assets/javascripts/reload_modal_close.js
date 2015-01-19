@@ -1,5 +1,7 @@
 $(document).on('page:update', function(){
   $('#modal-window.in').on('hidden.bs.modal', function () {
-    location.reload(); // TODO perfect
+    if ($(".modal.in").length === 0) {
+      location.reload();
+    }
   })
 });

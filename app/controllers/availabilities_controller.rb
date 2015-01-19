@@ -30,7 +30,9 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
     else
       flash[:errors] = @availability.errors.full_messages
       clear_schedule!
-      render :edit
+      respond_to do |format|
+        format.js { render :new and return }
+      end
     end
   end
 

@@ -11,7 +11,7 @@ window.RecurringSelectDialog =
     initDialogBox: ->
       $(".rs_dialog_holder").remove()
 
-      open_in = $(".avail-form")
+      open_in = $(".avail-form.in")
       open_in = $(".ui-page-active") if $(".ui-page-active").length
       open_in.append @template()
       @outer_holder = $(".rs_dialog_holder")

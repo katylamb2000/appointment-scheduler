@@ -19,6 +19,16 @@ $(document).on('page:update', function(){
         type: 'GET',
         data: { start_date: date.format() }
       });
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+      $.ajax({
+        url: '/availabilities/' + calEvent.id + '/edit',
+        type: 'GET',
+        data: {
+          start_date: calEvent.start.format(),
+          end_date: calEvent.end.format()
+        }
+      });
     }
   })
 

@@ -11,6 +11,7 @@
           %h4{ class: "modal-title" }
             = @persisted ? "Edit Availability" : "New Availability"
         .modal-body
+          = render "shared/errors_and_notices"
           - if current_user.admin?
             .form-group
               = f.label :instructor_id, "Instructor"

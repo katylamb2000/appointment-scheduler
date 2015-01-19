@@ -5,7 +5,7 @@ $(document).on('page:update', function(){
       url: 'api/v1/availabilities.json',
       type: 'GET',
       data: {
-        user_id: $('#avail-calendar').attr('data-user'),
+        user_id: $('#avail-calendar').attr('data-user')
       }
     },
     header: {

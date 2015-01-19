@@ -38,6 +38,12 @@ class AvailabilitiesController < ApplicationController # TODO remove? currently 
 
   def edit
     @availability = Availability.find(params[:id])
+    @editing_start_date = params[:start_date]
+    @editing_end_date = params[:end_date]
+    @persisted = false
+    respond_to do |format|
+      format.js { render :edit and return }
+    end
   end
 
   def show

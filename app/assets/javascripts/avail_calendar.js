@@ -5,7 +5,7 @@ $(document).on('page:update', function(){
       url: 'api/v1/availabilities.json',
       type: 'GET',
       data: {
-        user_id: $('#avail-calendar').attr('data-user'),
+        user_id: $('#avail-calendar').attr('data-user')
       }
     },
     header: {
@@ -18,6 +18,16 @@ $(document).on('page:update', function(){
         url: '/availabilities/new.js',
         type: 'GET',
         data: { start_date: date.format() }
+      });
+    },
+    eventClick: function(calEvent, jsEvent, view) {
+      $.ajax({
+        url: '/availabilities/' + calEvent.id + '/edit',
+        type: 'GET',
+        data: {
+          start_date: calEvent.start.format(),
+          end_date: calEvent.end.format()
+        }
       });
     }
   })
